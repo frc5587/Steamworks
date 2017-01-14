@@ -156,7 +156,6 @@ public class Locomotive extends Subsystem {
     protected double getTurnValue() {
         double leftSpeed = leftEncoder.getRate() / MAX_INCH_PER_SECOND * 3;
         double rightSpeed = rightEncoder.getRate() / MAX_INCH_PER_SECOND * 3;
-        double forwardSpeed = leftSpeed / 2.0 + rightSpeed / 2.0;
         double turnSpeed = (leftSpeed / 2.0 - rightSpeed / 2.0); //* 0.1 + lastTurnSpeed * 0.9;
         return turnSpeed;
     }
