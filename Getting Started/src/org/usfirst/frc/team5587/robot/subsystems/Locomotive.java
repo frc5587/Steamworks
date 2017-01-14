@@ -219,6 +219,7 @@ public class Locomotive extends Subsystem {
     };
     private final PIDOutput encoderArcadeOutput = new PIDOutput() {
         public void pidWrite(double d) {
+        	
         }
     };
     private final PIDOutput encoderDistOutput = new PIDOutput() {

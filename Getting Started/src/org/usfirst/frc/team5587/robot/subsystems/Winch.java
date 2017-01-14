@@ -14,13 +14,10 @@ public class Winch extends Subsystem {
 	
 	private final VictorSP winchMotor = new VictorSP(RobotMap.WINCH_MOTOR);
 	private boolean encDir = true; //Encoder Direction
-	private final Encoder winchEnc;
+	private final Encoder winchEnc = new Encoder(RobotMap.WINCH_ENCODER_A, RobotMap.WINCH_ENCODER_B, encDir, EncodingType.k4X);
 	
-	winchEnc =  new Encoder(RobotMap.WINCH_ENCODER_A, RobotMap.WINCH_ENCODER_B, encDir, EncodingType.k4X);
-		
-	public void move(int pwr){
-		winchMotor.set(pwr);
-	}
+	
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
