@@ -19,7 +19,6 @@ INDEX VERSION 1.129+/Users/owencardwell/Desktop/Java/Steamworks/.metadata/.plugi
 1483491390.index
 2214973242.index
 253087666.index
-2993622229.index
 94440415.index
 1633376176.index
 1384487945.index
