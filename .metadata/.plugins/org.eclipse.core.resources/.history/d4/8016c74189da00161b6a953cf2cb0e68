@@ -12,11 +12,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Winch extends Subsystem {
 	
-	private final VictorSP winchMotor = new VictorSP(RobotMap.WINCH_MOTOR);
-	private boolean encDir = true; //Encoder Direction
-	private final Encoder winchEnc;
-	
-	winchEnc =  new Encoder(RobotMap.WINCH_ENCODER_A, RobotMap.WINCH_ENCODER_B, encDir, EncodingType.k4X);
+	VictorSP winchMotor = new VictorSP(RobotMap.WINCH_MOTOR);
+	boolean encDir = true;
+	private final Encoder winchEnc =  new Encoder(RobotMap.WINCH_ENCODER_A, RobotMap.WINCH_ENCODER_B, true, EncodingType.k4X);
 		
 	public void move(int pwr){
 		winchMotor.set(pwr);
