@@ -17,7 +17,7 @@ import org.usfirst.frc.team5587.robot.RobotMap;
 /**
  * Drivetrain subsystem.
  *
- * @author Edmund
+
  */
 public class Locomotive extends Subsystem {
 
@@ -30,7 +30,7 @@ public class Locomotive extends Subsystem {
     private static final double speedP = 1.2, speedI = 0.07, speedD = 0.02;
     private static final double distP = 0.1, distI = 0, distD = 0;
     private PIDController arcadeController;
-
+   
     /**
      * Drivetrain constructor.
      */
