@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< HEAD
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="var" path="cscore"/>
 	<classpathentry kind="var" path="cscore.sources"/>
@@ -9,6 +10,17 @@
 	<classpathentry kind="var" path="opencv"/>
 	<classpathentry kind="var" path="opencv.sources"/>
 	<classpathentry kind="var" path="wpilib"/>
+=======
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
+	<classpathentry kind="var" path="cscore.sources"/>
+	<classpathentry kind="var" path="navx-mxp"/>
+	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
+	<classpathentry kind="var" path="networktables.sources"/>
+	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
+	<classpathentry kind="var" path="opencv.sources"/>
+	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
+>>>>>>> origin/master
 	<classpathentry kind="var" path="wpilib.sources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

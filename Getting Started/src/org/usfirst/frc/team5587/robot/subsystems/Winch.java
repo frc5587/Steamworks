@@ -15,6 +15,7 @@ public class Winch extends PIDSubsystem {
 	
 	private final VictorSP winchMotor = new VictorSP(RobotMap.WINCH_MOTOR);
 	private boolean encDir = true; //Encoder Direction
+<<<<<<< HEAD
 	private final Encoder winchEnc =  new Encoder(RobotMap.WINCH_ENCODER_A, RobotMap.WINCH_ENCODER_B, encDir, EncodingType.k4X);
 	
 	public Winch() {
@@ -50,6 +51,12 @@ public class Winch extends PIDSubsystem {
     }
 }
 
+=======
+	private final Encoder winchEnc = new Encoder(RobotMap.WINCH_ENCODER_A, RobotMap.WINCH_ENCODER_B, encDir, EncodingType.k4X);
+	
+	
+	
+>>>>>>> origin/master
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
