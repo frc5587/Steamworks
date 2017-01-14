@@ -35,7 +35,6 @@ public class Locomotive extends Subsystem {
      * Drivetrain constructor.
      */
     public Locomotive() {
-        super();
         leftFrontMotor = new VictorSP(RobotMap.LEFT_FRONT_MOTOR);
         leftRearMotor = new VictorSP( RobotMap.LEFT_REAR_MOTOR );
         rightFrontMotor = new VictorSP(RobotMap.RIGHT_FRONT_MOTOR);
