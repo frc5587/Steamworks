@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5587.robot;
+package org.usfirst.frc.team5587.robot.subsystems;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -29,7 +29,6 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
-	@Override
 	public void autonomousInit() {
 		timer.reset();
 		timer.start();
