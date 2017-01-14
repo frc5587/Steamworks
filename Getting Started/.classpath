@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< Updated upstream
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry kind="var" path="cscore.sources"/>
 	<classpathentry kind="var" path="navx-mxp"/>
+=======
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
+>>>>>>> Stashed changes
 	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
-	<classpathentry kind="var" path="networktables.sources"/>
 	<classpathentry kind="var" path="opencv" sourcepath="opencv.sources"/>
+<<<<<<< Updated upstream
 	<classpathentry kind="var" path="opencv.sources"/>
 	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="wpilib.sources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+=======
+	<classpathentry kind="var" path="cscore" sourcepath="cscore.sources"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/TalonSRXLibJava.jar"/>
+	<classpathentry kind="var" path="navx"/>
+>>>>>>> Stashed changes
 	<classpathentry kind="output" path="bin"/>
 </classpath>
