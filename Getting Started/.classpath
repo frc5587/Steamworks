@@ -11,6 +11,7 @@
 			<attribute name="source_encoding" value="ISO-8859-1"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="USERLIBS_DIR/TalonSRXLibJava.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
+	<classpathentry kind="var" path="navX"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
