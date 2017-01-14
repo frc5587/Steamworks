@@ -8,21 +8,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class GasGuzzler extends Subsystem {
+public class Archie extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private static final double INTAKE_POWER = .25;
-	private static final VictorSP guzzle = new VictorSP( RobotMap.INTAKE_MOTOR );
+	private static final double SCREW_POWER = .25;
+	private static final VictorSP screwIt = new VictorSP( RobotMap.SCREW_MOTOR );
 	
-	public void move()
+	public void spin()
 	{
-		guzzle.set( INTAKE_POWER );
+		screwIt.set( SCREW_POWER );
 	}
 	
 	public void stop()
 	{
-		guzzle.set( 0 );
+		screwIt.set( 0 );
 	}
 
     public void initDefaultCommand() {
