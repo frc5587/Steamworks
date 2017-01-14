@@ -1,4 +1,7 @@
-*.class
+#Ignore Eclipse Configs
+.classpath
+.project
+.settings
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -14,3 +17,11 @@ hs_err_pid*
 .recommenders
 
 *.xml
+
+#Ignore Binaries
+bin/
+
+#Ignore builds
+build/
+target/
+out/
