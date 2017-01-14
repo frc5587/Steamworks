@@ -5,13 +5,8 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 /**
@@ -28,7 +23,6 @@ public class Locomotive extends Subsystem {
     private VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
     private Encoder leftEncoder, rightEncoder;
     private static final double speedP = 1.2, speedI = 0.07, speedD = 0.02;
-    private static final double distP = 0.1, distI = 0, distD = 0;
     private PIDController arcadeController;
    
     /**
@@ -198,30 +192,9 @@ public class Locomotive extends Subsystem {
 			return null;
 		}
     };
-    private final PIDSource encoderDistSource = new PIDSource() {
-        public double pidGet() {
-            return getDistance() / MAX_INCH_PER_SECOND;
-        }
-
-		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public PIDSourceType getPIDSourceType() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-    };
     private final PIDOutput encoderArcadeOutput = new PIDOutput() {
         public void pidWrite(double d) {
         	
-        }
-    };
-    private final PIDOutput encoderDistOutput = new PIDOutput() {
-        public void pidWrite(double d) {
         }
     };
 }
