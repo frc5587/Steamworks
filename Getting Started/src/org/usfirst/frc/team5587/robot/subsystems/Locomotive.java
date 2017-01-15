@@ -17,7 +17,7 @@ import org.usfirst.frc.team5587.robot.RobotMap;
 public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
-    private static final double DISTANCE_PER_PULSE = Math.PI * 6 / 1440 ;
+    private static final double DISTANCE_PER_PULSE = Math.PI * 6 / 1440;
     
     //The maximum speed we want our robot to move forward
     private static final double MAX_SPEED = 25;
@@ -64,7 +64,7 @@ public class Locomotive extends Subsystem {
         rightSpeedPID = new PIDController( speedP, speedI, speedD, rightSpeedSource, rightSpeedOutput );
         
         //Setup speed PID controllers
-        leftSpeedPID.setOutputRange( -1,  1 );
+        leftSpeedPID.setOutputRange( -1, 1 );
         rightSpeedPID.setOutputRange( -1, 1 );
     }
 
