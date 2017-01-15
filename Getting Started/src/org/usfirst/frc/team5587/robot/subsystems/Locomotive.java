@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 /**
@@ -15,144 +16,69 @@ import org.usfirst.frc.team5587.robot.RobotMap;
 
  */
 public class Locomotive extends Subsystem {
-
-    private static final double DISTANCE_PER_PULSE = (24.0 / 42.0) * 3.0 * 4.0 * Math.PI / 128;
-    //0.00467498906784195422390274312988;//0.05609986881410345068683291755856;//0.0146869113074526041414067839586;//0.17624293568943124969688;//0.0140249672;
-    private static final double MAX_INCH_PER_SECOND = 13 * 12;
-    public static final double SPEED_LIMIT = 0.9;
+	
+	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
+    private static final double DISTANCE_PER_PULSE = Math.PI * 6 / 1440 ;
+    
+    //The maximum speed we want our robot to move forward
+    private static final double MAX_SPEED = 25;
+    
+    //The maximum speed we want our robot to turn
+    private static final double MAX_TURN_SPEED = 12;
+    
+    //The Drive Train motors
     private VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
+    
+    //The Drive Train encoders
     private Encoder leftEncoder, rightEncoder;
-    private static final double speedP = 1.2, speedI = 0.07, speedD = 0.02;
-    private PIDController arcadeController;
+    
+    //PID constants
+    private static final double speedP = 0.1, speedI = 0.0, speedD = 0.0;
+    
+    //The PID controllers for speed.
+    private PIDController leftSpeedPID, rightSpeedPID;
    
     /**
      * Drivetrain constructor.
      */
-    public Locomotive() {
-        leftFrontMotor = new VictorSP(RobotMap.LEFT_FRONT_MOTOR);
+    public Locomotive()
+    {
+    	//Instantiate motors
+        leftFrontMotor = new VictorSP( RobotMap.LEFT_FRONT_MOTOR );
         leftRearMotor = new VictorSP( RobotMap.LEFT_REAR_MOTOR );
-        rightFrontMotor = new VictorSP(RobotMap.RIGHT_FRONT_MOTOR);
+        rightFrontMotor = new VictorSP( RobotMap.RIGHT_FRONT_MOTOR );
         rightRearMotor = new VictorSP( RobotMap.RIGHT_REAR_MOTOR );
+        
+        //Instantiate encoders
         leftEncoder = new Encoder(RobotMap.LEFT_DRIVETRAIN_ENCODER_A,
                 RobotMap.LEFT_DRIVETRAIN_ENCODER_B );
         rightEncoder = new Encoder(RobotMap.RIGHT_DRIVETRAIN_ENCODER_A,
                 RobotMap.RIGHT_DRIVETRAIN_ENCODER_B );
-        leftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        leftEncoder.setSamplesToAverage(6);
-        rightEncoder.setSamplesToAverage(6);
-        leftEncoder.setReverseDirection(true);
-        arcadeController = new PIDController(speedP, speedI, speedD,
-                encoderArcadeSource, encoderArcadeOutput, 10);
-        arcadeController.setInputRange(-1, 1);
-        arcadeController.setOutputRange(-1, 1);
-
-//        distanceController = new PIDController(distP, distI, distD,
-//                encoderDistSource, encoderDistOutput);
+        
+        //Setup encoders
+        leftEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
+        rightEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
+        leftEncoder.setReverseDirection( true );
+        
+        //Instantiate speed PID controllers
+        leftSpeedPID = new PIDController( speedP, speedI, speedD, leftSpeedSource, leftSpeedOutput );
+        rightSpeedPID = new PIDController( speedP, speedI, speedD, rightSpeedSource, rightSpeedOutput );
+        
+        //Setup speed PID controllers
+        leftSpeedPID.setOutputRange( -1,  1 );
+        rightSpeedPID.setOutputRange( -1, 1 );
     }
 
     /**
      * There is <b>no</b> default command.
      */
-    public void initDefaultCommand() {
+    public void initDefaultCommand()
+    {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
 
-    /**
-     * Tank drive: makes the robot move.
-     *
-     * @param left Speed for the left motors.
-     * @param right Speed for the right motors.
-     */
-    public void tankDrive( double left, double right ) {
-        leftFrontMotor.set( left * SPEED_LIMIT );
-        leftRearMotor.set( left * SPEED_LIMIT );
-        rightFrontMotor.set( -right * SPEED_LIMIT );
-        rightRearMotor.set( -right * SPEED_LIMIT ); 
-    }
-    double controllerValue;
-
-    /**
-     * Drives, actively compensating for drift.
-     *
-     * @param moveValue Speed for forward movement.
-     * @param rotateValue Speed for turning. PID controlled.
-     */
-    public void arcadeControlledDrive(double moveValue, double rotateValue) {
-        if (Math.abs(moveValue) < 0.01) {
-            arcadeDrive(0, 0);
-        } else {
-            arcadeDrive(moveValue, 2 * rotateValue - getTurnValue());//rotateValue - getTurnValue() + rotateValue);
-        }
-//        if (!arcadeController.isEnable())
-//          arcadeController.enable();
-//        arcadeController.setSetpoint(rotateValue);
-//        controllerValue = arcadeController.get();
-//        //controllerValue = arcadeController.get() * 0.3 + controllerValue * 0.7;
-//        if (Math.abs(moveValue) < 0.01) {
-//            arcadeDrive(0, 0);
-//        } else {
-//            arcadeDrive(moveValue, rotateValue + controllerValue);// + arcadeController.get());
-//        }
-    }
-
-    /**
-     * Arcade drive: drives using a turn value and move value.
-     *
-     * @param moveValue The speed at which the robot will move forward and
-     * backward.
-     * @param rotateValue The speed at which the robot will turn. Right values
-     * are right turns.
-     */
-    public void arcadeDrive(double moveValue, double rotateValue) {
-        double leftMotorSpeed;
-        double rightMotorSpeed;
-        rotateValue *= -1;
-        double theta = Math.atan2(moveValue, rotateValue);
-        double r = Math.sqrt(
-                (moveValue * moveValue) + (rotateValue * rotateValue));
-        double sinTheta = Math.sin(theta);
-        double cosTheta = Math.cos(theta);
-        leftMotorSpeed = (sinTheta + cosTheta) * r;
-        rightMotorSpeed = (sinTheta - cosTheta) * r;
-//        leftMotorSpeed = (moveValue + rotateValue) / 2;
-//        rightMotorSpeed = (moveValue - rotateValue) / 2;
-        //Log.log("Left: " + leftMotorSpeed + " Right: " + rightMotorSpeed);
-        tankDrive(leftMotorSpeed, rightMotorSpeed);
-    }
-
-    /**
-     * Stops the robot. May make use of encoder-based PID, for now it just sets
-     * speed to zero.
-     */
-    public void brake() {
-        tankDrive(0, 0);
-    }
-
-    /**
-     * Gets the robot's speed. Only really works when not turning.
-     *
-     * @return Speed in meters / second.
-     */
-    public double getSpeed() {
-        double leftSpeed = leftEncoder.getRate();
-        double rightSpeed = rightEncoder.getRate();
-        double averageSpeed = leftSpeed / 2.0 + rightSpeed / 2.0;
-        return averageSpeed;
-    }
-
-    /**
-     * Converts encoder speeds to an arcade drive joystick x-value.
-     *
-     * @return
-     */
-    protected double getTurnValue() {
-        double leftSpeed = leftEncoder.getRate() / MAX_INCH_PER_SECOND * 3;
-        double rightSpeed = rightEncoder.getRate() / MAX_INCH_PER_SECOND * 3;
-        double turnSpeed = (leftSpeed / 2.0 - rightSpeed / 2.0); //* 0.1 + lastTurnSpeed * 0.9;
-        return turnSpeed;
-    }
+    
 
     /**
      * Gets the robot's distance traveled since last reset. Only really works
@@ -160,41 +86,167 @@ public class Locomotive extends Subsystem {
      *
      * @return Distance in meters.
      */
-    public double getDistance() {
+    public double getDistance()
+    {
         double leftDistance = leftEncoder.getDistance();
         double rightDistance = rightEncoder.getDistance();
         double averageDistance = leftDistance / 2 + rightDistance / 2;
         return averageDistance;
     }
+    
+    /**
+     * Advance Dutifully implements single stick driving. This function lets you directly provide
+     * joystick values from any source.
+     * Modified from the method in RobotDrive, this uses speed values in place of power values.
+     *
+     * @param moveValue     The value to use for forwards/backwards (y-axis)
+     * @param rotateValue   The value to use for the rotate right/left (x-axis)
+     * @param squaredInputs if set, decreases the sensitivity at low speeds
+     */
+    public void advanceDutifully(double moveValue, double rotateValue, boolean squaredInputs)
+    {
+    	double leftMotorSpeed, rightMotorSpeed;
+    	
+    	if(squaredInputs)
+    	{
+    		// square the inputs (while preserving the sign) to increase fine control
+    		// 	while permitting full power
+    		if( moveValue >= 0.0 )
+    		{	
+    			moveValue = moveValue * moveValue;
+    		}
+    		else
+    		{
+    			moveValue = -( moveValue * moveValue );
+    		}
+    		if( rotateValue >= 0.0 )
+    		{
+    			rotateValue = rotateValue * rotateValue;
+    		}
+    		else
+    		{
+    			rotateValue = -( rotateValue * rotateValue );
+    		}
+    	}
+    	
+    	moveValue = moveValue * MAX_SPEED;
+    	moveValue = limit( moveValue );
+    	
+        rotateValue = rotateValue * MAX_TURN_SPEED;
+
+        if( moveValue > 0.0 )
+        {
+      	  if( rotateValue > 0.0 )
+      	  {
+      		  leftMotorSpeed = moveValue - rotateValue;
+      		  rightMotorSpeed = Math.max( moveValue, rotateValue );
+      	  }
+      	  else
+      	  {
+      		  leftMotorSpeed = Math.max( moveValue, -rotateValue );
+      		  rightMotorSpeed = moveValue + rotateValue;
+      	  }
+        }
+        else
+        {
+      	  if( rotateValue > 0.0 )
+      	  {
+      		  leftMotorSpeed = -Math.max( -moveValue, rotateValue );
+      		  rightMotorSpeed = moveValue + rotateValue;
+      	  }
+      	  else
+      	  {
+      		  leftMotorSpeed = moveValue - rotateValue;
+      		  rightMotorSpeed = -Math.max( -moveValue, -rotateValue );
+      	  }
+        }
+        
+        leftSpeedPID.setSetpoint( leftMotorSpeed );
+        rightSpeedPID.setSetpoint( rightMotorSpeed );
+    }
 
     /**
      * Resets the robot's distance travelled.
      */
-    public void resetDistance() {
+    public void resetDistance()
+    {
         leftEncoder.reset();
         rightEncoder.reset();
     }
+    
+    /**
+     * Limit speed values to +/- our defined maximum speed
+     */
+    protected static double limit( double speed)
+    {
+      if ( speed > MAX_SPEED ) {
+        return MAX_SPEED;
+      }
+      if ( speed < -MAX_SPEED ) {
+        return -MAX_SPEED;
+      }
+      return speed;
+    }
 
-    private final PIDSource encoderArcadeSource = new PIDSource() {
-        public double pidGet() {
-            return getTurnValue();
+    private final PIDSource leftSpeedSource = new PIDSource()
+    {
+    	public double pidGet()
+    	{
+            return leftEncoder.getRate();
         }
 
 		@Override
-		public void setPIDSourceType(PIDSourceType pidSource) {
+		public void setPIDSourceType(PIDSourceType pidSource)
+		{
 			// TODO Auto-generated method stub
-			
+			leftEncoder.setPIDSourceType( PIDSourceType.kRate );
 		}
 
 		@Override
-		public PIDSourceType getPIDSourceType() {
+		public PIDSourceType getPIDSourceType()
+		{
 			// TODO Auto-generated method stub
-			return null;
+			return leftEncoder.getPIDSourceType();
 		}
     };
-    private final PIDOutput encoderArcadeOutput = new PIDOutput() {
-        public void pidWrite(double d) {
-        	
+    
+    private final PIDOutput leftSpeedOutput= new PIDOutput() 
+    {
+    	public void pidWrite( double output )
+    	{
+    		leftFrontMotor.set( output );
+    		leftRearMotor.set( output );
+    	}
+    };
+    
+    private final PIDSource rightSpeedSource = new PIDSource()
+    {
+    	public double pidGet()
+    	{
+            return rightEncoder.getRate();
         }
+
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource)
+		{
+			// TODO Auto-generated method stub
+			rightEncoder.setPIDSourceType( PIDSourceType.kRate );
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType()
+		{
+			// TODO Auto-generated method stub
+			return rightEncoder.getPIDSourceType();
+		}
+    };
+    
+    private final PIDOutput rightSpeedOutput = new PIDOutput()
+    {
+    	public void pidWrite( double output )
+    	{
+    		rightFrontMotor.set( output );
+    		rightRearMotor.set( output );
+    	}
     };
 }
