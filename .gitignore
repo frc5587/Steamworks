@@ -27,4 +27,6 @@ build\
 target\
 out\
 Getting Started/.classpath
-Getting Started/.classpath
+
+#Libs
+navx-mxp-libs/
