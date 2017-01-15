@@ -4,8 +4,8 @@ import org.usfirst.frc.team5587.robot.RobotMap;
 
 import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -24,25 +24,28 @@ public class Mortar extends Subsystem {
 	
 	public Mortar() {
 		//Instantiate CANTalon 
-		flyWheel = new CANTalon( RobotMap.FLYWHEEL_MOTOR_CAN_ID);
-		//Instantiate the PID controller 
-		flyPID = new PIDController(speedP, speedI, speedD, flyWheel, flyWheel);
+		flyWheel = new CANTalon( RobotMap.FLYWHEEL_MOTOR_CAN_ID );
+		//Instantiate the PID controller
+		flyWheel.setPIDSourceType( PIDSourceType.kRate );
+		flyPID = new PIDController( speedP, speedI, speedD, flyWheel, flyWheel );
 		// TODO Auto-generated constructor stub
 	}
-	public void runPID(double targetPos){
+	
+	public void runPID( double targetPos ){
 		flyPID.disable();
-		flyPID.setSetpoint(targetPos);
+		flyPID.setSetpoint( targetPos );
 		flyPID.enable();
-		
 	}
     
-	public void setPower (double pow){
+	public void setPower( double pow ){
 		flyPID.disable();
-		flyWheel.set(pow); 
+		flyWheel.set( pow ); 
 	}
+	
 	public double getEncoderVal() {
 		return flyWheel.getPosition();
 	}
+	
 	public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
