@@ -13,7 +13,6 @@ import org.usfirst.frc.team5587.robot.RobotMap;
 /**
  * Drivetrain subsystem.
  *
-
  */
 public class Locomotive extends Subsystem {
 	
