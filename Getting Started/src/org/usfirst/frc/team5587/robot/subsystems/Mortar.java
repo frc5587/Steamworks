@@ -43,10 +43,19 @@ public class Mortar extends Subsystem {
 		flyPID.enable();
 	}
 	
-	private double limit( double targetSpeed ) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    /**
+     * Limit speed values to +/- our defined maximum speed
+     */
+    protected static double limit( double speed )
+    {
+      if ( speed > MAX_SPEED ) {
+        return MAX_SPEED;
+      }
+      if ( speed < -MAX_SPEED ) {
+        return -MAX_SPEED;
+      }
+      return speed;
+    }
 
 	public void changeSpeed( double targetSpeed ){
 		flyPID.setSetpoint( targetSpeed );
