@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5587.robot;
 
+import org.usfirst.frc.team5587.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -17,6 +19,9 @@ public class Robot extends IterativeRobot {
 	RobotDrive myRobot = new RobotDrive(0, 1);
 	Joystick stick = new Joystick(0);
 	Timer timer = new Timer();
+	boolean hasAutoYet;
+	
+	public static final Lucio lucio = new Lucio();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -24,12 +29,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		hasAutoYet = false;
 	}
 
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		if( !hasAutoYet )
+			lucio.reset();
+		hasAutoYet = true;
 		timer.reset();
 		timer.start();
 	}
@@ -69,5 +78,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public void disabledInit() {
+		if( !hasAutoYet )
+		{
+			lucio.calibrate();
+		}
 	}
 }
