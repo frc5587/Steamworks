@@ -21,6 +21,7 @@ public class RobotMap {
 	public static int INTAKE_MOTOR = 6;
 	public static int SCREW_MOTOR = 7;
 	public static int FEEDER_SERVO = 8;
+	public static int FLYWHEEL_PLACEHOLDER_PWM = 9;
 	
 	//DIO
 	public static int LEFT_DRIVETRAIN_ENCODER_A = 0;
