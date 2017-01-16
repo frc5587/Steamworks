@@ -15,6 +15,10 @@ public class Mortar extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	private static final double DISTANCE_PER_PULSE = 1.0 / 12.0;
+	private static final double MAX_SPEED = 4;
+	
+	
 	private CANTalon flyWheel;
 	private PIDController flyPID;
 	
@@ -31,10 +35,14 @@ public class Mortar extends Subsystem {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void runPID( double targetPos ){
+	public void runPID( double targetSpeed ){
 		flyPID.disable();
-		flyPID.setSetpoint( targetPos );
+		flyPID.setSetpoint( targetSpeed );
 		flyPID.enable();
+	}
+	
+	public void changeSpeed( double targetSpeed ){
+		flyPID.setSetpoint( targetSpeed );
 	}
     
 	public void setPower( double pow ){
@@ -43,7 +51,7 @@ public class Mortar extends Subsystem {
 	}
 	
 	public double getEncoderVal() {
-		return flyWheel.getPosition();
+		return flyWheel.getEncVelocity() * DISTANCE_PER_PULSE;
 	}
 	
 	public void initDefaultCommand() {
