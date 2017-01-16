@@ -37,10 +37,17 @@ public class Mortar extends Subsystem {
 	
 	public void runPID( double targetSpeed ){
 		flyPID.disable();
+		targetSpeed= limit( targetSpeed );
+		targetSpeed = targetSpeed / DISTANCE_PER_PULSE;
 		flyPID.setSetpoint( targetSpeed );
 		flyPID.enable();
 	}
 	
+	private double limit( double targetSpeed ) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public void changeSpeed( double targetSpeed ){
 		flyPID.setSetpoint( targetSpeed );
 	}
