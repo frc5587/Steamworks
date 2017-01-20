@@ -1,20 +1,25 @@
-package org.usfirst.team55587.classes;
+package org.usfirst.frc.team55587.classes;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class DualPIDController {
 
 	private PIDController leftController, rightController;
+	private PIDSource leftSource, rightSource;
 	
 	public DualPIDController( double [] kLefts,
 							  double [] kRights,
 							  PIDSource lSrc, PIDSource rSrc,
 							  PIDOutput lOut, PIDOutput rOut )
 	{
-		leftController = new PIDController( kLefts[1], kLefts[2], kLefts[3], lSrc, lOut );
-		rightController = new PIDController( kRights[1], kRights[2], kRights[3], rSrc, rOut );
+		leftSource = lSrc;
+		rightSource = rSrc;
+		
+		leftController = new PIDController( kLefts[1], kLefts[2], kLefts[3], leftSource, lOut );
+		rightController = new PIDController( kRights[1], kRights[2], kRights[3], rightSource, rOut );
 	}
 	
 	public void setLeft( double setpoint )
@@ -55,5 +60,11 @@ public class DualPIDController {
 	{
 		leftController.setContinuous( isContinuous );
 		rightController.setContinuous( isContinuous );
+	}
+	
+	public void setPIDSourceType( PIDSourceType pidSource )
+	{
+		leftSource.setPIDSourceType( pidSource );
+		rightSource.setPIDSourceType( pidSource );
 	}
 }

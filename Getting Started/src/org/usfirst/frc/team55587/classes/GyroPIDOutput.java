@@ -1,4 +1,4 @@
-package org.usfirst.team55587.classes;
+package org.usfirst.frc.team55587.classes;
 
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
