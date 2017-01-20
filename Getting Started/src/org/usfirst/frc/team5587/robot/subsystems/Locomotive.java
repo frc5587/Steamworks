@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -9,6 +10,10 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team5587.robot.RobotMap;
+import org.usfirst.team55587.classes.DualPIDController;
+import org.usfirst.team55587.classes.GyroPIDOutput;
+
+import com.kauailabs.navx.frc.AHRS;
 
 /**
  * Drivetrain subsystem.
@@ -25,8 +30,10 @@ public class Locomotive extends Subsystem {
     //The maximum speed we want our robot to turn
     private static final double MAX_TURN_SPEED = 12;
     
-    private static final double AUTO_SPEED = 12;
-    private static final double AUTO_TURN_SPEED = 12;
+    private static final double TURN_RADIUS = 145.64;
+    private static final double WHEEL_BASE = 14;
+    public static final double AUTO_CURVE = Math.pow( Math.E, ( - TURN_RADIUS / WHEEL_BASE ) );
+    public static final double AUTO_SPEED_LIMIT = .75;
     
     //The Drive Train motors
     private VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -34,11 +41,20 @@ public class Locomotive extends Subsystem {
     //The Drive Train encoders
     private Encoder leftEncoder, rightEncoder;
     
+    private AHRS gyro;
+    private GyroPIDOutput gyroOutput;
+    
     //PID constants
-    private static final double speedP = 0.1, speedI = 0.0, speedD = 0.0;
+    private static final double [] leftSpeedConstants = { 0.1, 0.0, 0.0 },
+    							   rightSpeedConstants = { 0.1, 0.0, 0.0 },
+    							   leftDistConstants = { 0.1, 0.0, 0.0 },
+    							   rightDistConstants = { 0.1, 0.0, 0.0 };
+    private static final double gyroP = 0.1, gyroI = 0.0, gyroD = 0.0;
     
     //The PID controllers for speed.
-    private PIDController leftSpeedPID, rightSpeedPID;
+    private DualPIDController speedPID;
+    private DualPIDController distPID;
+    private PIDController gyroPID;
    
     /**
      * Drivetrain constructor.
@@ -62,13 +78,37 @@ public class Locomotive extends Subsystem {
         rightEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
         leftEncoder.setReverseDirection( true );
         
-        //Instantiate speed PID controllers
-        leftSpeedPID = new PIDController( speedP, speedI, speedD, leftSpeedSource, leftSpeedOutput );
-        rightSpeedPID = new PIDController( speedP, speedI, speedD, rightSpeedSource, rightSpeedOutput );
+        //Setup Gyroscope
+        try {
+			/***********************************************************************
+			 * navX-MXP:
+			 * - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB.            
+			 * - See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
+			 * 
+			 * navX-Micro:
+			 * - Communication via I2C (RoboRIO MXP or Onboard) and USB.
+			 * - See http://navx-micro.kauailabs.com/guidance/selecting-an-interface.
+			 * 
+			 * Multiple navX-model devices on a single robot are supported.
+			 ************************************************************************/
+            gyro = new AHRS( RobotMap.NAVX_MXP ); 
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
+        gyro.setPIDSourceType( PIDSourceType.kDisplacement );
+        
+        gyroOutput = new GyroPIDOutput( leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor );
+        
+        //Instantiate PID controllers
+        speedPID = new DualPIDController( leftSpeedConstants, rightSpeedConstants,
+        								  leftSpeedSource, rightSpeedSource,
+        								  leftSpeedOutput, rightSpeedOutput );
+        gyroPID = new PIDController( gyroP, gyroI, gyroD, gyroSource, gyroOutput );
         
         //Setup speed PID controllers
-        leftSpeedPID.setOutputRange( -1, 1 );
-        rightSpeedPID.setOutputRange( -1, 1 );
+        speedPID.setOutputRange( -1.0, 1.0 );
+        speedPID.setContinuous( true );
+        
     }
 
     /**
@@ -79,8 +119,6 @@ public class Locomotive extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
-
-    
 
     /**
      * Gets the robot's distance traveled since last reset. Only really works
@@ -108,6 +146,7 @@ public class Locomotive extends Subsystem {
     public void keepPace(double moveValue, double rotateValue, boolean squaredInputs)
     {
     	double leftMotorSpeed, rightMotorSpeed;
+    	disablePID();
     	
     	if(squaredInputs)
     	{
@@ -163,18 +202,31 @@ public class Locomotive extends Subsystem {
       	  }
         }
         
-        leftSpeedPID.setSetpoint( leftMotorSpeed );
-        rightSpeedPID.setSetpoint( rightMotorSpeed );
+        speedPID.setLeft( leftMotorSpeed );
+        speedPID.setRight( rightMotorSpeed );
+        speedPID.enable();
     }
 
     /**
-     * Span Distance tells the robot to go a certain distance with a certain curve.
+     * Span Distance tells the robot to go a certain distance in a straight line.
      * @param arcLength The distance traveled by the center of the robot across the curve.
      * @param angle The angle, in radians, that the robot turns from the beginning to the end of the curve.
      */
-    public void spanDistance( double arcLength, double angle )
+    public void spanDistance( double arcLength )
     {
     	
+    }
+    
+    /**
+     * 
+     */
+    public void traverseCurve( double angle )
+    {
+    	disablePID();
+    	gyroOutput.setCurve( angle );
+    	
+    	gyroPID.setSetpoint( angle );
+    	gyroPID.enable();
     }
     
     /**
@@ -186,10 +238,16 @@ public class Locomotive extends Subsystem {
         rightEncoder.reset();
     }
     
+    public void disablePID()
+    {
+    	speedPID.disable();
+    	gyroPID.disable();
+    }
+    
     /**
      * Limit speed values to +/- our defined maximum speed
      */
-    protected static double limit( double speed)
+    protected static double limit( double speed )
     {
       if ( speed > MAX_SPEED ) {
         return MAX_SPEED;
@@ -222,15 +280,6 @@ public class Locomotive extends Subsystem {
 		}
     };
     
-    private final PIDOutput leftSpeedOutput= new PIDOutput() 
-    {
-    	public void pidWrite( double output )
-    	{
-    		leftFrontMotor.set( output );
-    		leftRearMotor.set( output );
-    	}
-    };
-    
     private final PIDSource rightSpeedSource = new PIDSource()
     {
     	public double pidGet()
@@ -251,6 +300,38 @@ public class Locomotive extends Subsystem {
 			// TODO Auto-generated method stub
 			return rightEncoder.getPIDSourceType();
 		}
+    };
+    
+    private final PIDSource gyroSource = new PIDSource()
+    {
+    	
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			// TODO Auto-generated method stub
+			gyro.setPIDSourceType( PIDSourceType.kDisplacement );
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			// TODO Auto-generated method stub
+			return gyro.getPIDSourceType();
+		}
+		
+		@Override
+		public double pidGet() {
+			// TODO Auto-generated method stub
+			return gyro.getAngle();
+		}
+    	
+    };
+    
+    private final PIDOutput leftSpeedOutput= new PIDOutput() 
+    {
+    	public void pidWrite( double output )
+    	{
+    		leftFrontMotor.set( output );
+    		leftRearMotor.set( output );
+    	}
     };
     
     private final PIDOutput rightSpeedOutput = new PIDOutput()
