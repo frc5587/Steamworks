@@ -25,6 +25,9 @@ public class Locomotive extends Subsystem {
     //The maximum speed we want our robot to turn
     private static final double MAX_TURN_SPEED = 12;
     
+    private static final double AUTO_SPEED = 12;
+    private static final double AUTO_TURN_SPEED = 12;
+    
     //The Drive Train motors
     private VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
     
@@ -102,7 +105,7 @@ public class Locomotive extends Subsystem {
      * @param rotateValue   The value to use for the rotate right/left (x-axis)
      * @param squaredInputs if set, decreases the sensitivity at low speeds
      */
-    public void advanceDutifully(double moveValue, double rotateValue, boolean squaredInputs)
+    public void keepPace(double moveValue, double rotateValue, boolean squaredInputs)
     {
     	double leftMotorSpeed, rightMotorSpeed;
     	
@@ -164,6 +167,16 @@ public class Locomotive extends Subsystem {
         rightSpeedPID.setSetpoint( rightMotorSpeed );
     }
 
+    /**
+     * Span Distance tells the robot to go a certain distance with a certain curve.
+     * @param arcLength The distance traveled by the center of the robot across the curve.
+     * @param angle The angle, in radians, that the robot turns from the beginning to the end of the curve.
+     */
+    public void spanDistance( double arcLength, double angle )
+    {
+    	
+    }
+    
     /**
      * Resets the robot's distance travelled.
      */
