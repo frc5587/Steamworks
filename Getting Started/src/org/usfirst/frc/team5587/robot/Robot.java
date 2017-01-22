@@ -6,6 +6,7 @@ import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -44,6 +45,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+
+        Scheduler.getInstance().run();
 	}
 
 	/**
@@ -60,6 +63,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+
+        Scheduler.getInstance().run();
+		if( oi.guzzle.get() )
+			System.out.println( "Guzzle guzzle" );
 	}
 
 	/**
