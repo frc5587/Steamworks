@@ -17,8 +17,6 @@ hs_err_pid*
 .recommenders
 .metadata
 
-*.xml
-
 #Ignore Binaries
 bin/
 
@@ -29,4 +27,3 @@ out\
 Getting Started/.classpath
 
 #Libs
-navx-mxp-libs/
