@@ -12,14 +12,15 @@ public class GasGuzzler extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private static final double INTAKE_POWER = .25;
-	private static final VictorSP guzzle = new VictorSP( RobotMap.INTAKE_MOTOR );
+	private static final double INTAKE_POWER = 1.0;
+	private VictorSP guzzle;
 	
 	
 	
 	public void move()
 	{
 		guzzle.set( INTAKE_POWER );
+		guzzle = new VictorSP( RobotMap.INTAKE_MOTOR );
 	}
 	
 	public void stop()
