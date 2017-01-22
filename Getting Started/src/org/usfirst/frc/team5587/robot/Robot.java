@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Joystick driver;
+	OI oi;
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	
 
@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
-		driver = new Joystick( RobotMap.DRIVER );
+		oi = new OI();
 	}
 
 	/**
@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
+		guzzler.move( oi.driver.getY() * .1 );
 	}
 
 	/**
