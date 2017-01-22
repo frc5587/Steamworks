@@ -15,7 +15,10 @@ public class GasGuzzler extends Subsystem {
 	private static final double INTAKE_POWER = .1;
 	private static final VictorSP guzzle = new VictorSP( 3 );
 	
-	
+	public GasGuzzler()
+	{
+		guzzle.enableDeadbandElimination( true );
+	}
 	
 	public void move( double pwr)
 	{
