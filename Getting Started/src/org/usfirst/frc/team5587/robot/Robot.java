@@ -1,11 +1,14 @@
 package org.usfirst.frc.team5587.robot;
 
+import org.usfirst.frc.team5587.robot.commands.BasicDrive;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
+import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -16,9 +19,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Joystick driver;
+	OI oi;
 	public static final GasGuzzler guzzler = new GasGuzzler();
+	public static final Locomotive locomotive = new Locomotive();
 	
+	public Command TeleOpCommand;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -27,7 +32,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 
-		driver = new Joystick( RobotMap.DRIVER );
+		oi = new OI();
+		TeleOpCommand = new BasicDrive( oi.driver );
 	}
 
 	/**
@@ -49,6 +55,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
+		
 	}
 
 	/**
