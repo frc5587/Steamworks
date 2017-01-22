@@ -17,7 +17,6 @@ hs_err_pid*
 .recommenders
 .metadata
 
-*.xml
 
 #Ignore Binaries
 bin/
@@ -26,7 +25,3 @@ bin/
 build\
 target\
 out\
-Getting Started/.classpath
-Getting Started/.classpath
-*.classpath
-*.classpath
