@@ -49,7 +49,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
-		guzzler.move( oi.driver.getY() * .1 );
 	}
 
 	/**
