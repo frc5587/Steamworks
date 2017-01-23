@@ -12,7 +12,7 @@ public class Archie extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private static final double SCREW_POWER = .25;
+	private static final double SCREW_POWER = .5;
 	private static final VictorSP screwIt = new VictorSP( RobotMap.SCREW_MOTOR );
 	
 	public void spin()

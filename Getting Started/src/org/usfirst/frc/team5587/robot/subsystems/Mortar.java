@@ -22,6 +22,11 @@ public class Mortar extends Subsystem {
 		flyWheel = new TalonSRX( RobotMap.FLYWHEEL_PLACEHOLDER_PWM );
 	}
 	
+	public void spin( double power )
+	{
+		flyWheel.set( power );
+	}
+	
 	public void spin()
 	{
 		flyWheel.set( SPIN_POWER );

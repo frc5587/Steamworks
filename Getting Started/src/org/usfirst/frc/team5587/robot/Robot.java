@@ -1,8 +1,12 @@
 package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commands.BasicDrive;
+import org.usfirst.frc.team5587.robot.commands.TeleOp;
+import org.usfirst.frc.team5587.robot.subsystems.Archie;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
+import org.usfirst.frc.team5587.robot.subsystems.Mortar;
+import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,11 +21,15 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	OI oi;
+	public static OI oi;
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive locomotive = new Locomotive();
+	public static final Archie screw = new Archie();
+	public static final Mortar mortar = new Mortar();
+	public static final Winchester winch = new Winchester();
 	
-	public Command TeleOpCommand;
+	Command auto;
+	Command teleop;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,7 +39,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 
 		oi = new OI();
-		TeleOpCommand = new BasicDrive( oi.driver );
+		
+		teleop = new TeleOp();
+		auto = null;
 	}
 
 	/**
@@ -55,7 +65,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
+		if( auto != null)
+			auto.cancel();
 		
+		if( teleop != null )
+			teleop.start();
 	}
 
 	/**
@@ -63,10 +77,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
         Scheduler.getInstance().run();
-		if( oi.guzzle.get() )
-			System.out.println( "Guzzle guzzle" );
 	}
 
 	/**

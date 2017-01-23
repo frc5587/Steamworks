@@ -24,13 +24,11 @@ public class GasGuzzler extends Subsystem {
 	public void move()
 	{
 		guzzle.set( INTAKE_POWER );
-		System.out.println( "Move at Intake Power");
 	}
 	
 	public void stop()
 	{
 		guzzle.set( 0 );
-		System.out.println( "Stahp" );
 	}
 
     public void initDefaultCommand() {
