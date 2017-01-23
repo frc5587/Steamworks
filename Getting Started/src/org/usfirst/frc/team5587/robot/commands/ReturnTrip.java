@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ForwardsBackwards extends CommandGroup {
+public class ReturnTrip extends CommandGroup {
 
-    public ForwardsBackwards() {
+    public ReturnTrip() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

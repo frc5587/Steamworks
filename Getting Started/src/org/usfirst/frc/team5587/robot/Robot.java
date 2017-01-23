@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5587.robot;
 
-import org.usfirst.frc.team5587.robot.commands.BasicDrive;
+import org.usfirst.frc.team5587.robot.commands.ReturnTrip;
 import org.usfirst.frc.team5587.robot.commands.TeleOp;
 import org.usfirst.frc.team5587.robot.subsystems.Archie;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
@@ -41,13 +41,15 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		
 		teleop = new TeleOp();
-		auto = null;
+		auto = new ReturnTrip();
 	}
 
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		if( auto != null )
+			auto.start();
 	}
 
 	/**
