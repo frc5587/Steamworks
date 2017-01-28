@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team55587.classes.DualPIDController;
 import org.usfirst.frc.team55587.classes.GyroPIDOutput;
@@ -114,6 +115,11 @@ public class Locomotive extends Subsystem {
         
         distPID.setOutputRange( -AUTO_SPEED_LIMIT, AUTO_SPEED_LIMIT );
         distPID.setContinuous( true );
+        
+        gyroPID.setOutputRange( -.1, .1 );
+
+        LiveWindow.addSensor( "GyroSensor", "Gyroscope", gyro );
+        LiveWindow.addActuator( "Gyro", "PIDSubsystem Controller", gyroPID );
     }
 
     /**
@@ -228,7 +234,7 @@ public class Locomotive extends Subsystem {
     /**
      * 
      */
-    public void traverseCurve( double angle )
+    public void rotate( double angle )
     {
     	disablePID();
     	gyroOutput.setCurve( angle );
@@ -391,7 +397,7 @@ public class Locomotive extends Subsystem {
 		
 		@Override
 		public double pidGet() {
-			return gyro.getAngle();
+			return gyro.getYaw();
 		}
     	
     };

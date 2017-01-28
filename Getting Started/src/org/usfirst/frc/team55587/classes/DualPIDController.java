@@ -18,8 +18,8 @@ public class DualPIDController {
 		leftSource = lSrc;
 		rightSource = rSrc;
 		
-		leftController = new PIDController( kLefts[1], kLefts[2], kLefts[3], leftSource, lOut );
-		rightController = new PIDController( kRights[1], kRights[2], kRights[3], rightSource, rOut );
+		leftController = new PIDController( kLefts[0], kLefts[1], kLefts[2], leftSource, lOut );
+		rightController = new PIDController( kRights[0], kRights[1], kRights[2], rightSource, rOut );
 	}
 	
 	public void setLeft( double setpoint )
