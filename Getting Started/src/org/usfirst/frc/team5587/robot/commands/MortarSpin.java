@@ -3,6 +3,7 @@ package org.usfirst.frc.team5587.robot.commands;
 import org.usfirst.frc.team5587.robot.Robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -26,7 +27,7 @@ public class MortarSpin extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.mortar.spin( stick.getY() );
+    	Robot.mortar.spin( stick.getAxis( AxisType.kThrottle) );
     }
 
     // Make this return true when this Command no longer needs to run execute()

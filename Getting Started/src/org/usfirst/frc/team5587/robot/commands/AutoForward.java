@@ -36,7 +36,7 @@ public class AutoForward extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.get() == timeTarget;
+        return timer.get() >= timeTarget;
     }
 
     // Called once after isFinished returns true

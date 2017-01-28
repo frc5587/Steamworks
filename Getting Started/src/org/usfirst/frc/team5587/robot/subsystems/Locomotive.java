@@ -18,8 +18,8 @@ public class Locomotive extends Subsystem
     // here. Call these from Commands.
 
 	//Provides a limitation to the maximum speed of the drive train (needs to be tested)
-	private static final double SCALE_FACTOR_Y = .75;
-	private static final double SCALE_FACTOR_X = .4;
+	private static final double SCALE_FACTOR_Y = 1.0;
+	private static final double SCALE_FACTOR_X = 1.0;
 	
 	private RobotDrive driveTrain;
 	

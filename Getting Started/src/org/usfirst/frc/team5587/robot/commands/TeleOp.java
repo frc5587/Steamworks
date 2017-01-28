@@ -22,7 +22,7 @@ public class TeleOp extends CommandGroup {
         // Command1 and Command2 will run in parallel.
     	
     	addParallel( new StickDrive( Robot.oi.driver ) );
-    	addSequential( new MortarSpin( Robot.oi.codriver ) );
+    	addSequential( new MortarSpin( Robot.oi.driver ) );
 
         // A command group will require all of the subsystems that each member
         // would require.
