@@ -20,7 +20,7 @@ public class GyroPIDOutput implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
-		drivetrain.drive( output, driveCurve );
+		drivetrain.drive( 0.0, output );
 	}
 
 	public void setCurve( double curve )

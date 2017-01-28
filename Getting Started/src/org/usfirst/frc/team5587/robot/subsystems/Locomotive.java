@@ -116,7 +116,7 @@ public class Locomotive extends Subsystem {
         distPID.setOutputRange( -AUTO_SPEED_LIMIT, AUTO_SPEED_LIMIT );
         distPID.setContinuous( true );
         
-        gyroPID.setOutputRange( -.1, .1 );
+        gyroPID.setOutputRange( -.25, .25 );
 
         LiveWindow.addSensor( "GyroSensor", "Gyroscope", gyro );
         LiveWindow.addActuator( "Gyro", "PIDSubsystem Controller", gyroPID );
@@ -269,6 +269,11 @@ public class Locomotive extends Subsystem {
     {
     	distPID.setPIDSourceType( PIDSourceType.kDisplacement );
     	distPID.enable();
+    }
+    
+    public boolean isAtAngle()
+    {
+    	return gyroPID.onTarget();
     }
     
     /**
