@@ -20,22 +20,24 @@ public class GyroPIDOutput implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
-		drivetrain.drive( 0.0, output );
-	}
-
-	public void setCurve( double curve )
-	{
-		driveCurve = limit( curve ) * Locomotive.AUTO_CURVE;
+		output = limit( (-1.0f) * truncate( output ) );
+		drivetrain.arcadeDrive( 0.0, output );
 	}
 	
 	public double limit( double input )
 	{
-		if( input > 0 )
-			return 1.0;
-		else if( input < 0.0 )
-			return -1.0;
-		else
+		if( input < 0.1 && input > -0.1 )
 			return 0.0;
+		else if( input < -1.0 )
+			return -1.0;
+		else if( input > 1.0 )
+			return 1.0;
+		else
+			return input;
 	}
-
+	
+	public static double truncate( double input )
+	{
+		return ( (int)( input * 10.0 ))/ 10.0;
+	}
 }

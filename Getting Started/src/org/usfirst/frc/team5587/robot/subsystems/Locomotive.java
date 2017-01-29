@@ -2,14 +2,15 @@ package org.usfirst.frc.team5587.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import org.usfirst.frc.team55587.classes.PIDController;
 import org.usfirst.frc.team55587.classes.DualPIDController;
 import org.usfirst.frc.team55587.classes.GyroPIDOutput;
 import org.usfirst.frc.team5587.robot.RobotMap;
@@ -37,7 +38,7 @@ public class Locomotive extends Subsystem {
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
     //The Drive Train motors
-    private VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
+    public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
     
     //The Drive Train encoders
     private Encoder leftEncoder, rightEncoder;
@@ -50,12 +51,13 @@ public class Locomotive extends Subsystem {
     							   rightSpeedConstants = { 0.1, 0.0, 0.0 }, //TODO: Tune PID Constants
     							   leftDistConstants = { 0.1, 0.0, 0.0 }, //TODO: Tune PID Constants
     							   rightDistConstants = { 0.1, 0.0, 0.0 }; //TODO: Tune PID Constants
-    private static final double gyroP = 0.1, gyroI = 0.0, gyroD = 0.0; //TODO: Tune PID Constants
+    private static final double gyroP = .5, gyroI = 0.1, gyroD = 0.0; //TODO: Tune PID Constants
     
     //The PID controllers for speed.
     private DualPIDController speedPID;
+    private RobotDrive train;
     private DualPIDController distPID;
-    private PIDController gyroPID;
+    public PIDController gyroPID;
    
     /**
      * Drivetrain constructor.
@@ -67,6 +69,8 @@ public class Locomotive extends Subsystem {
         leftRearMotor = new VictorSP( RobotMap.LEFT_REAR_MOTOR );
         rightFrontMotor = new VictorSP( RobotMap.RIGHT_FRONT_MOTOR );
         rightRearMotor = new VictorSP( RobotMap.RIGHT_REAR_MOTOR );
+        
+        train = new RobotDrive( leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor );
         
         //Instantiate encoders
         leftEncoder = new Encoder(RobotMap.LEFT_DRIVETRAIN_ENCODER_A,
@@ -98,7 +102,7 @@ public class Locomotive extends Subsystem {
         }
         gyro.setPIDSourceType( PIDSourceType.kDisplacement );
         
-        gyroOutput = new GyroPIDOutput( leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor );
+/*        gyroOutput = new GyroPIDOutput( leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor );*/
         
         //Instantiate PID controllers
         speedPID = new DualPIDController( leftSpeedConstants, rightSpeedConstants,
@@ -107,7 +111,7 @@ public class Locomotive extends Subsystem {
         distPID = new DualPIDController( leftDistConstants, rightDistConstants,
         								 leftDistSource, rightDistSource,
         								 leftOutput, rightOutput );
-        gyroPID = new PIDController( gyroP, gyroI, gyroD, gyroSource, gyroOutput );
+/*        gyroPID = new PIDController( gyroP, gyroI, gyroD, gyroSource, gyroOutput );*/
         
         //Setup speed PID controllers
         speedPID.setOutputRange( -1.0, 1.0 );
@@ -116,10 +120,14 @@ public class Locomotive extends Subsystem {
         distPID.setOutputRange( -AUTO_SPEED_LIMIT, AUTO_SPEED_LIMIT );
         distPID.setContinuous( true );
         
-        gyroPID.setOutputRange( -.25, .25 );
+/*        gyroPID.setInputRange( -180.0f, 180.0f);
+        gyroPID.setOutputRange( -.75, .75 );
+        gyroPID.setToleranceBuffer( 2 );
+        gyroPID.setTolerance( gyroPID. new AbsoluteTolerance( 10.0 ));
+        gyroPID.setContinuous( true );*/
 
         LiveWindow.addSensor( "GyroSensor", "Gyroscope", gyro );
-        LiveWindow.addActuator( "Gyro", "PIDSubsystem Controller", gyroPID );
+        //LiveWindow.addActuator( "Gyro", "PIDSubsystem Controller", gyroPID );
     }
 
     /**
@@ -143,6 +151,21 @@ public class Locomotive extends Subsystem {
         double rightDistance = rightEncoder.getDistance();
         double averageDistance = leftDistance / 2 + rightDistance / 2;
         return averageDistance;
+    }
+    
+    public double getYaw()
+    {
+    	return gyro.getYaw();
+    }
+    
+    public void zeroYaw()
+    {
+    	gyro.zeroYaw();
+    }
+    
+    public boolean isCalibrating()
+    {
+    	return gyro.isCalibrating();
     }
     
     /**
@@ -234,13 +257,9 @@ public class Locomotive extends Subsystem {
     /**
      * 
      */
-    public void rotate( double angle )
+    public void rotate( double power )
     {
-    	disablePID();
-    	gyroOutput.setCurve( angle );
-    	
-    	gyroPID.setSetpoint( angle );
-    	gyroPID.enable();
+    	train.arcadeDrive( 0.0, power );
     }
     
     /**
@@ -402,7 +421,7 @@ public class Locomotive extends Subsystem {
 		
 		@Override
 		public double pidGet() {
-			return gyro.getYaw();
+			return (int)(gyro.getYaw());
 		}
     	
     };
