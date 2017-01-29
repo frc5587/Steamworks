@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This subsystem contains the motors in the drive train
@@ -55,6 +56,7 @@ public class Locomotive extends Subsystem
 		double xValue = stick.getX();
 		double yValue = stick.getY();
 		driveTrain.arcadeDrive( -yValue * SCALE_FACTOR_Y, -xValue * SCALE_FACTOR_X, false);
+		SmartDashboard.putNumber("motor speeed", -yValue * SCALE_FACTOR_Y);
 	}
 	
 	public void stop()
