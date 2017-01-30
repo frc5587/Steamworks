@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class GyroThrottle extends Command {
 
-	private double rotateAngle, throttleValue, turnValue = .5, softTurn = .4;
+	private double rotateAngle, turnValue = .5;
 	private double yaw;
+	private double unbroadenedLimit = 1.0, broadLimit = 4.0;
 	private boolean broadened;
-	private Joystick stick;
 	private Locomotive loco;
 	
     public GyroThrottle( Joystick s ) {
@@ -23,7 +23,6 @@ public class GyroThrottle extends Command {
         // eg. requires(chassis);
     	requires( Robot.loco );
     	loco = Robot.loco;
-    	stick = s;
     }
 
     // Called just before this Command runs the first time
@@ -40,6 +39,7 @@ public class GyroThrottle extends Command {
 //    	rotateAngle = (int)(rotateAngle);
     	rotateAngle = SmartDashboard.getNumber( "Manual Control", 10.0 );
     	yaw = loco.getYaw();
+    	
     	if( broadened )
     	{
     		if( ( yaw < rotateAngle + 4 ) && ( yaw > rotateAngle - 4 ) )
@@ -49,6 +49,11 @@ public class GyroThrottle extends Command {
     	}
     	else
     	{
+    		if( Math.abs( rotateAngle - yaw ) > 180.0 )
+    			if( yaw > rotateAngle + 1 )
+    				loco.rotate( -turnValue );
+    			else if( yaw < rotateAngle - 1 )
+    				loco.rotate( turnValue );
     		if( yaw > rotateAngle + 1 )
     			loco.rotate( turnValue );
     		else if( yaw < rotateAngle - 1 )

@@ -44,7 +44,7 @@ public class Locomotive extends Subsystem {
     private Encoder leftEncoder, rightEncoder;
     
     private AHRS gyro;
-    private GyroPIDOutput gyroOutput;
+    //private GyroPIDOutput gyroOutput;
     
     //PID constants
     private static final double [] leftSpeedConstants = { 0.1, 0.0, 0.0 }, //TODO: Tune PID Constants
