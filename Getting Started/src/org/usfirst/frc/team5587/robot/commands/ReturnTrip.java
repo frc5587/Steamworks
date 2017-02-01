@@ -17,8 +17,8 @@ public class ReturnTrip extends CommandGroup {
     	
     	requires( Robot.locomotive );
     	
-    	addSequential( new AutoForward( .5, 0.0, 4 ) );
-    	addSequential( new AutoForward( -.5, 0.0, 4 ) );
+    	addSequential( new TimedMarch( .5, 0.0, 4 ) );
+    	addSequential( new TimedMarch( -.5, 0.0, 4 ) );
 
         // To run multiple commands at the same time,
         // use addParallel()

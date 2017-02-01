@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutoForward extends Command {
+public class TimedMarch extends Command {
 
 	double timeTarget, power, curve;
 	Timer timer;
 	
-    public AutoForward( double p, double c, double t ) {
+    public TimedMarch( double p, double c, double t ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.locomotive );
