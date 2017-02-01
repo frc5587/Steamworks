@@ -2,18 +2,13 @@ package org.usfirst.frc.team5587.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import org.usfirst.frc.team5587.robot.RobotMap;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
-import org.usfirst.frc.team55587.classes.PIDController;
-import org.usfirst.frc.team55587.classes.DualPIDController;
-import org.usfirst.frc.team55587.classes.GyroPIDOutput;
-import org.usfirst.frc.team5587.robot.RobotMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -87,15 +82,10 @@ public class Locomotive extends Subsystem {
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
-        gyro.setPIDSourceType( PIDSourceType.kDisplacement );
-        
 
         LiveWindow.addSensor( "GyroSensor", "Gyroscope", gyro );
     }
-
-    /**
-     * There is <b>no</b> default command.
-     */
+	
     public void initDefaultCommand()
     {
         // Set the default command for a subsystem here.
@@ -197,5 +187,4 @@ public class Locomotive extends Subsystem {
       }
       return speed;
     }
-    
 }

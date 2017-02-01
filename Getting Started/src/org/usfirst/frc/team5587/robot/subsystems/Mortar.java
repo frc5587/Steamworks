@@ -2,35 +2,41 @@ package org.usfirst.frc.team5587.robot.subsystems;
 
 import org.usfirst.frc.team5587.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
-public class GasGuzzler extends Subsystem {
+public class Mortar extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private static final double INTAKE_POWER = -1.0;
-	private VictorSP guzzle;
+
+	private static final double SPIN_POWER = 1.0;
 	
-	public GasGuzzler()
+	private TalonSRX flyWheel;
+	
+	public Mortar()
 	{
-		guzzle = new VictorSP( RobotMap.INTAKE_MOTOR );
-		guzzle.enableDeadbandElimination( true );
+		flyWheel = new TalonSRX( RobotMap.FLYWHEEL_PLACEHOLDER_PWM );
 	}
 	
-	public void move()
+	public void spin( double power )
 	{
-		guzzle.set( INTAKE_POWER );
+		flyWheel.set( power );
+	}
+	
+	public void spin()
+	{
+		flyWheel.set( SPIN_POWER );
 	}
 	
 	public void stop()
 	{
-		guzzle.set( 0 );
+		flyWheel.set( 0 );
 	}
-
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());

@@ -2,6 +2,13 @@ package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commands.GyroThrottle;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
+import org.usfirst.frc.team5587.robot.commands.ReturnTrip;
+import org.usfirst.frc.team5587.robot.commands.TeleOp;
+import org.usfirst.frc.team5587.robot.subsystems.Archie;
+import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
+import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
+import org.usfirst.frc.team5587.robot.subsystems.Mortar;
+import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -18,7 +25,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	public static Locomotive loco;
+	public static final GasGuzzler guzzler = new GasGuzzler();
+	public static final Locomotive locomotive = new Locomotive();
+	public static final Archie screw = new Archie();
+	public static final Mortar mortar = new Mortar();
+	public static final Winchester winch = new Winchester();
+
 	private OI oi;
+	private Command auto;
 	private Command teleOp;
 
 	/**
@@ -27,15 +41,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		 loco = new Locomotive();
-		 oi = new OI();
-		 teleOp = new GyroThrottle(); 
+		loco = new Locomotive();
+		oi = new OI();
+		
+		teleop = new TeleOp();
+		auto = new ReturnTrip();
 	}
 
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		if( auto != null )
+			auto.start();
 	}
 
 	/**
@@ -43,9 +61,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// Drive for 2 seconds
-
-		Scheduler.getInstance().run();
+        Scheduler.getInstance().run();
 	}
 
 	/**
@@ -54,10 +70,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
-
 		SmartDashboard.putNumber( "Manual Control", 0.0 );
-		teleOp.start();
 		
+		if( auto != null)
+			auto.cancel();
+		
+		if( teleOp != null )
+			teleOp.start();
 	}
 
 	/**
@@ -80,5 +99,17 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 		SmartDashboard.putNumber( "Gyro", loco.getYaw() );
 		//SmartDashboard.putNumber( "Error", loco.gyroPID.getAvgError() );
+	}
+	
+	@Override
+	public void disabledInit()
+	{
+		
+	}
+	
+	@Override
+	public void disabledPeriodic()
+	{
+		
 	}
 }
