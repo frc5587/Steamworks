@@ -16,7 +16,7 @@ public class TimedMarch extends Command {
     public TimedMarch( double p, double c, double t ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.locomotive );
+    	requires( Robot.loco );
     	
     	power = p;
     	curve = c;

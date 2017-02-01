@@ -15,7 +15,7 @@ public class ReturnTrip extends CommandGroup {
         //      addSequential(new Command2());
         // these will run in order.
     	
-    	requires( Robot.locomotive );
+    	requires( Robot.loco );
     	
     	addSequential( new TimedMarch( .5, 0.0, 4 ) );
     	addSequential( new TimedMarch( -.5, 0.0, 4 ) );

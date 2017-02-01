@@ -1,9 +1,8 @@
 package org.usfirst.frc.team5587.robot;
 
-import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
-import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
+
 import org.usfirst.frc.team5587.robot.subsystems.Archie;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
@@ -24,9 +23,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static Locomotive loco;
 	public static final GasGuzzler guzzler = new GasGuzzler();
-	public static final Locomotive locomotive = new Locomotive();
+	public static final Locomotive loco = new Locomotive();
 	public static final Archie screw = new Archie();
 	public static final Mortar mortar = new Mortar();
 	public static final Winchester winch = new Winchester();
@@ -41,10 +39,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		loco = new Locomotive();
 		oi = new OI();
 		
-		teleOp = new TeleOp();
+		teleOp = new TeleOp( oi.driver, oi.codriver );
 		auto = new ReturnTrip();
 	}
 
