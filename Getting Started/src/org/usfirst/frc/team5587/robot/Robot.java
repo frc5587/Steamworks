@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		 loco = new Locomotive();
 		 oi = new OI();
-		 teleOp = new GyroThrottle( oi.driver ); 
+		 teleOp = new GyroThrottle(); 
 	}
 
 	/**

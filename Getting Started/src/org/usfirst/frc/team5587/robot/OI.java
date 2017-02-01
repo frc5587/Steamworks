@@ -45,22 +45,4 @@ public class OI
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-	
-	/**
-	 * Nullifies the up and down buttons so their actions do not accidentally
-	 * interfere with the arm's PID control via the throttle
-	 */
-	public void enablePID()
-	{
-		pid = true;
-	}
-	
-	/**
-	 * Sets the up and down buttons as well as their appropriate commands so that
-	 * the arm can be positioned manually
-	 */
-	public void enableManual()
-	{
-		pid = false;
-	}
 }

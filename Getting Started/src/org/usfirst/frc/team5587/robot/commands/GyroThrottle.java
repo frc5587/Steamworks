@@ -14,11 +14,11 @@ public class GyroThrottle extends Command {
 
 	private double rotateAngle, turnValue = .5;
 	private double yaw;
-	private double unbroadenedLimit = 1.0, broadLimit = 4.0;
+	private double narrowLimit = 1.0, broadLimit = 4.0;
 	private boolean broadened;
 	private Locomotive loco;
 	
-    public GyroThrottle( Joystick s ) {
+    public GyroThrottle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.loco );
@@ -42,7 +42,7 @@ public class GyroThrottle extends Command {
     	
     	if( broadened )
     	{
-    		if( ( yaw < rotateAngle + 4 ) && ( yaw > rotateAngle - 4 ) )
+    		if( ( yaw < rotateAngle + broadLimit ) && ( yaw > rotateAngle - broadLimit ) )
     			loco.rotate( 0.0 );
     		else
     			broadened = false;
@@ -50,9 +50,9 @@ public class GyroThrottle extends Command {
     	else
     	{
     		if( Math.abs( rotateAngle - yaw ) > 180.0 )
-    			if( yaw > rotateAngle + 1 )
+    			if( yaw > rotateAngle + narrowLimit )
     				loco.rotate( -turnValue );
-    			else if( yaw < rotateAngle - 1 )
+    			else if( yaw < rotateAngle - narrowLimit )
     				loco.rotate( turnValue );
     		if( yaw > rotateAngle + 1 )
     			loco.rotate( turnValue );
