@@ -2,6 +2,8 @@ package org.usfirst.frc.team5587.robot.subsystems;
 
 import org.usfirst.frc.team5587.robot.RobotMap;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -15,6 +17,7 @@ public class Mortar extends Subsystem {
 
 	private static final double SPIN_POWER = 1.0;
 	
+	private CANTalon CANFlyWheel;
 	private TalonSRX flyWheel;
 	
 	public Mortar()

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5587.robot.commands;
+package org.usfirst.frc.team5587.robot.commands.locomotive;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class GyroThrottle extends Command {
+public class Gyrate extends Command {
 
 	private double rotateAngle, turnValue = .5;
 	private double yaw;
@@ -18,7 +18,7 @@ public class GyroThrottle extends Command {
 	private boolean broadened;
 	private Locomotive loco;
 	
-    public GyroThrottle() {
+    public Gyrate() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.loco );

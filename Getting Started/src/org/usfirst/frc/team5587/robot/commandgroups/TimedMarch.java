@@ -1,50 +1,47 @@
-package org.usfirst.frc.team5587.robot.commands;
+package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DutifulProgression extends Command {
+public class TimedMarch extends Command {
 
-	private double targetDistance;
-	private Locomotive loco;
+	double timeTarget, power, curve;
+	Timer timer;
 	
-	/**
-	 * DutifulProgression takes the robot along a straight line a given distance.
-	 * 
-	 * @param distance The distance, in feet, we want the robot to travel.
-	 */
-    public DutifulProgression( double distance ) {
+    public TimedMarch( double p, double c, double t ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.loco );
-    	loco = Robot.loco;
-    	targetDistance = distance;
+    	requires( Robot.locomotive );
+    	
+    	power = p;
+    	curve = c;
+    	timeTarget = t;
+    	timer = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	loco.resetDistance();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute()
-    {
-    	loco.proceedForwards();
+    protected void execute() {
+    	Robot.locomotive.spanDistance( power, curve);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return loco.getDistance() >= targetDistance;
+        return timer.get() >= timeTarget;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	loco.halt();
+    	Robot.locomotive.halt();
     }
 
     // Called when another command which requires one or more of the same

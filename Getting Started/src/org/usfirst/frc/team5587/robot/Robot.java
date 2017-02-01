@@ -1,9 +1,9 @@
 package org.usfirst.frc.team5587.robot;
 
-import org.usfirst.frc.team5587.robot.commands.GyroThrottle;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
-import org.usfirst.frc.team5587.robot.commands.ReturnTrip;
-import org.usfirst.frc.team5587.robot.commands.TeleOp;
+import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
+import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
+import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
 import org.usfirst.frc.team5587.robot.subsystems.Archie;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		loco = new Locomotive();
 		oi = new OI();
 		
-		teleop = new TeleOp();
+		teleOp = new TeleOp();
 		auto = new ReturnTrip();
 	}
 

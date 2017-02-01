@@ -27,7 +27,7 @@ public class MortarSpin extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.mortar.spin( stick.getAxis( AxisType.kThrottle) );
+    	Robot.mortar.spin( stick.getY() );
     }
 
     // Make this return true when this Command no longer needs to run execute()

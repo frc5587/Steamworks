@@ -1,7 +1,9 @@
-package org.usfirst.frc.team5587.robot.commands;
+package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.commands.MortarSpin;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -9,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class TeleOp extends CommandGroup {
 
-    public TeleOp() {
+    public TeleOp( Joystick driver, Joystick codriver ) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -21,8 +23,7 @@ public class TeleOp extends CommandGroup {
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
     	
-    	addParallel( new StickDrive( Robot.oi.driver ) );
-    	addSequential( new MortarSpin( Robot.oi.driver ) );
+    	addSequential( new MortarSpin( codriver ) );
 
         // A command group will require all of the subsystems that each member
         // would require.

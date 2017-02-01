@@ -4,12 +4,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import org.usfirst.frc.team5587.robot.RobotMap;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -20,12 +17,6 @@ public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
     private static final double DISTANCE_PER_PULSE = Math.PI * 6 / 1440;
-    
-    //The maximum speed we want our robot to move forward
-    private static final double MAX_SPEED = 25; //TODO: Determine appropriate maximum drive speed.
-    
-    //The maximum speed we want our robot to turn
-    private static final double MAX_TURN_SPEED = 12; //TODO: Determine appropriate maximum turn speed.
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
@@ -172,19 +163,5 @@ public class Locomotive extends Subsystem {
     public boolean isCalibrating()
     {
     	return gyro.isCalibrating();
-    }
-    
-    /**
-     * Limit speed values to +/- our defined maximum speed
-     */
-    protected static double limit( double speed )
-    {
-      if ( speed > MAX_SPEED ) {
-        return MAX_SPEED;
-      }
-      if ( speed < -MAX_SPEED ) {
-        return -MAX_SPEED;
-      }
-      return speed;
     }
 }
