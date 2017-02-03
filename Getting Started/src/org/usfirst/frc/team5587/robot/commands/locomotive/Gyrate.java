@@ -16,28 +16,34 @@ public class Gyrate extends Command {
 	private double yaw;
 	private double narrowLimit = 1.0, broadLimit = 4.0;
 	private boolean broadened;
+	private static final double gain = .00003;
+	private double output;
+	private double lastOutput;
+	private double h0;
+	private double error;
+	private double sign;
+	private double sign0;
+	
 	private Locomotive loco;
 	
-    public Gyrate() {
+    public Gyrate( double target ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.loco );
     	loco = Robot.loco;
+    	rotateAngle = target;
+    	h0 = 0;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	loco.zeroYaw();
     	broadened = false;
+    	output = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
-//    	throttleValue = stick.getThrottle();
-//    	rotateAngle = throttleValue * -180.0;
-//    	rotateAngle = (int)(rotateAngle);
-    	rotateAngle = SmartDashboard.getNumber( "Manual Control", 10.0 );
     	yaw = loco.getYaw();
     	
     	if( broadened )
