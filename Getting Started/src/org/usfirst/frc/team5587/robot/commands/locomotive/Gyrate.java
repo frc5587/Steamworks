@@ -12,16 +12,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Gyrate extends Command {
 
-	private double rotateAngle;
-	private double yaw;
-	private static final double gain = .0003;
-	private double output;
-	private double h0;
-	private double error;
-	private double error1;
-	private double error2;
-	private double sign;
-	private double sign0;
+	private static final double ERROR_MARGIN = 0.5;
+	private static final double GAIN = .0003;
+	
+	private double rotateAngle; //The target angle for the robot to rotate.
+	private double yaw; //The current Gyroscope reading
+	
+	private double output; //The PWM output
+	private double h0; //The average between the last value of h0 and the last output value that caused a change in the sign of the error
+	
+	private double error, //The current error
+					error1, //The error from the last instance
+					error2, //The error from 2 instances ago
+					error3, //The error from 3 instances ago
+					error4; //The error from 4 instances ago
+	
+	private double sign; //The sign of the current error
+	private double sign0; //The sign of the last error.
 	
 	private Locomotive loco;
 	
@@ -58,7 +65,7 @@ public class Gyrate extends Command {
     	}
     	else
     	{
-    		output += gain * error;
+    		output += GAIN * error;
     	}
     	
     	if( output > 1.0 )
@@ -71,6 +78,9 @@ public class Gyrate extends Command {
     	SmartDashboard.putNumber( "H0: ", h0 );
     	
     	sign0 = sign;
+    	
+    	error4 = error3;
+    	error3 = error2;
     	error2 = error1;
     	error1 = error;
     	loco.rotate( -output );
@@ -78,7 +88,11 @@ public class Gyrate extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return error1 == error2 && error1 == error && Math.abs( error ) < 1.0;
+        return error4 == error3
+        		&& error3 == error2
+        		&& error1 == error2
+        		&& error1 == error
+        		&& Math.abs( error ) < ERROR_MARGIN;
     }
 
     // Called once after isFinished returns true
