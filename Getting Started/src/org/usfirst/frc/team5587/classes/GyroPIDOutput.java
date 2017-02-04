@@ -1,4 +1,4 @@
-package org.usfirst.frc.team55587.classes;
+package org.usfirst.frc.team5587.classes;
 
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
@@ -20,7 +20,7 @@ public class GyroPIDOutput implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
-		drivetrain.drive( 0.0, output );
+		drivetrain.arcadeDrive( 0.0, output );
 	}
 
 	public void setCurve( double curve )

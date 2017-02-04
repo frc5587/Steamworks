@@ -1,4 +1,4 @@
-package org.usfirst.frc.team55587.classes;
+package org.usfirst.frc.team5587.classes;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;

@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import org.usfirst.frc.team55587.classes.DualPIDController;
-import org.usfirst.frc.team55587.classes.GyroPIDOutput;
+import org.usfirst.frc.team5587.classes.DualPIDController;
+import org.usfirst.frc.team5587.classes.GyroPIDOutput;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -117,6 +117,8 @@ public class Locomotive extends Subsystem {
         distPID.setContinuous( true );
         
         gyroPID.setOutputRange( -.25, .25 );
+        gyroPID.setInputRange( -180.0f, 180.0f );
+        gyroPID.setContinuous( true );
 
         LiveWindow.addSensor( "GyroSensor", "Gyroscope", gyro );
         LiveWindow.addActuator( "Gyro", "PIDSubsystem Controller", gyroPID );
