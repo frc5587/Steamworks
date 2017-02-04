@@ -9,6 +9,7 @@ import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 import org.usfirst.frc.team5587.robot.subsystems.Mortar;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;

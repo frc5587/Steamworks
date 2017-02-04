@@ -31,6 +31,8 @@ public class RobotMap {
 	public static int ULTRASONIC_RANGEFINDER = 4;
 	public static int WINCH_ENCODER_A = 5;
 	public static int WINCH_ENCODER_B = 6;
+	public static int SHOOTER_A = 7;
+	public static int SHOOTER_B = 8;
 
 	//CAN
 	public static int FLYWHEEL_MOTOR_CAN_ID = 1;
