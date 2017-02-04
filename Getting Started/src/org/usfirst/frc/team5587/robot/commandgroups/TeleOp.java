@@ -26,6 +26,7 @@ public class TeleOp extends CommandGroup {
     	requires( Robot.mortar );
     	requires( Robot.loco );
     	
+    	addParallel( new DutifulProgression( driver ) );
     	addSequential( new MortarTBH( 15.0 ) );
 
         // A command group will require all of the subsystems that each member

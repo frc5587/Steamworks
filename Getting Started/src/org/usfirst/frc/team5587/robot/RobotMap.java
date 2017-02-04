@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.SPI.Port;
 public class RobotMap {
 	
 	//PWM
-	public static int LEFT_FRONT_MOTOR = 1;
-	public static int LEFT_REAR_MOTOR = 0;
-	public static int RIGHT_FRONT_MOTOR = 2;
-	public static int RIGHT_REAR_MOTOR = 3;
+	public static int LEFT_FRONT_MOTOR = 4;
+	public static int LEFT_REAR_MOTOR = 1;
+	public static int RIGHT_FRONT_MOTOR = 3;
+	public static int RIGHT_REAR_MOTOR = 5;
 	public static int LAZY_SUSAN_MOTOR = 4;
 	public static int WINCH_MOTOR = 5;
 	public static int INTAKE_MOTOR = 6;
