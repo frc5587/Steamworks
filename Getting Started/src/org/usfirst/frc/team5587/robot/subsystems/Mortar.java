@@ -27,6 +27,8 @@ public class Mortar extends Subsystem {
 		
 		flywheel.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Relative );
 		
+		flywheel.configEncoderCodesPerRev( 0 );
+		
 		flywheel.configNominalOutputVoltage( +0.0f, -0.0f );
 		flywheel.configPeakOutputVoltage( +12.0f, -12.0f );
 		
@@ -45,9 +47,19 @@ public class Mortar extends Subsystem {
 		flywheel.set( percent * MAX_SPEED );
 	}
 	
+	public void spinAt( double speed )
+	{
+		flywheel.set( speed );
+	}
+	
 	public void stop()
 	{
 		flywheel.set( 0 );
+	}
+	
+	public double calculateSpeed( double distance )
+	{
+		return 1.0;
 	}
 	
     public void initDefaultCommand() {

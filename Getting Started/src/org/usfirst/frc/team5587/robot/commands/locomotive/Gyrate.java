@@ -3,9 +3,7 @@ package org.usfirst.frc.team5587.robot.commands.locomotive;
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -16,13 +14,6 @@ public class Gyrate extends Command {
 	private double yaw;
 	private double narrowLimit = 1.0, broadLimit = 4.0;
 	private boolean broadened;
-	private static final double gain = .00003;
-	private double output;
-	private double lastOutput;
-	private double h0;
-	private double error;
-	private double sign;
-	private double sign0;
 	
 	private Locomotive loco;
 	
@@ -32,14 +23,12 @@ public class Gyrate extends Command {
     	requires( Robot.loco );
     	loco = Robot.loco;
     	rotateAngle = target;
-    	h0 = 0;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	loco.zeroYaw();
     	broadened = false;
-    	output = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
