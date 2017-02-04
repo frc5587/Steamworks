@@ -6,7 +6,6 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
-import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -27,7 +26,7 @@ public class Mortar extends Subsystem {
 		
 		flywheel.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Relative );
 		
-		flywheel.configEncoderCodesPerRev( 0 );
+		flywheel.configEncoderCodesPerRev( 12 );
 		
 		flywheel.configNominalOutputVoltage( +0.0f, -0.0f );
 		flywheel.configPeakOutputVoltage( +12.0f, -12.0f );
