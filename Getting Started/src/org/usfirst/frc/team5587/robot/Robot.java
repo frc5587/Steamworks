@@ -40,15 +40,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		
+		SmartDashboard.putNumber( "Target: ", 0.0 );
 		teleOp = new TeleOp( oi.driver, oi.codriver );
-		auto = new Gyrate( -90.0 );
 	}
 
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+
+		auto = new Gyrate( SmartDashboard.getNumber( "Target: ", 0.0 ) ); 
 		if( auto != null )
 			auto.start();
 	}
