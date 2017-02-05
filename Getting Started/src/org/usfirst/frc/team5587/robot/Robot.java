@@ -3,10 +3,10 @@ package org.usfirst.frc.team5587.robot;
 import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
-import org.usfirst.frc.team5587.robot.subsystems.Archie;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 import org.usfirst.frc.team5587.robot.subsystems.Mortar;
+import org.usfirst.frc.team5587.robot.subsystems.Retator;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
-	public static final Archie screw = new Archie();
+	public static final Retator retator = new Retator();
 	public static final Mortar mortar = new Mortar();
 	public static final Winchester winch = new Winchester();
 
