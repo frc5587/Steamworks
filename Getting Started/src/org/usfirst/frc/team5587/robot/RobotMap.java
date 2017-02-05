@@ -16,8 +16,8 @@ public class RobotMap {
 	public static int LEFT_REAR_MOTOR = 1;
 	public static int RIGHT_FRONT_MOTOR = 3;
 	public static int RIGHT_REAR_MOTOR = 5;
-	public static int LAZY_SUSAN_MOTOR = 4;
-	public static int WINCH_MOTOR = 5;
+	public static int LAZY_SUSAN_MOTOR = 2;
+	public static int WINCH_MOTOR = 0;
 	public static int INTAKE_MOTOR = 6;
 	public static int SCREW_MOTOR = 7;
 	public static int FEEDER_SERVO = 8;
