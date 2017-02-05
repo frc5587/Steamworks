@@ -31,7 +31,7 @@ public class TimedMarch extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.loco.spanDistance( power, curve);
+    	Robot.locomotive.spanDistance( power, curve);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -41,7 +41,7 @@ public class TimedMarch extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.loco.halt();
+    	Robot.locomotive.halt();
     }
 
     // Called when another command which requires one or more of the same
