@@ -12,7 +12,7 @@
 package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commands.Guzzle;
-import org.usfirst.frc.team5587.robot.commands.ScrewIt;
+import org.usfirst.frc.team5587.robot.commands.Etator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -66,11 +66,9 @@ public class OI
         codriver = new Joystick( RobotMap.CODRIVER );
         
         guzzle = new JoystickButton( driver, RobotMap.GUZZLE_BUTTON );
-        screw = new JoystickButton( driver, RobotMap.INTAKE_BUTTON );
         
         
         guzzle.whileHeld( new Guzzle() );
-        screw.whileHeld( new ScrewIt() );
 
         // SmartDashboard Buttons
 

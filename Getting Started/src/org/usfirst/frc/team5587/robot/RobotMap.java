@@ -16,12 +16,16 @@ public class RobotMap {
 	public static int LEFT_REAR_MOTOR = 1;
 	public static int RIGHT_FRONT_MOTOR = 3;
 	public static int RIGHT_REAR_MOTOR = 5;
-	public static int LAZY_SUSAN_MOTOR = 2;
+	public static int SUZY_MOTOR = 2;
 	public static int WINCH_MOTOR = 0;
 	public static int INTAKE_MOTOR = 6;
 	public static int SCREW_MOTOR = 7;
 	public static int FEEDER_SERVO = 8;
 	public static int FLYWHEEL_PLACEHOLDER_PWM = 9;
+	
+	public static int STAR_R_PWM = 10;
+	public static int STAR_G_PWM = 11;
+	public static int STAR_B_PWM = 12;
 	
 	//DIO
 	public static int LEFT_DRIVETRAIN_ENCODER_A = 0;
@@ -31,14 +35,11 @@ public class RobotMap {
 	public static int ULTRASONIC_RANGEFINDER = 4;
 	public static int WINCH_ENCODER_A = 5;
 	public static int WINCH_ENCODER_B = 6;
-	public static int SHOOTER_A = 7;
-	public static int SHOOTER_B = 8;
-
+	public static int SUZY_ENC_A = 7;
+	public static int SUZY_ENC_B = 8;
+	
 	//CAN
 	public static int FLYWHEEL_MOTOR_CAN_ID = 1;
-
-	//Analog In
-	public static int LAZY_SUSAN_POTENTIOMETER = 0;
 	
 	//MXP
 	public static Port NAVX_MXP = SPI.Port.kMXP;
