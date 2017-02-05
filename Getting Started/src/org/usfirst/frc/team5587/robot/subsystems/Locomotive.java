@@ -22,7 +22,7 @@ public class Locomotive extends Subsystem {
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static final double Y_LIMIT = 0.7;
+    private static final double Y_LIMIT = 1.0;
     private static final double X_LIMIT = .5;
     
     //The Drive Train motors

@@ -49,7 +49,6 @@ public class Mortar extends Subsystem {
 	
 	public void spin( double percent )
 	{
-		
 		fly.set( percent );
 	}
 	
