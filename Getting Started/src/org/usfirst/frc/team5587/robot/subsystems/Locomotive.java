@@ -2,6 +2,7 @@ package org.usfirst.frc.team5587.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import org.usfirst.frc.team5587.robot.RobotMap;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -20,6 +21,9 @@ public class Locomotive extends Subsystem {
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
+    
+    private static final double Y_LIMIT = 0.7;
+    private static final double X_LIMIT = .5;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -90,9 +94,9 @@ public class Locomotive extends Subsystem {
      * @param moveValue     The value to use for forwards/backwards (y-axis)
      * @param rotateValue   The value to use for the rotate right/left (x-axis)
      */
-    public void keepPace(double moveValue, double rotateValue )
+    public void keepPace( Joystick stick )
     {
-    	train.arcadeDrive( moveValue, rotateValue );
+    	train.arcadeDrive( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
     }
 
     /**
