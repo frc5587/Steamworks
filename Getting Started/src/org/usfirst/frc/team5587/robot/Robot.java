@@ -4,9 +4,10 @@ import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
+import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 import org.usfirst.frc.team5587.robot.subsystems.Mortar;
-import org.usfirst.frc.team5587.robot.subsystems.Retator;
+import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -26,9 +27,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
-	public static final Retator retator = new Retator();
+	public static final Suzy retator = new Suzy();
 	public static final Mortar mortar = new Mortar();
 	public static final Winchester winch = new Winchester();
+	public static final LittleStar orion = new LittleStar();
 
 	private OI oi;
 	private Command auto;

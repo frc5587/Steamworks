@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5587.robot.commands;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.Retator;
+import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,13 +30,13 @@ public class Etator extends Command {
 	private double sign; //The sign of the current error
 	private double sign0; //The sign of the last error.
 	
-	private Retator retator;
+	private Suzy suzyQ;
 	
     public Etator(double target) {
     	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.retator );
-    	retator = Robot.retator;
+    	suzyQ = Robot.retator;
     	rotateAngle = target;
     	h0 = 0;
     }
@@ -45,14 +45,14 @@ public class Etator extends Command {
     protected void initialize() {
     	output = 0;
 
-    	angle = retator.get();
+    	angle = suzyQ.get();
     	error = rotateAngle - angle;
     	sign0 = Math.signum( error );
     }
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	angle = retator.get();
+    	angle = suzyQ.get();
     	error = rotateAngle - angle;
     	
     	sign = Math.signum( error );
@@ -93,7 +93,7 @@ public class Etator extends Command {
     	error3 = error2;
     	error2 = error1;
     	error1 = error;
-    	retator.set( -output );
+    	suzyQ.set( -output );
     }
 
     // Make this return true when this Command no longer needs to run execute()

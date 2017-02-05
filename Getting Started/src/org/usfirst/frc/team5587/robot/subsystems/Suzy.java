@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * This subsystem contains the motors in the drive train
  */
-public class Retator extends Subsystem
+public class Suzy extends Subsystem
 {
     
     // Put methods for controlling this subsystem
@@ -22,7 +22,7 @@ public class Retator extends Subsystem
 	private Encoder encoder;
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
-	public Retator()
+	public Suzy()
 	{
 		motor = new VictorSP( RobotMap.SUZY_MOTOR );
 		encoder = new Encoder( RobotMap.SUZY_ENC_A, RobotMap.SUZY_ENC_B );
