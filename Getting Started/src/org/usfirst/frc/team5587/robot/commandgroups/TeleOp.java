@@ -1,8 +1,8 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.MortarSpin;
 import org.usfirst.frc.team5587.robot.commands.MortarTBH;
+import org.usfirst.frc.team5587.robot.commands.TwinkleTwinkle;
 import org.usfirst.frc.team5587.robot.commands.locomotive.ForcedMarch;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,7 +28,8 @@ public class TeleOp extends CommandGroup {
     	requires( Robot.loco );
     	
     	addParallel( new ForcedMarch( driver ) );
-    	addSequential( new MortarTBH( 15.0 ) );
+    	addParallel( new MortarTBH( 15.0 ) );
+    	addSequential( new TwinkleTwinkle() );
 
         // A command group will require all of the subsystems that each member
         // would require.

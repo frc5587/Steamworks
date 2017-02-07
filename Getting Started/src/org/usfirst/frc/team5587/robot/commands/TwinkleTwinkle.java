@@ -25,16 +25,19 @@ public class TwinkleTwinkle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	SmartDashboard.putNumber( "Red: ", 0.0 );
-    	SmartDashboard.putNumber( "Green: ", 0.0 );
+    	SmartDashboard.putNumber( "Red: ", 0 );
+    	SmartDashboard.putNumber( "Green: ", 0 );
+    	SmartDashboard.putNumber( "Blue: ", 0 );
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	red = SmartDashboard.getNumber( "Red: ", 0.0 );
-    	green = SmartDashboard.getNumber( "Green: ", 0.0 );
-    	blue = SmartDashboard.getNumber( "Blue: ", 0.0 );
+    	red = SmartDashboard.getNumber( "Red: ", 0 );
+    	green = SmartDashboard.getNumber( "Green: ", 0 );
+    	blue = SmartDashboard.getNumber( "Blue: ", 0 );
+    	
+    	orion.setRGB( red, green, blue );
     }
 
     // Make this return true when this Command no longer needs to run execute()
