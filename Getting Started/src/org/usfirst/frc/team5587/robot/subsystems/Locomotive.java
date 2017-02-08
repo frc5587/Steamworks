@@ -31,7 +31,7 @@ public class Locomotive extends Subsystem {
     //The Drive Train encoders
     private Encoder leftEncoder, rightEncoder;
     
-    private AHRS gyro;
+    public AHRS gyro;
     
     //The PID controllers for speed.
     private RobotDrive train;

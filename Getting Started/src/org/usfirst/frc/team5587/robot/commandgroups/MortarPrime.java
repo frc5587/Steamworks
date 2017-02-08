@@ -1,35 +1,31 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.TwinkleTwinkle;
-import org.usfirst.frc.team5587.robot.commands.locomotive.ForcedMarch;
-import org.usfirst.frc.team5587.robot.commands.shooter.MortarTBH;
+import org.usfirst.frc.team5587.robot.commands.shooter.Etator;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class TeleOp extends CommandGroup {
+public class MortarPrime extends CommandGroup {
 
-    public TeleOp( Joystick driver, Joystick codriver ) {
+    public MortarPrime() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
 
+    	requires( Robot.mortar );
+    	requires( Robot.suzyQ );
+    	
+    	addParallel( new Etator() );
+    	
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-    	requires( Robot.mortar );
-    	requires( Robot.loco );
-    	
-    	addParallel( new ForcedMarch( driver ) );
-    	addParallel( new MortarTBH( 15.0 ) );
-    	addSequential( new TwinkleTwinkle() );
 
         // A command group will require all of the subsystems that each member
         // would require.

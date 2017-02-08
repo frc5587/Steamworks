@@ -54,6 +54,9 @@ public class RobotMap {
 	public static int GUZZLE_BUTTON = 3;
 	public static int INTAKE_BUTTON = 4;
 	
+	//NetworkTable
+	
+	
 	/*
 	 * Michael Morris
 	 * 01/09/2017

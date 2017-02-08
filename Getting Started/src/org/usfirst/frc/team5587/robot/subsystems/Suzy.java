@@ -1,8 +1,10 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
+import org.usfirst.frc.team5587.classes.ADXRS450Gyro;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,18 +18,26 @@ public class Suzy extends Subsystem
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	//Provides a limitation to the maximum speed of the drive train (needs to be tested)
+	private static double DISTANCE_PER_PULSE = ( 360.0 / 1024.0 ) / 10.0;
 	
-	private VictorSP motor;
+	private Spark motor;
 	private Encoder encoder;
+	private ADXRS450Gyro gyro;
+	
+	private boolean onTarget;
+	
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
 	public Suzy()
 	{
-		motor = new VictorSP( RobotMap.SUZY_MOTOR );
+		motor = new Spark( RobotMap.SUZY_MOTOR );
 		encoder = new Encoder( RobotMap.SUZY_ENC_A, RobotMap.SUZY_ENC_B );
-		encoder.setDistancePerPulse( 360.0/1024.0*10.0 );
+		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
 		
+		gyro = new ADXRS450Gyro();
+		gyro.startThread();
+		
+		onTarget = false;
 	}
 	
 	/*
@@ -39,14 +49,24 @@ public class Suzy extends Subsystem
 	{
 		motor.set( pwr );
 	}
-	public double get( )
+	public double getEncAngle( )
 	{
 		return encoder.getDistance();
 	}
 	
 	public void stop()
 	{
-		this.set(0.0);
+		set( 0.0 );
+	}
+	
+	public void setOnTarget( boolean b )
+	{
+		onTarget = b;
+	}
+	
+	public boolean onTarget()
+	{
+		return onTarget;
 	}
 	
     public void initDefaultCommand()

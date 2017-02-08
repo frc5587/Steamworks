@@ -1,9 +1,12 @@
-package org.usfirst.frc.team5587.robot.commands;
+package org.usfirst.frc.team5587.robot.commands.shooter;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -14,7 +17,12 @@ public class Etator extends Command {
 	private static final double ERROR_MARGIN = 0.5;
 	private static final double GAIN = .0003;
 	private static final double D_GAIN = 0.01;
+	private static final String NETWORKTABLES_TABLE_NAME = "Table";
+	private static final String NETWORKTABLES_ANGLE_NAME = "x-angle";
 	
+	private NetworkTable table;
+	
+	private double deltaAngle;
 	private double rotateAngle; //The target angle for the robot to rotate.
 	private double angle; //The current encoder angle reading
 	
@@ -31,13 +39,15 @@ public class Etator extends Command {
 	private double sign0; //The sign of the last error.
 	
 	private Suzy suzyQ;
+	private AHRS loco;
 	
-    public Etator(double target) {
+    public Etator() {
     	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.retator );
-    	suzyQ = Robot.retator;
-    	rotateAngle = target;
+    	requires( Robot.suzyQ );
+    	suzyQ = Robot.suzyQ;
+    	
+    	loco = Robot.loco.gyro;
     	h0 = 0;
     }
 
@@ -45,25 +55,27 @@ public class Etator extends Command {
     protected void initialize() {
     	output = 0;
 
-    	angle = suzyQ.get();
-    	error = rotateAngle - angle;
+    	table = NetworkTable.getTable( NETWORKTABLES_TABLE_NAME );
+    	deltaAngle = table.getNumber( NETWORKTABLES_ANGLE_NAME, 0.0 );
+    	
+    	angle = suzyQ.getEncAngle();
+    	rotateAngle = angle + deltaAngle;
+    	
+    	error = deltaAngle;
     	sign0 = Math.signum( error );
     }
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	angle = suzyQ.get();
+    	angle = suzyQ.getEncAngle();
     	error = rotateAngle - angle;
     	
     	sign = Math.signum( error );
     	
-    	if( error4 == error3
-        	&& error3 == error2
-        	&& error1 == error2
-        	&& error1 == error
-        	&& Math.abs( error ) < ERROR_MARGIN )
+    	if( withinMargin() )
     	{
     		output = 0.0;
+    		
     	}
     	else
     	{
@@ -97,17 +109,37 @@ public class Etator extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean isFinished(){
+    	if( withinMargin() && !loco.isMoving() )
+    	{
+    		deltaAngle = table.getNumber( NETWORKTABLES_ANGLE_NAME, 0.0 );
+    		
+    		if( Math.abs( error - deltaAngle ) <= ERROR_MARGIN )
+    			suzyQ.setOnTarget( true );
+    		else
+    			rotateAngle = angle + deltaAngle;
+    	}
+    	
     	return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	suzyQ.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	suzyQ.stop();
+    }
+    
+    private boolean withinMargin()
+    {
+    	return Math.abs( error4 ) < ERROR_MARGIN 
+            	&& Math.abs( error3 ) < ERROR_MARGIN
+            	&& Math.abs( error2 ) < ERROR_MARGIN 
+            	&& Math.abs( error1 ) < ERROR_MARGIN
+            	&& Math.abs( error ) < ERROR_MARGIN;
     }
 }

@@ -2,6 +2,7 @@ package org.usfirst.frc.team5587.robot.commands;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
+import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TwinkleTwinkle extends Command {
 
 	private LittleStar orion;
+	private Suzy suzyQ;
 	
 	private double red, green, blue;
 	
@@ -21,6 +23,7 @@ public class TwinkleTwinkle extends Command {
     	requires( Robot.orion );
     	
     	orion = Robot.orion;
+    	suzyQ = Robot.suzyQ;
     }
 
     // Called just before this Command runs the first time
@@ -33,9 +36,18 @@ public class TwinkleTwinkle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	red = SmartDashboard.getNumber( "Red: ", 0 );
-    	green = SmartDashboard.getNumber( "Green: ", 0 );
-    	blue = SmartDashboard.getNumber( "Blue: ", 0 );
+    	if( suzyQ.onTarget() )
+    	{
+    		red = 0;
+    		green = 255;
+    		blue = 0;
+    	}
+    	else
+    	{
+        	red = SmartDashboard.getNumber( "Red: ", 0 );
+        	green = SmartDashboard.getNumber( "Green: ", 0 );
+        	blue = SmartDashboard.getNumber( "Blue: ", 0 );
+    	}
     	
     	orion.setRGB( red, green, blue );
     }
