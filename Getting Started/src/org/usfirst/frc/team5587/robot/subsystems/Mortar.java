@@ -23,7 +23,7 @@ public class Mortar extends Subsystem {
 	
 	private static final int ENC_PULSE_PER_REVOLUTION = 12; 
 	private static final int GEAR_RATIO = 3;
-	private static final int FLYWHEEL_PULSE_PER_REVOLUTION = ENC_PULSE_PER_REVOLUTION / GEAR_RATIO;
+	private static final int FLYWHEEL_PULSE_PER_REVOLUTION = ENC_PULSE_PER_REVOLUTION * GEAR_RATIO;
 	
 	private CANTalon flywheel;
 	private VictorSP fly;
