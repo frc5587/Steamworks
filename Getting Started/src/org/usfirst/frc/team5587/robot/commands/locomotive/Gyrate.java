@@ -89,11 +89,7 @@ public class Gyrate extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return error4 == error3
-        		&& error3 == error2
-        		&& error1 == error2
-        		&& error1 == error
-        		&& Math.abs( error ) < ERROR_MARGIN;
+        return withinMargin();
     }
 
     // Called once after isFinished returns true
@@ -104,5 +100,14 @@ public class Gyrate extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    }
+    
+    private boolean withinMargin()
+    {
+    	return Math.abs( error4 ) < ERROR_MARGIN 
+            	&& Math.abs( error3 ) < ERROR_MARGIN
+            	&& Math.abs( error2 ) < ERROR_MARGIN 
+            	&& Math.abs( error1 ) < ERROR_MARGIN
+            	&& Math.abs( error ) < ERROR_MARGIN;
     }
 }

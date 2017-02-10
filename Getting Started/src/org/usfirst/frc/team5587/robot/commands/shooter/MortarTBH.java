@@ -14,6 +14,7 @@ public class MortarTBH extends Command {
 	
 	private static final double GAIN = .05;
 	private static final double D_GAIN = 0.0;
+	private static final double ERROR_MARGIN = .5;
 	
 	private double targetRate; //The target angle for the robot to rotate.
 	private double rate; //The current Gyroscope reading
@@ -22,7 +23,10 @@ public class MortarTBH extends Command {
 	private double h0; //The average between the last value of h0 and the last output value that caused a change in the sign of the error
 	
 	private double error, //The current error
-					error1; //The error from the last instance
+					error1,
+					error2,
+					error3,
+					error4; //The error from the last instance
 	
 	private double sign; //The sign of the current error
 	private double sign0; //The sign of the last error.
@@ -43,6 +47,7 @@ public class MortarTBH extends Command {
     	
     	SmartDashboard.putNumber( "GAIN: ", 0.05 );
     	SmartDashboard.putNumber( "D_Gain", 0.1 );
+    	SmartDashboard.putNumber( "D2_GAIN", 0.0 );
     	
     	output = 0;
     	rate = joey.RPS();
@@ -65,7 +70,7 @@ public class MortarTBH extends Command {
     	}
     	else
     	{
-    		output += SmartDashboard.getNumber( "GAIN: ", 0.05 ) * error + SmartDashboard.getNumber( "D_Gain", 0.0 ) * ( error - error1 );
+    		output += SmartDashboard.getNumber( "GAIN: ", 0.05 ) * error + SmartDashboard.getNumber( "D_Gain", 0.0 ) * ( error - error1 ) + SmartDashboard.getNumber( "D2_Gain", 0.0 ) * (error - 2 * error1 + error2 );
     	}
     	
     	if( output > .7 )
@@ -80,6 +85,9 @@ public class MortarTBH extends Command {
     	
     	sign0 = sign;
     	
+    	error4 = error3;
+    	error3 = error2;
+    	error2 = error1;
     	error1 = error;
     	joey.spin( output );
     }
@@ -96,5 +104,14 @@ public class MortarTBH extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    }   
+     
+    private boolean withinMargin()
+    {
+    	return Math.abs( error4 ) < ERROR_MARGIN 
+            	&& Math.abs( error3 ) < ERROR_MARGIN
+            	&& Math.abs( error2 ) < ERROR_MARGIN 
+            	&& Math.abs( error1 ) < ERROR_MARGIN
+            	&& Math.abs( error ) < ERROR_MARGIN;
     }
 }

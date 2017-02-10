@@ -17,8 +17,8 @@ public class Etator extends Command {
 	private static final double ERROR_MARGIN = 0.5;
 	private static final double GAIN = .0003;
 	private static final double D_GAIN = 0.01;
-	private static final String NETWORKTABLES_TABLE_NAME = "Table";
-	private static final String NETWORKTABLES_ANGLE_NAME = "x-angle";
+	private static final String NETWORKTABLES_TABLE_NAME = "/GRIP/postprocessed";
+	private static final String NETWORKTABLES_ANGLE_NAME = "x angles";
 	
 	private NetworkTable table;
 	
