@@ -46,8 +46,6 @@ public class Etator extends Command {
         // eg. requires(chassis);
     	requires( Robot.suzyQ );
     	suzyQ = Robot.suzyQ;
-    	
-    	loco = Robot.loco.gyro;
     	h0 = 0;
     }
 
@@ -56,7 +54,7 @@ public class Etator extends Command {
     	output = 0;
 
     	table = NetworkTable.getTable( NETWORKTABLES_TABLE_NAME );
-    	deltaAngle = table.getNumber( NETWORKTABLES_ANGLE_NAME, 0.0 );
+    	deltaAngle = table.getNumberArray( NETWORKTABLES_ANGLE_NAME, new double [] { 0.0 } )[ 0 ];
     	
     	angle = suzyQ.getEncAngle();
     	rotateAngle = angle + deltaAngle;
@@ -112,7 +110,7 @@ public class Etator extends Command {
     protected boolean isFinished(){
     	if( withinMargin() && !loco.isMoving() )
     	{
-    		deltaAngle = table.getNumber( NETWORKTABLES_ANGLE_NAME, 0.0 );
+    		deltaAngle = table.getNumberArray( NETWORKTABLES_ANGLE_NAME, new double [] { 0.0 } )[ 0 ];
     		
     		if( Math.abs( error - deltaAngle ) <= ERROR_MARGIN )
     			suzyQ.setOnTarget( true );

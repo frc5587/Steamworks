@@ -12,7 +12,7 @@
 package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commands.Guzzle;
-import org.usfirst.frc.team5587.robot.commands.Etator;
+import org.usfirst.frc.team5587.robot.commands.shooter.Etator;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;

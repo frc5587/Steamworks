@@ -2,6 +2,7 @@ package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
+import org.usfirst.frc.team5587.robot.commands.shooter.Etator;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
@@ -42,7 +43,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		SmartDashboard.putNumber( "Target: ", 0.0 );
-		teleOp = new TeleOp( oi.driver, oi.codriver );
+		teleOp = new Etator();
+		//teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
 
 	/**
