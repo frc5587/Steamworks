@@ -33,11 +33,11 @@ public class Suzy extends Subsystem implements PIDOutput
 	private double rotateToAngleRate;
     private boolean usingPID;
     
-	private static final double kP = 0.001;
+	private static final double kP = 0.005;
 	private static final double kI = 0.0;
 	private static final double kD = 0.0;
 	private static final double kF = 0.0;
-	private static final double kToleranceDegrees = 20;
+	private static final double kToleranceDegrees = 1;
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
 	public Suzy()
@@ -113,6 +113,9 @@ public class Suzy extends Subsystem implements PIDOutput
 
 	public void pidWrite(double output) {
 		rotateToAngleRate = output;
+	}
+	public void zeroEnc(){
+		encoder.reset();
 	}
 	
     public void initDefaultCommand()

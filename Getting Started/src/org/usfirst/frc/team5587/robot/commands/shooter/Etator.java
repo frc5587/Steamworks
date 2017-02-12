@@ -67,10 +67,9 @@ public class Etator extends Command {
 //    	sign0 = Math.signum( error );
 //    	SmartDashboard.putNumber("GAIN", GAIN);
 //    	SmartDashboard.putNumber("D_GAIN", D_GAIN);
-
+    	suzyQ.zeroEnc();
     	suzyQ.setUsingPID(true);
     	//suzyQ.getController().setSetpoint(suzyQ.getEncAngle());
-    	suzyQ.getController().setSetpoint(SmartDashboard.getNumber("Drivetrain Rotation Target (Degrees (-180, +180))", 0));
     }
     
     // Called repeatedly when this Command is scheduled to run
@@ -132,6 +131,7 @@ public class Etator extends Command {
 //    	
 //    	suzyQ.getController().setSetpoint(angle);
 
+    	suzyQ.getController().setSetpoint(SmartDashboard.getNumber("Drivetrain Rotation Target (Degrees (-180, +180))", 3000));
     	suzyQ.set(suzyQ.getRotateRate());
     	SmartDashboard.putNumber("encoder val", suzyQ.getEncAngle());
     }
