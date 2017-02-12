@@ -32,8 +32,8 @@ public class Mortar extends Subsystem {
 	public Mortar()
 	{
 		fly = new VictorSP( RobotMap.FLYWHEEL_PLACEHOLDER_PWM );
-		//joey = new Encoder( RobotMap.JOEY_A, RobotMap.JOEY_B );
-		//joey.setDistancePerPulse( 1.0 / FLYWHEEL_PULSE_PER_REVOLUTION );
+		joey = new Encoder( RobotMap.JOEY_A, RobotMap.JOEY_B );
+		joey.setDistancePerPulse( 1.0 / FLYWHEEL_PULSE_PER_REVOLUTION );
 		
 		flywheel = new CANTalon( RobotMap.FLYWHEEL_MOTOR_CAN_ID );
 		
