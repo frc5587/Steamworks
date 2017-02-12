@@ -12,7 +12,7 @@ public class GasGuzzler extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	private static final double INTAKE_POWER = -1.0;
+	private static final double INTAKE_POWER = -.7;
 	private VictorSP guzzle;
 	
 	public GasGuzzler()

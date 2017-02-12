@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
+import org.usfirst.frc.team5587.robot.commands.Guzzle;
 import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
 import org.usfirst.frc.team5587.robot.commands.shooter.Etator;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
@@ -86,10 +87,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber( "Gyro", loco.getYaw() );
-		SmartDashboard.putNumber( "Throttle", oi.driver.getThrottle() * -180.0 );
+		//SmartDashboard.putNumber( "Gyro", loco.getYaw() );
+		//SmartDashboard.putNumber( "Throttle", oi.driver.getThrottle() * -180.0 );
 		//SmartDashboard.putNumber( "Error", loco.gyroPID.getAvgError() );
-		SmartDashboard.putNumber( "Motor Output", loco.leftFrontMotor.get() );
+		//SmartDashboard.putNumber( "Motor Output", loco.leftFrontMotor.get() );
 	}
 
 	/**

@@ -3,6 +3,7 @@ package org.usfirst.frc.team5587.robot.subsystems;
 import org.usfirst.frc.team5587.classes.ADXRS450Gyro;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -18,7 +19,7 @@ public class Suzy extends Subsystem
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	private static double DISTANCE_PER_PULSE = ( 360.0 / 1024.0 ) / 10.0;
+	private static double DISTANCE_PER_PULSE = ( 360.0 / 1024.0 );
 	
 	private Spark motor;
 	private Encoder encoder;
@@ -31,8 +32,9 @@ public class Suzy extends Subsystem
 	public Suzy()
 	{
 		motor = new Spark( RobotMap.SUZY_MOTOR );
-		encoder = new Encoder( RobotMap.SUZY_ENC_A, RobotMap.SUZY_ENC_B );
+		encoder = new Encoder( RobotMap.SUZY_ENC_A, RobotMap.SUZY_ENC_B, false, EncodingType.k4X );
 		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
+		encoder.setReverseDirection( true );
 		
 		gyro = new ADXRS450Gyro();
 		gyro.startThread();
