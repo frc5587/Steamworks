@@ -128,6 +128,34 @@ public class Suzy extends Subsystem implements PIDOutput
 		encoder.reset();
 	}
 	
+	public void updateP()
+	{
+    	kP = table.getNumber("kP", kP );
+	}
+	
+	public void updateI()
+	{
+    	kI = table.getNumber("kI", kI );
+	}
+	
+	public void updateD()
+	{
+    	kD = table.getNumber("kD", kD );
+	}
+	
+	public void updateF()
+	{
+    	kF = table.getNumber("kF", kF );
+	}
+	
+	public void updatePIDF()
+	{
+		updateP();
+		updateI();
+		updateD();
+		updateF();
+	}
+	
     public void initDefaultCommand()
     {
         // Set the default command for a subsystem here.

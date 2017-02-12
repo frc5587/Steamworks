@@ -37,6 +37,8 @@ public class Robot extends IterativeRobot {
 	private Command auto;
 	private Command teleOp;
 
+	private NetworkTable table;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -48,11 +50,12 @@ public class Robot extends IterativeRobot {
 		teleOp = new Etator();
 		//teleOp = new TeleOp( oi.driver, oi.codriver );
 		
-		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
+		table = NetworkTable.getTable( "PID Tuning" );
     	table.putNumber("kP", 0.0 );
     	table.putNumber("kI", 0.0 );
     	table.putNumber("kD", 0.0 );
     	table.putNumber("kF", 0.0 );
+		table.putNumber("Relative PID Angle", 0.0 );
 	}
 
 	/**
@@ -94,6 +97,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		suzyQ.updatePIDF();
 		//SmartDashboard.putNumber( "Gyro", loco.getYaw() );
 		//SmartDashboard.putNumber( "Throttle", oi.driver.getThrottle() * -180.0 );
 		//SmartDashboard.putNumber( "Error", loco.gyroPID.getAvgError() );
