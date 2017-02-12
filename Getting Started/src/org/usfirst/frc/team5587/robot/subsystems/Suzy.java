@@ -1,19 +1,21 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
 import org.usfirst.frc.team5587.classes.ADXRS450Gyro;
+import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.VictorSP;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * This subsystem contains the motors in the drive train
  */
-public class Suzy extends Subsystem
+public class Suzy extends Subsystem implements PIDOutput
 {
     
     // Put methods for controlling this subsystem
@@ -27,6 +29,15 @@ public class Suzy extends Subsystem
 	
 	private boolean onTarget;
 	
+	PIDController turnController;
+	private double rotateToAngleRate;
+    private boolean usingPID;
+    
+	private static final double kP = 0.001;
+	private static final double kI = 0.0;
+	private static final double kD = 0.0;
+	private static final double kF = 0.0;
+	private static final double kToleranceDegrees = 20;
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
 	public Suzy()
@@ -40,6 +51,18 @@ public class Suzy extends Subsystem
 		gyro.startThread();
 		
 		onTarget = false;
+		
+		//Begin 614 pid code
+		turnController = new PIDController(kP, kI, kD, kF, encoder, this);
+		//turnController.setInputRange(0.0f,  360.0f);
+		turnController.setOutputRange(-0.4, 0.4);
+        turnController.setAbsoluteTolerance(kToleranceDegrees);
+        //turnController.setContinuous(true);
+
+        /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
+        /* tuning of the Turn Controller's P, I and D coefficients.            */
+        /* Typically, only the P value needs to be modified.                   */
+        LiveWindow.addActuator("DriveSystem", "RotateController", turnController);
 	}
 	
 	/*
@@ -49,7 +72,7 @@ public class Suzy extends Subsystem
 	 */
 	public void set( double pwr)
 	{
-		motor.set( pwr );
+		motor.set( -pwr );
 	}
 	public double getEncAngle( )
 	{
@@ -69,6 +92,27 @@ public class Suzy extends Subsystem
 	public boolean onTarget()
 	{
 		return onTarget;
+	}
+	public void setUsingPID(boolean set) {
+		usingPID = set;
+		if(set == true) {
+			turnController.enable();
+		} else {
+			turnController.disable();
+		}
+	}
+	public boolean getUsingPID() {
+		return usingPID;
+	}
+	public double getRotateRate() {
+		return rotateToAngleRate;
+	}
+	public PIDController getController() {
+		return turnController;
+	}
+
+	public void pidWrite(double output) {
+		rotateToAngleRate = output;
 	}
 	
     public void initDefaultCommand()
