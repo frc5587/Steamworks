@@ -24,3 +24,9 @@ bin/
 build/
 target/
 out/
+
+#Ignore Gradle
+gradlew
+gradlew.bat
+gradle/
+build.gradle

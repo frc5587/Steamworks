@@ -54,6 +54,7 @@ public class RobotMap {
 	public static int GUZZLE_BUTTON = 3;
 	public static int INTAKE_BUTTON = 4;
 	public static int CLIMB_BUTTON = 5;
+	public static int STOP_CLIMB_BUTTON = 6;
 	
 	//NetworkTable
 	
