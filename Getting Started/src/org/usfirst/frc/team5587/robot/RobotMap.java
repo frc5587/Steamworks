@@ -53,8 +53,12 @@ public class RobotMap {
 	//Buttons
 	public static int GUZZLE_BUTTON = 3;
 	public static int INTAKE_BUTTON = 4;
+	public static int CLIMB_BUTTON = 5;
 	
 	//NetworkTable
+	
+	//PDP
+	public static int WINCH_PDP_PORT = 0;
 	
 	
 	/*
