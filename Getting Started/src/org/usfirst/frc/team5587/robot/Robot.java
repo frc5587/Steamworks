@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -46,6 +47,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber( "Target: ", 0.0 );
 		teleOp = new Etator();
 		//teleOp = new TeleOp( oi.driver, oi.codriver );
+		
+		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
+    	table.putNumber("kP", 0.0 );
+    	table.putNumber("kI", 0.0 );
+    	table.putNumber("kD", 0.0 );
+    	table.putNumber("kF", 0.0 );
 	}
 
 	/**

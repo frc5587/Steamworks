@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * This subsystem contains the motors in the drive train
@@ -29,15 +30,17 @@ public class Suzy extends Subsystem implements PIDOutput
 	
 	private boolean onTarget;
 	
+	private NetworkTable table;
+	
 	PIDController turnController;
 	private double rotateToAngleRate;
     private boolean usingPID;
     
-	private static final double kP = 0.005;
-	private static final double kI = 0.0;
-	private static final double kD = 0.0;
-	private static final double kF = 0.0;
-	private static final double kToleranceDegrees = 1;
+	private static double kP = 0.005;
+	private static double kI = 0.0;
+	private static double kD = 0.0;
+	private static double kF = 0.0;
+	private static final double kToleranceDegrees = 1.0f;
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
 	public Suzy()
@@ -47,6 +50,13 @@ public class Suzy extends Subsystem implements PIDOutput
 		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
 		encoder.setReverseDirection( true );
 		
+		table = NetworkTable.getTable( "PID Tuning" );
+    	
+    	kP = table.getNumber("kP", kP );
+    	kI = table.getNumber("kI", kI );
+    	kD = table.getNumber("kD", kD );
+    	kF = table.getNumber("kF", kF );
+    	
 		gyro = new ADXRS450Gyro();
 		gyro.startThread();
 		

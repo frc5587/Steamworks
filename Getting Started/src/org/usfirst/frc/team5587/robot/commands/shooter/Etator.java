@@ -23,6 +23,7 @@ public class Etator extends Command {
 	private static final String NETWORKTABLES_ANGLE_NAME = "x angles";
 //
 	private NetworkTable table;
+	private NetworkTable table2;
 //	
 	private double [] angles;
 //	private double deltaAngle;
@@ -59,6 +60,8 @@ public class Etator extends Command {
 //    	output = 0;
 //
 //    	table = NetworkTable.getTable( NETWORKTABLES_TABLE_NAME );
+    	table2 = NetworkTable.getTable( "angle thingy" );
+    	table2.putNumber("PID Angle", 0.0 );
 //    	setNewAngle();
 //    	
 //    	angle = suzyQ.getEncAngle();
@@ -131,7 +134,7 @@ public class Etator extends Command {
 //    	
 //    	suzyQ.getController().setSetpoint(angle);
 
-    	suzyQ.getController().setSetpoint(SmartDashboard.getNumber("Drivetrain Rotation Target (Degrees (-180, +180))", 3000));
+    	suzyQ.getController().setSetpoint(table2.getNumber("PID Angle", 3000));
     	suzyQ.set(suzyQ.getRotateRate());
     	SmartDashboard.putNumber("encoder val", suzyQ.getEncAngle());
     }
