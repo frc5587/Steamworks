@@ -22,8 +22,8 @@ public class Etator extends Command {
 	private static final String NETWORKTABLES_TABLE_NAME = "/GRIP/postprocessed";
 	private static final String NETWORKTABLES_ANGLE_NAME = "x angles";
 //
-	private NetworkTable table;
 	private NetworkTable table2;
+	private double counter;
 //	
 	private double [] angles;
 //	private double deltaAngle;
@@ -52,6 +52,7 @@ public class Etator extends Command {
         // eg. requires(chassis);
     	requires( Robot.suzyQ );
     	suzyQ = Robot.suzyQ;
+    	counter = 0;
 //    	h0 = 0;
     }
 
@@ -60,6 +61,7 @@ public class Etator extends Command {
 //    	output = 0;
 //
 //    	table = NetworkTable.getTable( NETWORKTABLES_TABLE_NAME );
+    	System.out.println( "Etate." );
     	table2 = NetworkTable.getTable( "angle thingy" );
     	table2.putNumber("PID Angle", 0.0 );
 //    	setNewAngle();
@@ -136,7 +138,8 @@ public class Etator extends Command {
 
     	suzyQ.getController().setSetpoint(table2.getNumber("PID Angle", 3000));
     	suzyQ.set(suzyQ.getRotateRate());
-    	SmartDashboard.putNumber("encoder val", suzyQ.getEncAngle());
+    	counter++;
+    	SmartDashboard.putNumber("encoder val", counter );//suzyQ.getEncAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -17,6 +17,7 @@ public class LittleStar extends Subsystem {
 	
 	public LittleStar()
 	{
+		System.out.println( "Little Star");
 		starR = new PWM( RobotMap.STAR_R_PWM );
 		starG = new PWM( RobotMap.STAR_G_PWM );
 		starB = new PWM( RobotMap.STAR_B_PWM );

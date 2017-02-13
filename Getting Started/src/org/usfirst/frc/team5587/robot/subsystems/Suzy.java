@@ -2,6 +2,7 @@ package org.usfirst.frc.team5587.robot.subsystems;
 
 import org.usfirst.frc.team5587.classes.ADXRS450Gyro;
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * This subsystem contains the motors in the drive train
@@ -36,10 +36,10 @@ public class Suzy extends Subsystem implements PIDOutput
 	private double rotateToAngleRate;
     private boolean usingPID;
     
-	private static double kP = 0.005;
-	private static double kI = 0.0;
-	private static double kD = 0.0;
-	private static double kF = 0.0;
+	private double kP = 0.005;
+	private double kI = 0.0;
+	private double kD = 0.0;
+	private double kF = 0.0;
 	private static final double kToleranceDegrees = 1.0f;
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
@@ -50,12 +50,12 @@ public class Suzy extends Subsystem implements PIDOutput
 		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
 		encoder.setReverseDirection( true );
 		
-		table = NetworkTable.getTable( "PID Tuning" );
-    	
-    	kP = table.getNumber("kP", kP );
-    	kI = table.getNumber("kI", kI );
-    	kD = table.getNumber("kD", kD );
-    	kF = table.getNumber("kF", kF );
+		table = NetworkTable.getTable( "PID Tuning" ); System.out.println( "Line 53" );
+		
+    	kP = table.getNumber("kP", kP ); System.out.println( "Line 55" );
+    	kI = table.getNumber("kI", kI ); System.out.println( "Line 56" );
+    	kD = table.getNumber("kD", kD ); System.out.println( "Line 57 " );
+    	kF = table.getNumber("kF", kF ); System.out.println( "Line 58 " );
     	
 		gyro = new ADXRS450Gyro();
 		gyro.startThread();

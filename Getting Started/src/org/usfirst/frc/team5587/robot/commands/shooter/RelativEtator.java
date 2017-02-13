@@ -17,7 +17,6 @@ public class RelativEtator extends Command {
 	private static final String NETWORKTABLES_TABLE_NAME = "/GRIP/postprocessed";
 	private static final String NETWORKTABLES_ANGLE_NAME = "x angles";
 
-	private NetworkTable table;
 	private NetworkTable table2;
 	
 	private double [] angles;

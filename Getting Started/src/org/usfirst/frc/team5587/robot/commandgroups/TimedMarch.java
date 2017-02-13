@@ -10,16 +10,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TimedMarch extends Command {
 
-	double timeTarget, power, curve;
+	double timeTarget, power;
 	Timer timer;
 	
-    public TimedMarch( double p, double c, double t ) {
+    public TimedMarch( double p, double t ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.loco );
     	
     	power = p;
-    	curve = c;
     	timeTarget = t;
     	timer = new Timer();
     }
@@ -31,7 +30,7 @@ public class TimedMarch extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.loco.spanDistance( power, curve);
+    	Robot.loco.tankDrive( power, power );
     }
 
     // Make this return true when this Command no longer needs to run execute()

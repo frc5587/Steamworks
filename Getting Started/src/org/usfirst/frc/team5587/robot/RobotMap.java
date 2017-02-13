@@ -33,12 +33,10 @@ public class RobotMap {
 	public static int RIGHT_DRIVETRAIN_ENCODER_A = 2;
 	public static int RIGHT_DRIVETRAIN_ENCODER_B = 3;
 	public static int ULTRASONIC_RANGEFINDER = 4;
-	public static int WINCH_ENCODER_A = 5;
-	public static int WINCH_ENCODER_B = 6;
+	public static int JOEY_A = 5;
+	public static int JOEY_B = 6;
 	public static int SUZY_ENC_A = 7;
 	public static int SUZY_ENC_B = 8;
-	public static int JOEY_A = 13;
-	public static int JOEY_B = 14;
 	
 	//CAN
 	public static int FLYWHEEL_MOTOR_CAN_ID = 1;

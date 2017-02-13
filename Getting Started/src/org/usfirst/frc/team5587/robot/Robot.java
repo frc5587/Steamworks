@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -27,7 +26,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
 	public static final Suzy suzyQ = new Suzy();
@@ -38,8 +36,6 @@ public class Robot extends IterativeRobot {
 	private OI oi;
 	private Command auto;
 	private Command teleOp;
-
-	private NetworkTable table;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -47,17 +43,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println( "Before the beginning..." );
 		oi = new OI();
-		SmartDashboard.putNumber( "Target: ", 0.0 );
+		//SmartDashboard.putNumber( "Target: ", 0.0 );
 		teleOp = new Etator();
 		//teleOp = new TeleOp( oi.driver, oi.codriver );
-		
-		table = NetworkTable.getTable( "PID Tuning" );
-    	table.putNumber("kP", 0.0 );
-    	table.putNumber("kI", 0.0 );
-    	table.putNumber("kD", 0.0 );
-    	table.putNumber("kF", 0.0 );
-		table.putNumber("Relative PID Angle", 0.0 );
+		System.out.println( "In the beginning...");
 	}
 
 	/**
@@ -99,7 +90,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
 		suzyQ.updatePIDF();
 		//SmartDashboard.putNumber( "Gyro", loco.getYaw() );
 		//SmartDashboard.putNumber( "Throttle", oi.driver.getThrottle() * -180.0 );
@@ -120,7 +110,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit()
 	{
-		
+//	{
+//
+//		NetworkTable table = NetworkTable.getTable( "PID Tuning" ); System.out.println( "Robot 55" );
+//    	table.putNumber("kP", 0.0 ); System.out.println( "Robot 56" );
+//    	table.putNumber("kI", 0.0 ); System.out.println( "Robot 57" );
+//    	table.putNumber("kD", 0.0 ); System.out.println( "Robot 58" );
+//    	table.putNumber("kF", 0.0 ); System.out.println( "Robot 59" );
+//		table.putNumber("Relative PID Angle", 0.0 ); System.out.println( "Robot 60" );
 	}
 	
 	@Override
