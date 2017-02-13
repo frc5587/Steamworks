@@ -50,12 +50,12 @@ public class Suzy extends Subsystem implements PIDOutput
 		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
 		encoder.setReverseDirection( true );
 		
-		table = NetworkTable.getTable( "PID Tuning" ); System.out.println( "Line 53" );
+		table = NetworkTable.getTable( "PID Tuning" );
 		
-    	kP = table.getNumber("kP", kP ); System.out.println( "Line 55" );
-    	kI = table.getNumber("kI", kI ); System.out.println( "Line 56" );
-    	kD = table.getNumber("kD", kD ); System.out.println( "Line 57 " );
-    	kF = table.getNumber("kF", kF ); System.out.println( "Line 58 " );
+    	kP = table.getNumber("kP", kP );
+    	kI = table.getNumber("kI", kI );
+    	kD = table.getNumber("kD", kD );
+    	kF = table.getNumber("kF", kF );
     	
 		gyro = new ADXRS450Gyro();
 		gyro.startThread();

@@ -138,8 +138,7 @@ public class Etator extends Command {
 
     	suzyQ.getController().setSetpoint(table2.getNumber("PID Angle", 3000));
     	suzyQ.set(suzyQ.getRotateRate());
-    	counter++;
-    	SmartDashboard.putNumber("encoder val", counter );//suzyQ.getEncAngle());
+    	SmartDashboard.putNumber("encoder val", suzyQ.getEncAngle() );//suzyQ.getEncAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()

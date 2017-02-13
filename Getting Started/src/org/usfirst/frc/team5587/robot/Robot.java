@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5587.robot;
 
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.Guzzle;
 import org.usfirst.frc.team5587.robot.commands.locomotive.Gyrate;
@@ -45,6 +46,12 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println( "Before the beginning..." );
 		oi = new OI();
+		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
+		
+    	table.putNumber("kP", 0.0 );
+    	table.putNumber("kI", 0.0 );
+    	table.putNumber("kD", 0.0 );
+    	table.putNumber("kF", 0.0 );
 		//SmartDashboard.putNumber( "Target: ", 0.0 );
 		teleOp = new Etator();
 		//teleOp = new TeleOp( oi.driver, oi.codriver );
