@@ -15,7 +15,9 @@ public class MortarTBH extends Command {
 	private static final double GAIN = .05;
 	private static final double D_GAIN = 0.0;
 	private static final double ERROR_MARGIN = .5;
+	private static final double OUTPUT_CAP = 1.0;
 	
+	private double oldTarget;
 	private double targetRate; //The target angle for the robot to rotate.
 	private double rate; //The current Gyroscope reading
 	
@@ -38,6 +40,7 @@ public class MortarTBH extends Command {
         // eg. requires(chassis);
     	requires( Robot.mortar );
     	joey = Robot.mortar;
+    	oldTarget = target;
     	targetRate = target;
     	h0 = 0;
     }
@@ -48,8 +51,9 @@ public class MortarTBH extends Command {
     	SmartDashboard.putNumber( "GAIN: ", 0.05 );
     	SmartDashboard.putNumber( "D_Gain", 0.1 );
     	SmartDashboard.putNumber( "D2_GAIN", 0.0 );
+    	SmartDashboard.putNumber( "Target Rate: ", 0.0 );
     	
-    	output = 0;
+    	output = h0;
     	rate = joey.RPS();
     	
     	error = targetRate - rate;
@@ -59,6 +63,8 @@ public class MortarTBH extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {    	
     	rate = joey.RPS();
+    	targetRate = SmartDashboard.getNumber( "Target Rate: ", 0.0 );
+    	
     	error = targetRate - rate;
     	
     	sign = Math.signum( error );
@@ -73,15 +79,15 @@ public class MortarTBH extends Command {
     		output += SmartDashboard.getNumber( "GAIN: ", 0.05 ) * error + SmartDashboard.getNumber( "D_Gain", 0.0 ) * ( error - error1 ) + SmartDashboard.getNumber( "D2_Gain", 0.0 ) * (error - 2 * error1 + error2 );
     	}
     	
-    	if( output > .7 )
-    		output = .7;
-    	else if( output < -.7 )
-    		output = -.7;
+    	if( output > OUTPUT_CAP )
+    		output = OUTPUT_CAP;
+    	else if( output < -OUTPUT_CAP )
+    		output = -OUTPUT_CAP;
     	
     	SmartDashboard.putNumber( "Error: ", error );
     	SmartDashboard.putNumber( "Output: ", output );
     	SmartDashboard.putNumber( "H0: ", h0 );
-    	SmartDashboard.putNumber( "Joey: ", joey.RPS() );
+    	SmartDashboard.putNumber( "Joey: ", rate );
     	
     	sign0 = sign;
     	

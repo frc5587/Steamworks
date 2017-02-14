@@ -47,8 +47,6 @@ public class Gyrate extends Command {
     	loco.zeroYaw();
     	output = 0;
     	
-    	rotateAngle = SmartDashboard.getNumber( "Target: ", 0.0 );
-    	
     	yaw = loco.getYaw();
     	error = rotateAngle - yaw;
     	sign0 = Math.signum( error );
