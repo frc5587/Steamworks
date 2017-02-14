@@ -8,89 +8,107 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * The premise of the TBH (Take Back Half) loop is to adjust output based on error.
+ * h0 represents the last registered value that changed the error of the sign.
+ * Output is a value that is constantly updated based on error.
+ * Every time the loop is run, it checks the sign of the error. If the sign of the
+ * error has changed since the last time the loop was run, the output is set to the
+ * average between the last value of output and the last value of h0.
+ * If the sign of the error has not changed, the product of the gain value and the
+ * current error is added to the output.
+ * With an appropriate gain, the TBH loop is stable and will always converge on the
+ * setpoint. By adding a gain term that changes the output based on the change in
+ * error, we are able to change how quickly the loop reaches the setpoint. 
  */
 public class MortarTBH extends Command {
 	
-	private static final double GAIN = .05;
-	private static final double D_GAIN = 0.0;
-	private static final double ERROR_MARGIN = .5;
-	private static final double OUTPUT_CAP = 1.0;
+	private static final double GAIN = .05; //A constant that needs to be tested
+	private static final double D_GAIN = 0.0; //A constant that needs to be tested
+	private static final double D2_GAIN = 0.0;
+	private static final double ERROR_MARGIN = .5; //How much we're willing to be off by.
+	private static final double OUTPUT_CAP = 1.0; //The maximum power we want the motor to run (Will probably stay at 1)
 	
-	private double oldTarget;
-	private double targetRate; //The target angle for the robot to rotate.
-	private double rate; //The current Gyroscope reading
+	private double targetRate; //The target rate for the flywheel to spin
+	private double rate; //The current encoder rate reading.
 	
 	private double output; //The PWM output
 	private double h0; //The average between the last value of h0 and the last output value that caused a change in the sign of the error
 	
-	private double error, //The current error
-					error1,
-					error2,
-					error3,
-					error4; //The error from the last instance
+	//Errors.
+	private double error, //The current error. Used to calculate change in output based on current error.
+					error1, //The error from the last instance of the loop. Used to calculate change in output based on derivative of error.
+					error2, //The error from two loop instances ago. May be used to calculate change in output based on second derivative of error.
+					error3, //The error from three loop instances ago
+					error4; //The error from four loop instances ago
 	
 	private double sign; //The sign of the current error
 	private double sign0; //The sign of the last error.
 	
 	private Mortar joey;
 
-    public MortarTBH( double target ) {
+    public MortarTBH( double target )
+    {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.mortar );
     	joey = Robot.mortar;
-    	oldTarget = target;
     	targetRate = target;
-    	h0 = 0;
+    	h0 = 0.0; //Setting h0 equal to the output we want to start at.
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize()
+    {
+    	SmartDashboard.putNumber( "GAIN: ", GAIN ); //Change this value on the SmartDashboard to tune the loop based on current error
+    	SmartDashboard.putNumber( "D_Gain", D_GAIN ); //Change this value on the SmartDashboard to tune the loop based on derivative of error
+    	SmartDashboard.putNumber( "D2_GAIN", D2_GAIN ); //Change this value on the SmartDashboard to tune the loop based on the second derivative of error
+    	SmartDashboard.putNumber( "Target Rate: ", targetRate ); //Change this value on the SmartDashboard to change what your target rate is.
     	
-    	SmartDashboard.putNumber( "GAIN: ", 0.05 );
-    	SmartDashboard.putNumber( "D_Gain", 0.1 );
-    	SmartDashboard.putNumber( "D2_GAIN", 0.0 );
-    	SmartDashboard.putNumber( "Target Rate: ", 0.0 );
+    	output = h0; //Set output equal to whatever we set our initial output equal to.
+    	rate = joey.rps(); //Read the encoder value from Joey
     	
-    	output = h0;
-    	rate = joey.RPS();
-    	
-    	error = targetRate - rate;
-    	sign0 = Math.signum( error );
+    	error = targetRate - rate; //Get the first error
+    	sign0 = Math.signum( error ); //Get the sign of the first error.
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {    	
-    	rate = joey.RPS();
-    	targetRate = SmartDashboard.getNumber( "Target Rate: ", 0.0 );
+    protected void execute()
+    {    	
+    	rate = joey.rps(); //Update the encoder rate
+    	targetRate = SmartDashboard.getNumber( "Target Rate: ", targetRate ); //Update the target rate, if necessary.
     	
-    	error = targetRate - rate;
+    	error = targetRate - rate; //Update the current error value
     	
-    	sign = Math.signum( error );
+    	sign = Math.signum( error ); //Get the sign of the current error.
     	
-    	if( sign == sign0 * -1.0 )
+    	if( sign == sign0 * -1.0 ) //If the sign of the error has changed
     	{
-    		h0 = ( output + h0 ) / 2.0;
-    		output = h0;
+    		h0 = ( output + h0 ) / 2.0; //Set h0 equal to the average of the last output and the last value of h0 (here's the take back half)
+    		output = h0; //Set output equal to your new h0.
     	}
-    	else
+    	else //Else, change the current output.
     	{
-    		output += SmartDashboard.getNumber( "GAIN: ", 0.05 ) * error + SmartDashboard.getNumber( "D_Gain", 0.0 ) * ( error - error1 ) + SmartDashboard.getNumber( "D2_Gain", 0.0 ) * (error - 2 * error1 + error2 );
+    		output += SmartDashboard.getNumber( "GAIN: ", 0.05 ) * error //Add to the output value the product of the gain and the current error
+    				+ SmartDashboard.getNumber( "D_Gain", 0.0 ) * ( error - error1 ) //Add to the output value the product of the derivative of error and the derivative gain
+    				+ SmartDashboard.getNumber( "D2_Gain", 0.0 ) * (error - 2 * error1 + error2 ); //Add to the output value the product of the second derivative of error and the second derivative gain
     	}
     	
+    	//Limiting the output to what is allowed
     	if( output > OUTPUT_CAP )
     		output = OUTPUT_CAP;
     	else if( output < -OUTPUT_CAP )
     		output = -OUTPUT_CAP;
     	
+    	//Print values to SmartDashboard
     	SmartDashboard.putNumber( "Error: ", error );
     	SmartDashboard.putNumber( "Output: ", output );
     	SmartDashboard.putNumber( "H0: ", h0 );
     	SmartDashboard.putNumber( "Joey: ", rate );
     	
+    	//Update sign0 to be the current value of sign
     	sign0 = sign;
     	
+    	//Update all the cached errors
     	error4 = error3;
     	error3 = error2;
     	error2 = error1;
@@ -99,19 +117,30 @@ public class MortarTBH extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean isFinished()
+    {
         return false;
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end()
+    {
+    	joey.spin( 0.0 );
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void interrupted()
+    {
+    	end();
     }   
-     
+    
+    /**
+     * Checks to see if the last five registered errors are within the acceptable margin of error.
+     * This is to allow the loop to find a range it likes to settle in.
+     * 
+     * @return Whether the last five registered errors are within the acceptable margin of error.
+     */
     private boolean withinMargin()
     {
     	return Math.abs( error4 ) < ERROR_MARGIN 

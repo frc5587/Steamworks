@@ -68,9 +68,14 @@ public class Mortar extends Subsystem {
 		flywheel.set( speed );
 	}
 	
-	public double RPS()
+	public double rps()
 	{
 		return joey.getRate();
+	}
+	
+	public double rpsCAN()
+	{
+		return flywheel.getSpeed();
 	}
 	
     public void initDefaultCommand() {
