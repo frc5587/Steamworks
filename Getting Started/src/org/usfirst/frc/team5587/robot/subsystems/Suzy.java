@@ -7,7 +7,6 @@ import org.usfirst.frc.team5587.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -32,7 +31,6 @@ public class Suzy extends PIDSubsystem implements PIDOutput
 	
 	private NetworkTable table;
 	
-	PIDController turnController;
 	private double rotateToAngleRate;
     private boolean usingPID;
     
@@ -56,14 +54,14 @@ public class Suzy extends PIDSubsystem implements PIDOutput
 		//Begin 614 pid code
 		
 		//turnController.setInputRange(0.0f,  360.0f);
-		turnController.setOutputRange(-1.0, 1.0);
-        turnController.setAbsoluteTolerance(kToleranceDegrees);
+		setOutputRange(-1.0, 1.0);
+        setAbsoluteTolerance(kToleranceDegrees);
         //turnController.setContinuous(true);
 
         /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
         /* tuning of the Turn Controller's P, I and D coefficients.            */
         /* Typically, only the P value needs to be modified.                   */
-        LiveWindow.addActuator("DriveSystem", "RotateController", turnController);
+        LiveWindow.addActuator("Turntable", "RotateController", getPIDController());
 	}
 	
 	/*
@@ -97,9 +95,9 @@ public class Suzy extends PIDSubsystem implements PIDOutput
 	public void setUsingPID(boolean set) {
 		usingPID = set;
 		if(set == true) {
-			turnController.enable();
+			enable();
 		} else {
-			turnController.disable();
+			disable();
 		}
 	}
 	public boolean getUsingPID() {
@@ -107,9 +105,6 @@ public class Suzy extends PIDSubsystem implements PIDOutput
 	}
 	public double getRotateRate() {
 		return rotateToAngleRate;
-	}
-	public PIDController getController() {
-		return turnController;
 	}
 
 	public void pidWrite(double output) {
