@@ -2,9 +2,6 @@ package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
-import org.usfirst.frc.team5587.robot.commands.Guzzle;
-import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
-import org.usfirst.frc.team5587.robot.commands.shooter.turntable.Etator;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
@@ -13,10 +10,10 @@ import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -37,6 +34,7 @@ public class Robot extends IterativeRobot {
 	private OI oi;
 	private Command auto;
 	private Command teleOp;
+	SendableChooser<Command> autoChooser = new SendableChooser<>();
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -44,26 +42,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		System.out.println( "Before the beginning..." );
 		oi = new OI();
-		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
 		
+		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
     	table.putNumber("kP", 0.0 );
     	table.putNumber("kI", 0.0 );
     	table.putNumber("kD", 0.0 );
     	table.putNumber("kF", 0.0 );
-		//SmartDashboard.putNumber( "Target: ", 0.0 );
-		teleOp = new Etator();
-		//teleOp = new TeleOp( oi.driver, oi.codriver );
-		System.out.println( "In the beginning...");
+    	table.putNumber("Relative PID Angle", 0.0 );
+    	
+		teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
 
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
-
-		auto = new Gyrate( SmartDashboard.getNumber( "Target: ", 0.0 ) ); 
 		if( auto != null )
 			auto.start();
 	}
@@ -82,8 +76,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopInit() {
-		SmartDashboard.putNumber( "Manual Control", 0.0 );
-		
 		if( auto != null)
 			auto.cancel();
 		
@@ -97,10 +89,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		//SmartDashboard.putNumber( "Gyro", loco.getYaw() );
-		//SmartDashboard.putNumber( "Throttle", oi.driver.getThrottle() * -180.0 );
-		//SmartDashboard.putNumber( "Error", loco.gyroPID.getAvgError() );
-		//SmartDashboard.putNumber( "Motor Output", loco.leftFrontMotor.get() );
 	}
 
 	/**
@@ -110,20 +98,12 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 		SmartDashboard.putNumber( "Gyro", loco.getYaw() );
-		//SmartDashboard.putNumber( "Error", loco.gyroPID.getAvgError() );
 	}
 	
 	@Override
 	public void disabledInit()
 	{
-//	{
-//
-//		NetworkTable table = NetworkTable.getTable( "PID Tuning" ); System.out.println( "Robot 55" );
-//    	table.putNumber("kP", 0.0 ); System.out.println( "Robot 56" );
-//    	table.putNumber("kI", 0.0 ); System.out.println( "Robot 57" );
-//    	table.putNumber("kD", 0.0 ); System.out.println( "Robot 58" );
-//    	table.putNumber("kF", 0.0 ); System.out.println( "Robot 59" );
-//		table.putNumber("Relative PID Angle", 0.0 ); System.out.println( "Robot 60" );
+		
 	}
 	
 	@Override

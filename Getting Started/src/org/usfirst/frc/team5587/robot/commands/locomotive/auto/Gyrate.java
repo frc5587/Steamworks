@@ -46,7 +46,9 @@ public class Gyrate extends Command {
     protected void initialize() {
     	loco.zeroYaw();
     	output = 0;
-
+    	
+    	rotateAngle = SmartDashboard.getNumber( "Target: ", 0.0 );
+    	
     	yaw = loco.getYaw();
     	error = rotateAngle - yaw;
     	sign0 = Math.signum( error );
@@ -94,7 +96,6 @@ public class Gyrate extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println( "Finished bitch! ");
     }
 
     // Called when another command which requires one or more of the same

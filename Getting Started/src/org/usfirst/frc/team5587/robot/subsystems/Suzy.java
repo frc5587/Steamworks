@@ -74,7 +74,7 @@ public class Suzy extends Subsystem implements PIDOutput
         LiveWindow.addActuator("DriveSystem", "RotateController", turnController);
 	}
 	
-	/*
+	/**
 	 * Brings robot into motion based on numerical input
 	 * 
 	 * @param pwr The power level on which to run the drive train motors ( -1 <= pwr <= 1 )
@@ -83,7 +83,8 @@ public class Suzy extends Subsystem implements PIDOutput
 	{
 		motor.set( -pwr );
 	}
-	public double getEncAngle( )
+	
+	public double getEncAngle()
 	{
 		return encoder.getDistance();
 	}
@@ -102,7 +103,8 @@ public class Suzy extends Subsystem implements PIDOutput
 	{
 		return onTarget;
 	}
-	public void setUsingPID(boolean set) {
+	public void setUsingPID(boolean set)
+	{
 		usingPID = set;
 		if(set == true) {
 			turnController.enable();
@@ -110,20 +112,29 @@ public class Suzy extends Subsystem implements PIDOutput
 			turnController.disable();
 		}
 	}
-	public boolean getUsingPID() {
+	
+	public boolean getUsingPID()
+	{
 		return usingPID;
 	}
-	public double getRotateRate() {
+	
+	public double getRotateRate()
+	{
 		return rotateToAngleRate;
 	}
-	public PIDController getController() {
+	
+	public PIDController getController()
+	{
 		return turnController;
 	}
 
-	public void pidWrite(double output) {
+	public void pidWrite(double output)
+	{
 		rotateToAngleRate = output;
 	}
-	public void zeroEnc(){
+	
+	public void zeroEnc()
+	{
 		encoder.reset();
 	}
 	
@@ -155,6 +166,18 @@ public class Suzy extends Subsystem implements PIDOutput
 		updateF();
 		
 		turnController.setPID( kP, kI, kD, kF );
+	}
+
+	public void setTargetAngle( double setpoint )
+	{
+		turnController.setSetpoint( setpoint );
+	}
+	
+	public void setSetpointRelative( double del )
+	{
+		double setpoint = del + encoder.getDistance();
+		
+		turnController.setSetpoint( setpoint );
 	}
 	
     public void initDefaultCommand()

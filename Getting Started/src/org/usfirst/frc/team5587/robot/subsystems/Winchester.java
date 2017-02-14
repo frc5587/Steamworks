@@ -20,14 +20,16 @@ public class Winchester extends Subsystem{
 	private final VictorSP winchMotor = new VictorSP(RobotMap.WINCH_MOTOR);
 	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
-	public Winchester() {
-		System.out.println( "Winchester");
+	public Winchester(){	
     }
-	public void set(double output){
+	
+	public void set(double output)
+	{
 		winchMotor.set( output );
 	}
     
-    public double getCurrent(){
+    public double getCurrent()
+    {
     	return pdp.getCurrent( RobotMap.WINCH_PDP_PORT );
     }
     
