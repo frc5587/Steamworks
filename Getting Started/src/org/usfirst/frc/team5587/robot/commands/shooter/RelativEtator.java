@@ -40,7 +40,7 @@ public class RelativEtator extends Command {
     	suzyQ.zeroEnc();
     	suzyQ.setUsingPID(true);
     	
-    	angle = suzyQ.getEncAngle();
+    	angle = suzyQ.returnPIDInput();
     	rotateAngle = angle + table2.getNumber( "Relative PID Angle", 300.0 );
 
     	suzyQ.getController().setSetpoint( rotateAngle );
@@ -48,8 +48,7 @@ public class RelativEtator extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	suzyQ.set(suzyQ.getRotateRate());
-    	SmartDashboard.putNumber("encoder val", suzyQ.getEncAngle());
+    	SmartDashboard.putNumber("encoder val", suzyQ.returnPIDInput());
     }
 
     // Make this return true when this Command no longer needs to run execute()

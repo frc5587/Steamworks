@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * This subsystem contains the motors in the drive train
  */
-public class Suzy extends Subsystem implements PIDOutput
+public class Suzy extends PIDSubsystem implements PIDOutput
 {
     
     // Put methods for controlling this subsystem
@@ -36,36 +36,27 @@ public class Suzy extends Subsystem implements PIDOutput
 	private double rotateToAngleRate;
     private boolean usingPID;
     
-	private double kP = 0.005;
-	private double kI = 0.0;
-	private double kD = 0.0;
-	private double kF = 0.0;
+	private static double kP = 0.02;
+	private static double kI = 0.0;
+	private static double kD = 0.0;
 	private static final double kToleranceDegrees = 1.0f;
 	
-	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
 	public Suzy()
 	{
+		super("Suzy",kP, kI, kD);
 		motor = new Spark( RobotMap.SUZY_MOTOR );
 		encoder = new Encoder( RobotMap.SUZY_ENC_A, RobotMap.SUZY_ENC_B, false, EncodingType.k4X );
 		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
 		encoder.setReverseDirection( true );
-		
-		table = NetworkTable.getTable( "PID Tuning" );
-		
-    	kP = table.getNumber("kP", kP );
-    	kI = table.getNumber("kI", kI );
-    	kD = table.getNumber("kD", kD );
-    	kF = table.getNumber("kF", kF );
-    	
 		gyro = new ADXRS450Gyro();
 		gyro.startThread();
 		
 		onTarget = false;
 		
 		//Begin 614 pid code
-		turnController = new PIDController(kP, kI, kD, kF, encoder, this);
+		
 		//turnController.setInputRange(0.0f,  360.0f);
-		turnController.setOutputRange(-0.4, 0.4);
+		turnController.setOutputRange(-1.0, 1.0);
         turnController.setAbsoluteTolerance(kToleranceDegrees);
         //turnController.setContinuous(true);
 
@@ -80,18 +71,18 @@ public class Suzy extends Subsystem implements PIDOutput
 	 * 
 	 * @param pwr The power level on which to run the drive train motors ( -1 <= pwr <= 1 )
 	 */
-	public void set( double pwr)
+	public void usePIDOutput( double pwr)
 	{
-		motor.set( -pwr );
+		motor.pidWrite( -pwr );
 	}
-	public double getEncAngle( )
+	public double returnPIDInput( )
 	{
 		return encoder.getDistance();
 	}
 	
 	public void stop()
 	{
-		set( 0.0 );
+		setUsingPID(false);
 	}
 	
 	public void setOnTarget( boolean b )
@@ -128,37 +119,10 @@ public class Suzy extends Subsystem implements PIDOutput
 		encoder.reset();
 	}
 	
-	public void updateP()
-	{
-    	kP = table.getNumber("kP", kP );
-	}
-	
-	public void updateI()
-	{
-    	kI = table.getNumber("kI", kI );
-	}
-	
-	public void updateD()
-	{
-    	kD = table.getNumber("kD", kD );
-	}
-	
-	public void updateF()
-	{
-    	kF = table.getNumber("kF", kF );
-	}
-	
-	public void updatePIDF()
-	{
-		updateP();
-		updateI();
-		updateD();
-		updateF();
-	}
-	
     public void initDefaultCommand()
     {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+
 }
