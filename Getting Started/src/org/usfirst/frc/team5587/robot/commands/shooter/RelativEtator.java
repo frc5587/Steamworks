@@ -40,10 +40,8 @@ public class RelativEtator extends Command {
     	suzyQ.zeroEnc();
     	suzyQ.setUsingPID(true);
     	
-    	angle = suzyQ.returnPIDInput();
-    	rotateAngle = angle + table2.getNumber( "Relative PID Angle", 300.0 );
 
-    	suzyQ.setSetpoint( rotateAngle );
+    	suzyQ.setSetpointRelative( table2.getNumber( "Relative PID Angle", 300.0 ) );
     }
     
     // Called repeatedly when this Command is scheduled to run

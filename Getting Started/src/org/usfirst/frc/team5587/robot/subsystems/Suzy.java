@@ -54,7 +54,7 @@ public class Suzy extends PIDSubsystem implements PIDOutput
 		//Begin 614 pid code
 		
 		//turnController.setInputRange(0.0f,  360.0f);
-		setOutputRange(-1.0, 1.0);
+		//setOutputRange(-1.0, 1.0);
         setAbsoluteTolerance(kToleranceDegrees);
         //turnController.setContinuous(true);
 
