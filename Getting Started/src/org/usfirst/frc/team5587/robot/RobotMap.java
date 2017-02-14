@@ -40,6 +40,7 @@ public class RobotMap {
 	
 	//CAN
 	public static int FLYWHEEL_MOTOR_CAN_ID = 1;
+	public static int TURNTABLE_MOTOR_CAN_ID = 2;
 	
 	//MXP
 	public static Port NAVX_MXP = SPI.Port.kMXP;

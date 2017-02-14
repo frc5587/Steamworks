@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5587.robot.commands.shooter.mortar;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.Mortar;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,15 +14,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CANControlledMortarSpin extends Command {
 
 	private Joystick stick;
-	private Mortar mortar;
+	private CANMortar mortar;
 	
     public CANControlledMortarSpin( Joystick j ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-		requires( Robot.mortar );
+		requires( Robot.mortarCAN );
 		
 		stick = j;
-		mortar = Robot.mortar;
+		mortar = Robot.mortarCAN;
 		
 		SmartDashboard.putNumber( "CAN Target Power Level: ", 0.0 );
     }
@@ -35,8 +36,8 @@ public class CANControlledMortarSpin extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-    	mortar.spinCAN( SmartDashboard.getNumber( "CAN Target Power Level: ", 0.0 ) );
-    	SmartDashboard.putNumber( "Encoder RPS", mortar.rpsCAN() );
+    	mortar.spin( SmartDashboard.getNumber( "CAN Target Power Level: ", 0.0 ) );
+    	SmartDashboard.putNumber( "Encoder RPS", mortar.rps() );
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

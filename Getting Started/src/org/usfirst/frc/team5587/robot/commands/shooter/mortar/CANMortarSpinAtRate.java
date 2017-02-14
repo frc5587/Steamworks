@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5587.robot.commands.shooter.mortar;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.Mortar;
+import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class CANMortarSpinAtRate extends Command {
 
-	private Mortar mortar;
+	private CANMortar mortar;
 	private double targetRate;
 	
     public CANMortarSpinAtRate() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.mortar );
-    	mortar = Robot.mortar;
+    	requires( Robot.mortarCAN );
+    	mortar = Robot.mortarCAN;
     	
     	SmartDashboard.putNumber( "CAN Target Rate: ", 0.0 );
     }

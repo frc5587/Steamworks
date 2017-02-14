@@ -1,9 +1,8 @@
 package org.usfirst.frc.team5587.robot.commands.shooter.turntable;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
-
-import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -12,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Etator extends Command {
+public class CANEtator extends Command {
 	
 	private static final String NETWORKTABLES_TABLE_NAME = "/GRIP/postprocessed";
 	private static final String NETWORKTABLES_ANGLE_NAME = "x angles";
@@ -21,47 +20,47 @@ public class Etator extends Command {
 	
 	private double [] angles;
 	private double angle; //The current encoder angle reading
-	private Suzy suzyQ;
+	private CANSuzy suzyQ;
 	
-    public Etator() {
+    public CANEtator()
+    {
     	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.suzyQ );
-    	suzyQ = Robot.suzyQ;
+    	requires( Robot.suzyCAN );
+    	suzyQ = Robot.suzyCAN;
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize()
+    {
     	table2 = NetworkTable.getTable( "angle thingy" );
     	table2.putNumber("PID Angle", 0.0 );
-    	
-    	suzyQ.zeroEnc();
-    	suzyQ.setUsingPID(true);
-    	suzyQ.updatePIDF();
+    	suzyQ.enable();
     }
     
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	suzyQ.setTargetAngle(table2.getNumber("PID Angle", 3000));
-    	suzyQ.set( suzyQ.getRotateRate() );
+    protected void execute()
+    {
+    	suzyQ.setPosition( table2.getNumber( "PID Angle", 0.0 ) );
     	
-    	SmartDashboard.putNumber( "encoder val", suzyQ.getEncAngle() );
+    	SmartDashboard.putNumber( "encoder val", suzyQ.getPosition() );//suzyQ.getEncAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished(){
+    protected boolean isFinished()
+    {
     	return false;
     }
 
     // Called once after isFinished returns true
-    protected void end() {
-    	suzyQ.stop();
+    protected void end()
+    {
+    	suzyQ.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	suzyQ.setUsingPID(false);
-    	suzyQ.stop();
+    	suzyQ.disable();
     }
 }
