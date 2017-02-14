@@ -1,44 +1,50 @@
-package org.usfirst.frc.team5587.robot.commands.shooter;
+package org.usfirst.frc.team5587.robot.commands.locomotive.auto;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * 
+ *
  */
-public class MortarSpin extends Command {
+public class DutifulProgression extends Command {
 
-	private Joystick stick;
+	private double targetDistance;
+	private Locomotive loco;
 	
-    public MortarSpin( Joystick j ) {
+	/**
+	 * DutifulProgression takes the robot along a straight line a given distance.
+	 * 
+	 * @param distance The distance, in feet, we want the robot to travel.
+	 */
+    public DutifulProgression( double distance ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.mortar );
-    	
-    	stick = j;
+    	requires( Robot.loco );
+    	loco = Robot.loco;
+    	targetDistance = distance;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	loco.resetDistance();
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.mortar.spin( SmartDashboard.getNumber( "Target: ", 0.0 ) );
-    	SmartDashboard.putNumber( "Encoder RPM", Robot.mortar.RPS() );
+    protected void execute()
+    {
+    	loco.proceedForwards( 0.5 );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return loco.getDistance() >= targetDistance;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	loco.halt();
     }
 
     // Called when another command which requires one or more of the same

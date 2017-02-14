@@ -3,6 +3,7 @@ package org.usfirst.frc.team5587.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -42,13 +43,17 @@ public class Locomotive extends Subsystem {
     private RobotDrive train;
 
     //The PID controller for distance
-    private DualPIDController distPID;
+    private DualPIDController tankPID;
+    private PIDController drivePID;
    
     //PID constants
-    private static double [] leftDistConstants = { 0.1, 0.0, 0.0 }, //TODO: Tune PID Constants
-    						 rightDistConstants = { 0.1, 0.0, 0.0 }; //TODO: Tune PID Constants
+    private static final double [] leftDistConstants = { 0.1, 0.0, 0.0 }, //TODO: Tune PID Constants
+    						 	   rightDistConstants = { 0.1, 0.0, 0.0 }; //TODO: Tune PID Constants
+    private static final double kP = 0.1,
+    							kI = 0.0,
+    							kD = 0.0;
     
-    public double leftRate, rightRate;
+    public double leftRate, rightRate, driveRate;
     
     /**
      * Drivetrain constructor.
@@ -74,6 +79,9 @@ public class Locomotive extends Subsystem {
         rightEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
         leftEncoder.setReverseDirection( true );
         
+        leftEncoder.setPIDSourceType( PIDSourceType.kDisplacement );
+        rightEncoder.setPIDSourceType( PIDSourceType.kDisplacement );
+        
         //Setup Gyroscope
         try {
 			/***********************************************************************
@@ -92,16 +100,20 @@ public class Locomotive extends Subsystem {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
 
-        LiveWindow.addSensor( "GyroSensor", "Gyroscope", gyro );
+        LiveWindow.addSensor( "Locomotive", "Gyroscope", gyro );
+        LiveWindow.addSensor( "Locomotive", "Left Encoder", leftEncoder );
+        LiveWindow.addSensor( "Locomotive", "Right Encoder", rightEncoder );
         
+        drivePID = new PIDController( kP, kI, kD, driveSource, driveOutput );
+        drivePID.setContinuous( false );
+        drivePID.setOutputRange( -AUTO_OUTPUT_LIMIT, AUTO_OUTPUT_LIMIT );
         
-        
-        distPID = new DualPIDController( leftDistConstants, rightDistConstants,
+        tankPID = new DualPIDController( leftDistConstants, rightDistConstants,
 				 leftDistSource, rightDistSource,
 				 leftOutput, rightOutput );
 
-        distPID.setOutputRange( -AUTO_OUTPUT_LIMIT, AUTO_OUTPUT_LIMIT );
-        distPID.setContinuous( false );
+        tankPID.setOutputRange( -AUTO_OUTPUT_LIMIT, AUTO_OUTPUT_LIMIT );
+        tankPID.setContinuous( false );
 
         leftRate = 0.0;
         rightRate = 0.0;
@@ -126,20 +138,24 @@ public class Locomotive extends Subsystem {
     }
 
     /**
-     * Span Distance tells the robot to go a certain distance in a straight line.
-     * @param arcLength The distance traveled by the center of the robot across the curve.
-     * @param angle The angle, in radians, that the robot turns from the beginning to the end of the curve.
+     * 
      */
     public void tankDrive( double left, double right )
     {
     	train.tankDrive( left, right );
     }
     
-    public void proceedForwards()
+    /**
+     * 
+     */
+    public void proceedForwards( double speed )
     {
-    	train.drive( AUTO_SPEED_LIMIT, 0.0 );
+    	train.drive( speed, 0.0 );
     }
     
+    /**
+     * 
+     */
     public void halt()
     {
     	train.arcadeDrive( 0.0, 0.0 );
@@ -151,6 +167,20 @@ public class Locomotive extends Subsystem {
     public void rotate( double power )
     {
     	train.arcadeDrive( 0.0, power );
+    }
+    
+    /**
+     * 
+     * @param distance
+     */
+    public void setTankDistance( double distance )
+    {
+    	tankPID.setSetpoint( distance );
+    }
+    
+    public void setDriveDistance( double distance )
+    {
+    	drivePID.setSetpoint( distance );
     }
     
     /**
@@ -176,20 +206,31 @@ public class Locomotive extends Subsystem {
         rightEncoder.reset();
     }
     
-    public void enableDistance()
+    public void enableTankDistance()
     {
-    	distPID.setPIDSourceType( PIDSourceType.kDisplacement );
-    	distPID.enable();
+    	tankPID.setPIDSourceType( PIDSourceType.kDisplacement );
+    	tankPID.enable();
     }
     
-    public void disableDistance()
+    public void enableDriveDistance()
     {
-    	distPID.disable();
+    	drivePID.enable();
     }
     
-    public boolean distanceOnTarget()
+    public void disablePID()
     {
-    	return distPID.onTarget();
+    	tankPID.disable();
+    	drivePID.disable();
+    }
+    
+    public boolean driveOnTarget()
+    {
+    	return drivePID.onTarget();
+    }
+    
+    public boolean tankOnTarget()
+    {
+    	return tankPID.onTarget();
     }
     
     public double getYaw()
@@ -262,8 +303,7 @@ public class Locomotive extends Subsystem {
     {
     	public void pidWrite( double output )
     	{
-    		leftFrontMotor.set( output );
-    		leftRearMotor.set( output );
+    		leftRate = output;
     	}
     };
     
@@ -274,8 +314,38 @@ public class Locomotive extends Subsystem {
     {
     	public void pidWrite( double output )
     	{
-    		rightFrontMotor.set( output );
-    		rightRearMotor.set( output );
+    		rightRate = output;
     	}
+    };
+    
+    private final PIDSource driveSource = new PIDSource()
+    {
+		@Override
+		public void setPIDSourceType(PIDSourceType pidSource) {
+			// TODO Auto-generated method stub
+			leftEncoder.setPIDSourceType( pidSource );
+			rightEncoder.setPIDSourceType( pidSource );
+		}
+
+		@Override
+		public PIDSourceType getPIDSourceType() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public double pidGet() {
+			// TODO Auto-generated method stub
+			return getDistance();
+		}	 
+    };
+    
+    private final PIDOutput driveOutput = new PIDOutput()
+    {
+		@Override
+		public void pidWrite(double output) {
+			// TODO Auto-generated method stub
+			driveRate = output;
+		}
     };
 }

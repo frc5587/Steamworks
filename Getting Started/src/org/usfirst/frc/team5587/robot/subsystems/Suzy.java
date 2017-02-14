@@ -40,7 +40,7 @@ public class Suzy extends Subsystem implements PIDOutput
 	private double kI = 0.0;
 	private double kD = 0.0;
 	private double kF = 0.0;
-	private static final double kToleranceDegrees = 1.0f;
+	private static final double kToleranceDegrees = 10.0f;
 	
 	//Creates a new DriveTrain object and initializes the RobotDrive driveTrain 
 	public Suzy()
@@ -52,10 +52,10 @@ public class Suzy extends Subsystem implements PIDOutput
 		
 		table = NetworkTable.getTable( "PID Tuning" );
 		
-    	kP = table.getNumber("kP", kP );
-    	kI = table.getNumber("kI", kI );
-    	kD = table.getNumber("kD", kD );
-    	kF = table.getNumber("kF", kF );
+    	kP = table.getNumber("kP", 0.0 );
+    	kI = table.getNumber("kI", 0.0 );
+    	kD = table.getNumber("kD", 0.0 );
+    	kF = table.getNumber("kF", 0.0 );
     	
 		gyro = new ADXRS450Gyro();
 		gyro.startThread();
@@ -65,7 +65,7 @@ public class Suzy extends Subsystem implements PIDOutput
 		//Begin 614 pid code
 		turnController = new PIDController(kP, kI, kD, kF, encoder, this);
 		//turnController.setInputRange(0.0f,  360.0f);
-		turnController.setOutputRange(-0.4, 0.4);
+		turnController.setOutputRange( -1.0, 1.0 );
         turnController.setAbsoluteTolerance(kToleranceDegrees);
         //turnController.setContinuous(true);
 

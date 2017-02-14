@@ -3,7 +3,7 @@ package org.usfirst.frc.team5587.robot.commandgroups;
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.commands.TwinkleTwinkle;
 import org.usfirst.frc.team5587.robot.commands.locomotive.ForcedMarch;
-import org.usfirst.frc.team5587.robot.commands.shooter.MortarTBH;
+import org.usfirst.frc.team5587.robot.commands.shooter.mortar.MortarTBH;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -28,7 +28,7 @@ public class TeleOp extends CommandGroup {
     	requires( Robot.loco );
     	
     	addParallel( new ForcedMarch( driver ) );
-    	//addParallel( new MortarTBH( 15.0 ) );
+    	addParallel( new MortarTBH( 15.0 ) );
     	addSequential( new TwinkleTwinkle() );
 
         // A command group will require all of the subsystems that each member

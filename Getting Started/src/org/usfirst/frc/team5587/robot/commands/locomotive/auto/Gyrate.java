@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5587.robot.commands.locomotive;
+package org.usfirst.frc.team5587.robot.commands.locomotive.auto;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;

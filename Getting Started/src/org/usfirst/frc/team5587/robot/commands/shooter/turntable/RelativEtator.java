@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5587.robot.commands.shooter;
+package org.usfirst.frc.team5587.robot.commands.shooter.turntable;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;

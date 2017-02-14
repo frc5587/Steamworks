@@ -1,4 +1,4 @@
-package org.usfirst.frc.team5587.robot.commands.shooter;
+package org.usfirst.frc.team5587.robot.commands.shooter.turntable;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
@@ -52,7 +52,6 @@ public class Etator extends Command {
         // eg. requires(chassis);
     	requires( Robot.suzyQ );
     	suzyQ = Robot.suzyQ;
-    	counter = 0;
 //    	h0 = 0;
     }
 
@@ -74,6 +73,7 @@ public class Etator extends Command {
 //    	SmartDashboard.putNumber("D_GAIN", D_GAIN);
     	suzyQ.zeroEnc();
     	suzyQ.setUsingPID(true);
+    	suzyQ.updatePIDF();
     	//suzyQ.getController().setSetpoint(suzyQ.getEncAngle());
     }
     

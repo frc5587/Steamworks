@@ -1,18 +1,25 @@
-package org.usfirst.frc.team5587.robot.commands;
+package org.usfirst.frc.team5587.robot.commands.shooter.mortar;
 
 import org.usfirst.frc.team5587.robot.Robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * 
  */
-public class StopClimb extends Command {
+public class MortarSpin extends Command {
 
-    public StopClimb() {
+	private Joystick stick;
+	
+    public MortarSpin( Joystick j ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.winch );
+    	requires( Robot.mortar );
+    	
+    	stick = j;
     }
 
     // Called just before this Command runs the first time
@@ -21,6 +28,8 @@ public class StopClimb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.mortar.spin( SmartDashboard.getNumber( "Target: ", 0.0 ) );
+    	SmartDashboard.putNumber( "Encoder RPM", Robot.mortar.RPS() );
     }
 
     // Make this return true when this Command no longer needs to run execute()

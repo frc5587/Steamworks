@@ -31,8 +31,8 @@ public class NetworkTable implements ITable, IRemote {
   private static String persistentFilename = "networktables.ini";
 
   private synchronized static void checkInit() {
-//    if( running )
-//    	throw new IllegalStateException( "Alex said I have to.");
+    if( running )
+    	throw new IllegalStateException( "Alex said I have to.");
   }
 
   /**

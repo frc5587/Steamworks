@@ -22,6 +22,12 @@ public class DualPIDController {
 		rightController = new PIDController( kRights[0], kRights[1], kRights[2], rightSource, rOut );
 	}
 	
+	public void setSetpoint( double setpoint )
+	{
+		setLeft( setpoint );
+		setRight( setpoint );
+	}
+	
 	public void setLeft( double setpoint )
 	{
 		leftController.setSetpoint( setpoint );

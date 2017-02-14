@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.shooter.Etator;
+import org.usfirst.frc.team5587.robot.commands.shooter.turntable.Etator;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
