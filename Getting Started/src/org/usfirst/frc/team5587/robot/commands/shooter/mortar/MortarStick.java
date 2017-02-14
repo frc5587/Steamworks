@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5587.robot.commands.shooter.mortar;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.Mortar;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class MortarStick extends Command {
 
 	private Joystick stick;
+	private Mortar mortar;
 	
     public MortarStick( Joystick j ) {
         // Use requires() here to declare subsystem dependencies
@@ -20,6 +22,7 @@ public class MortarStick extends Command {
     	requires( Robot.mortar );
     	
     	stick = j;
+    	mortar = Robot.mortar;
     }
 
     // Called just before this Command runs the first time
@@ -28,8 +31,8 @@ public class MortarStick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.mortar.spin( stick.getY() );
-    	SmartDashboard.putNumber( "Encoder RPS", Robot.mortar.rps() );
+    	mortar.spin( stick.getY() );
+    	SmartDashboard.putNumber( "Encoder RPS", mortar.rps() );
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,7 +41,9 @@ public class MortarStick extends Command {
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end()
+    {
+    	mortar.stop();
     }
 
     // Called when another command which requires one or more of the same
