@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
 import org.usfirst.frc.team5587.classes.ADXRS450Gyro;
-import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
@@ -154,6 +153,8 @@ public class Suzy extends Subsystem implements PIDOutput
 		updateI();
 		updateD();
 		updateF();
+		
+		turnController.setPID( kP, kI, kD, kF );
 	}
 	
     public void initDefaultCommand()

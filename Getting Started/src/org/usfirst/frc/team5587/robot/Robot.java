@@ -97,7 +97,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		suzyQ.updatePIDF();
 		//SmartDashboard.putNumber( "Gyro", loco.getYaw() );
 		//SmartDashboard.putNumber( "Throttle", oi.driver.getThrottle() * -180.0 );
 		//SmartDashboard.putNumber( "Error", loco.gyroPID.getAvgError() );
