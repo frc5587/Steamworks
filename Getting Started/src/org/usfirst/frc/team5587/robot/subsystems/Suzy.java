@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
 import org.usfirst.frc.team5587.classes.ADXRS450Gyro;
-import org.usfirst.frc.team5587.classes.NetworkTable;
+import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * This subsystem contains the motors in the drive train
@@ -31,11 +32,11 @@ public class Suzy extends Subsystem implements PIDOutput
 	
 	private boolean onTarget;
 	
-	private NetworkTable table;
-	
 	PIDController turnController;
 	private double rotateToAngleRate;
     private boolean usingPID;
+    
+    NetworkTable table;
     
 	private double kP = 0.005;
 	private double kI = 0.0;
@@ -51,7 +52,7 @@ public class Suzy extends Subsystem implements PIDOutput
 		encoder.setDistancePerPulse( DISTANCE_PER_PULSE );
 		encoder.setReverseDirection( true );
 		
-		table = NetworkTable.getTable( "PID Tuning" );
+		table = Robot.tables.turntablePIDTable;
 		
     	kP = table.getNumber("kP", 0.0 );
     	kI = table.getNumber("kI", 0.0 );

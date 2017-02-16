@@ -33,7 +33,7 @@ public class CANRelativEtator extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
 //    	table = NetworkTable.getTable( NETWORKTABLES_TABLE_NAME );
-    	table2 = NetworkTable.getTable( "angle thingy" );
+    	table2 = Robot.tables.turntablePIDTable;
 
     	suzyQ.setRelativePosition( SmartDashboard.getNumber( "Relative PID Angle", 300.0 ) );
     }

@@ -33,7 +33,7 @@ public class CANMortarSpinAtRate extends Command {
     protected void execute() {
     	targetRate = SmartDashboard.getNumber( "CAN Target Rate: ", 0.0 );
     	
-    	mortar.spinCAN( targetRate );
+    	mortar.spin( targetRate );
     }
 
     // Make this return true when this Command no longer needs to run execute()

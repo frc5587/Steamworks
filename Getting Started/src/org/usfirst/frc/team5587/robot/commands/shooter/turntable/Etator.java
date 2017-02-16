@@ -3,8 +3,6 @@ package org.usfirst.frc.team5587.robot.commands.shooter.turntable;
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +30,7 @@ public class Etator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	table2 = NetworkTable.getTable( "angle thingy" );
+    	table2 = Robot.tables.turntablePIDTable;
     	table2.putNumber("PID Angle", 0.0 );
     	
     	suzyQ.zeroEnc();

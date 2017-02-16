@@ -33,6 +33,11 @@ public class Mortar extends Subsystem {
 		fly.set( percent );
 	}
 	
+	public void stop()
+	{
+		spin( 0.0 );
+	}
+	
 	public double rps()
 	{
 		return joey.getRate();

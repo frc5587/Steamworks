@@ -134,7 +134,7 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	train.arcadeDrive( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
+    	train.arcadeDrive( stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
     }
 
     /**

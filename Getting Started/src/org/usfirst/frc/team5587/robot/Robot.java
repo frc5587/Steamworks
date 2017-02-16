@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5587.robot;
 
-import org.usfirst.frc.team5587.classes.NetworkTable;
+import org.usfirst.frc.team5587.classes.TableTenant;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	public static final TableTenant tables = new TableTenant();
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
 	public static final Suzy suzyQ = new Suzy();
@@ -46,7 +48,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
 		
 		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
     	table.putNumber("kP", 0.0 );
@@ -54,6 +55,8 @@ public class Robot extends IterativeRobot {
     	table.putNumber("kD", 0.0 );
     	table.putNumber("kF", 0.0 );
     	table.putNumber("Relative PID Angle", 0.0 );
+		
+    	oi = new OI();
     	
 		teleOp = new TeleOp( oi.driver, oi.codriver );
 	}

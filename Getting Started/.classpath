@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="/home/drew/Documents/CTRE/java/lib/TalonSRXLibJava.jar"/>
 	<classpathentry kind="lib" path="/home/drew/Documents/navx/roborio/java/lib/navx_frc.jar"/>
 	<classpathentry kind="var" path="navx-mxp" sourcepath="/NAVX_FRC_LIB"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -12,7 +12,6 @@
 package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commands.Guzzle;
-import org.usfirst.frc.team5587.robot.commands.shooter.turntable.Etator;
 import org.usfirst.frc.team5587.robot.commands.winchester.Climb;
 import org.usfirst.frc.team5587.robot.commands.winchester.StopClimb;
 
