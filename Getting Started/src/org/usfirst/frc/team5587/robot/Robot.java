@@ -42,15 +42,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
-		
-		NetworkTable table = NetworkTable.getTable( "PID Tuning" );
-    	table.putNumber("kP", 0.0 );
-    	table.putNumber("kI", 0.0 );
-    	table.putNumber("kD", 0.0 );
-    	table.putNumber("kF", 0.0 );
-    	table.putNumber("Relative PID Angle", 0.0 );
-		
+	public void robotInit() {		
     	oi = new OI();
     	
 		teleOp = new TeleOp( oi.driver, oi.codriver );
