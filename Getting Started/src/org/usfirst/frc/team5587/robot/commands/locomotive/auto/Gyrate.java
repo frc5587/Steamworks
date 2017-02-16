@@ -74,10 +74,6 @@ public class Gyrate extends Command {
     	else if( output < -1.0 )
     		output = -1.0;
     	
-    	SmartDashboard.putNumber( "Error: ", error );
-    	SmartDashboard.putNumber( "Output: ", output );
-    	SmartDashboard.putNumber( "H0: ", h0 );
-    	
     	sign0 = sign;
     	
     	error4 = error3;

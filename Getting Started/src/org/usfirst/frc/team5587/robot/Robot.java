@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5587.robot;
 
-import org.usfirst.frc.team5587.classes.TableTenant;
+import org.usfirst.frc.team5587.classes.IterativeRobot;
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
@@ -11,13 +12,10 @@ import org.usfirst.frc.team5587.robot.subsystems.Mortar;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,16 +25,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final TableTenant tables = new TableTenant();
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
-	public static final Suzy suzyQ = new Suzy();
 	public static final CANSuzy suzyCAN = new CANSuzy();
+	public static final Suzy suzyQ = new Suzy();
 	public static final Mortar mortar = new Mortar();
 	public static final CANMortar mortarCAN = new CANMortar();
 	public static final Winchester winch = new Winchester();
 	public static final LittleStar orion = new LittleStar();
 
+	NetworkTable table;
+	int counter;
 	private OI oi;
 	private Command auto;
 	private Command teleOp;
@@ -47,9 +46,9 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {		
+	public void robotInit() {
     	oi = new OI();
-    	
+    	table = NetworkTable.getTable( "Is This Thing On?" );
 		teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
 
@@ -77,7 +76,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		if( auto != null)
 			auto.cancel();
-		
+		counter = 0;
 		if( teleOp != null )
 			teleOp.start();
 	}
@@ -88,6 +87,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		table.putNumber( "Yes", counter );
+		counter++;
 	}
 
 	/**
@@ -96,7 +97,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		SmartDashboard.putNumber( "Gyro", loco.getYaw() );
 	}
 	
 	@Override

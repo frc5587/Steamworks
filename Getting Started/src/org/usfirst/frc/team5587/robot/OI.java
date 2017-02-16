@@ -12,7 +12,6 @@
 package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.robot.commands.Guzzle;
-import org.usfirst.frc.team5587.robot.commands.winchester.Climb;
 import org.usfirst.frc.team5587.robot.commands.winchester.StopClimb;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -71,7 +70,6 @@ public class OI
         stopClimb = new JoystickButton( driver, RobotMap.STOP_CLIMB_BUTTON );
         
         guzzle.whileHeld( new Guzzle() );
-        climb.whenPressed( new Climb());
         stopClimb.whenPressed( new StopClimb() );
 
         // SmartDashboard Buttons
