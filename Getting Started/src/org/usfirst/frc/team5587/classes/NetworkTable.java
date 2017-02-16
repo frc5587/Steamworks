@@ -566,17 +566,6 @@ public class NetworkTable implements ITable, IRemote {
 
   /**
    * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getNumber(String, double)}.
-   */
-  @Override
-  @Deprecated
-  public double getNumber(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getDouble(pathWithSep + key);
-  }
-
-  /**
-   * {@inheritDoc}
    */
   @Override
   public double getNumber(String key, double defaultValue) {
@@ -601,17 +590,6 @@ public class NetworkTable implements ITable, IRemote {
 
   /**
    * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getString(String, String)}.
-   */
-  @Override
-  @Deprecated
-  public String getString(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getString(pathWithSep + key);
-  }
-
-  /**
-   * {@inheritDoc}
    */
   @Override
   public String getString(String key, String defaultValue) {
@@ -632,17 +610,6 @@ public class NetworkTable implements ITable, IRemote {
   public boolean setDefaultBoolean(String key, boolean defaultValue) {
     return NetworkTablesJNI.setDefaultBoolean(pathWithSep + key,
                                               defaultValue);
-  }
-
-  /**
-   * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getBoolean(String, boolean)}.
-   */
-  @Override
-  @Deprecated
-  public boolean getBoolean(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getBoolean(pathWithSep + key);
   }
 
   /**
@@ -684,18 +651,7 @@ public class NetworkTable implements ITable, IRemote {
     return NetworkTablesJNI.setDefaultBooleanArray(pathWithSep + key,
                                                    toNative(defaultValue));
   }
-
-  /**
-   * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getBooleanArray(String, boolean[])}.
-   */
-  @Override
-  @Deprecated
-  public boolean[] getBooleanArray(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getBooleanArray(pathWithSep + key);
-  }
-
+  
   /**
    * {@inheritDoc}
    */
@@ -750,33 +706,10 @@ public class NetworkTable implements ITable, IRemote {
 
   /**
    * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getNumberArray(String, double[])}.
-   */
-  @Override
-  @Deprecated
-  public double[] getNumberArray(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getDoubleArray(pathWithSep + key);
-  }
-
-  /**
-   * {@inheritDoc}
    */
   @Override
   public double[] getNumberArray(String key, double[] defaultValue) {
     return NetworkTablesJNI.getDoubleArray(pathWithSep + key, defaultValue);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Double[] getNumberArray(String key, Double[] defaultValue) {
-    try {
-      return fromNative(getNumberArray(key));
-    } catch (TableKeyNotDefinedException e) {
-      return defaultValue;
-    }
   }
 
   /**
@@ -793,17 +726,6 @@ public class NetworkTable implements ITable, IRemote {
   public boolean setDefaultStringArray(String key, String[] defaultValue) {
     return NetworkTablesJNI.setDefaultStringArray(pathWithSep + key,
                                                   defaultValue);
-  }
-  
-  /**
-   * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getStringArray(String, String[])}.
-   */
-  @Override
-  @Deprecated
-  public String[] getStringArray(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getStringArray(pathWithSep + key);
   }
 
   /**
@@ -841,18 +763,7 @@ public class NetworkTable implements ITable, IRemote {
       throw new IllegalArgumentException("buffer is too small, must be at least " + len);
     return NetworkTablesJNI.putRaw(pathWithSep + key, value, len);
   }
-
-  /**
-   * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getRaw(String, byte[])}.
-   */
-  @Override
-  @Deprecated
-  public byte[] getRaw(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getRaw(pathWithSep + key);
-  }
-
+  
   /**
    * {@inheritDoc}
    */
@@ -892,35 +803,6 @@ public class NetworkTable implements ITable, IRemote {
       return NetworkTablesJNI.putStringArray(pathWithSep + key, (String[])((ArrayData)value).getDataArray());
     else
       throw new IllegalArgumentException("Value of type " + value.getClass().getName() + " cannot be put into a table");
-  }
-
-  /**
-   * {@inheritDoc}
-   * @deprecated Use get*Array functions instead.
-   */
-  @Override
-  @Deprecated
-  public void retrieveValue(String key, Object externalData) throws TableKeyNotDefinedException {
-    Object value = getValue(key);
-    if (value instanceof boolean[] && externalData instanceof BooleanArray)
-      ((ArrayData)externalData).setDataArray(fromNative((boolean[])value));
-    else if (value instanceof double[] && externalData instanceof NumberArray)
-      ((ArrayData)externalData).setDataArray(fromNative((double[])value));
-    else if (value instanceof String[] && externalData instanceof StringArray)
-      ((ArrayData)externalData).setDataArray((String[])value);
-    else
-      throw new TableKeyNotDefinedException(key);
-  }
-
-  /**
-   * {@inheritDoc}
-   * @deprecated This exception-raising method has been replaced by the
-   * default-taking method {@link #getValue(String, Object)}.
-   */
-  @Override
-  @Deprecated
-  public Object getValue(String key) throws TableKeyNotDefinedException {
-    return NetworkTablesJNI.getValue(pathWithSep + key);
   }
 
   /**
@@ -1037,71 +919,99 @@ public class NetworkTable implements ITable, IRemote {
     return NetworkTablesJNI.loadPersistent(filename);
   }
 
-  /*
-   * Deprecated Methods
-   */
+@Override
+public Object getValue(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-  /**
-   * {@inheritDoc}
-   * @deprecated Use {@link #putNumber(String, double)} instead.
-   */
-  @Override
-  @Deprecated
-  public boolean putInt(String key, int value) {
-    return putNumber(key, value);
-  }
+@Override
+public void retrieveValue(String key, Object externalValue) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	
+}
 
-  /**
-   * {@inheritDoc}
-   * @deprecated Use {@link #getNumber(String, double)} instead.
-   */
-  @Override
-  @Deprecated
-  public int getInt(String key) throws TableKeyNotDefinedException {
-    return (int)getNumber(key);
-  }
+@Override
+public double getNumber(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return 0;
+}
 
-  /**
-   * {@inheritDoc}
-   * @deprecated Use {@link #getNumber(String, double)} instead.
-   */
-  @Override
-  @Deprecated
-  public int getInt(String key, int defaultValue) throws TableKeyNotDefinedException {
-    try {
-      return (int)getNumber(key);
-    } catch (NoSuchElementException ex) {
-      return defaultValue;
-    }
-  }
+@Override
+public String getString(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-  /**
-   * {@inheritDoc}
-   * @deprecated Use {@link #putNumber(String, double)} instead.
-   */
-  @Override
-  @Deprecated
-  public boolean putDouble(String key, double value) {
-    return putNumber(key, value);
-  }
+@Override
+public boolean getBoolean(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return false;
+}
 
-  /**
-   * {@inheritDoc}
-   * @deprecated Use {@link #getNumber(String, double)} instead.
-   */
-  @Override
-  @Deprecated
-  public double getDouble(String key) throws TableKeyNotDefinedException {
-    return getNumber(key);
-  }
+@Override
+public boolean[] getBooleanArray(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-  /**
-   * {@inheritDoc}
-   * @deprecated Use {@link #getNumber(String, double)} instead.
-   */
-  @Override
-  @Deprecated
-  public double getDouble(String key, double defaultValue) {
-    return getNumber(key, defaultValue);
-  }
+@Override
+public double[] getNumberArray(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Double[] getNumberArray(String key, Double[] defaultValue) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String[] getStringArray(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public byte[] getRaw(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public boolean putInt(String key, int value) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public int getInt(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public int getInt(String key, int defaultValue) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public boolean putDouble(String key, double value) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+@Override
+public double getDouble(String key) throws TableKeyNotDefinedException {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+@Override
+public double getDouble(String key, double defaultValue) {
+	// TODO Auto-generated method stub
+	return 0;
+}
 }
