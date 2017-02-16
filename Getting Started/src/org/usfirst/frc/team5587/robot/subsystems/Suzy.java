@@ -54,6 +54,12 @@ public class Suzy extends Subsystem implements PIDOutput
 		
 		table = Robot.tables.turntablePIDTable;
 		
+    	table.putNumber("kP", 0.0 );
+    	table.putNumber("kI", 0.0 );
+    	table.putNumber("kD", 0.0 );
+    	table.putNumber("kF", 0.0 );
+    	table.putNumber("Relative PID Angle", 0.0 );
+		
     	kP = table.getNumber("kP", 0.0 );
     	kI = table.getNumber("kI", 0.0 );
     	kD = table.getNumber("kD", 0.0 );
