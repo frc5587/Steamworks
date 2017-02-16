@@ -1,11 +1,10 @@
 package org.usfirst.frc.team5587.robot.commands.shooter.turntable;
 
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
-import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**

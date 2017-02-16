@@ -3,6 +3,7 @@ package org.usfirst.frc.team5587.robot.commands.shooter.mortar;
 import org.usfirst.frc.team5587.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
@@ -17,10 +18,13 @@ public class ControlledMortarSpin extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	SmartDashboard.putNumber( "Target Power: ", 0.0 );
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.mortar.spin( SmartDashboard.getNumber( "Target Power: ", 0.0 ) );
+    	SmartDashboard.putNumber( "Encoder RPS: ", Robot.mortar.rps() );
     }
 
     // Make this return true when this Command no longer needs to run execute()
