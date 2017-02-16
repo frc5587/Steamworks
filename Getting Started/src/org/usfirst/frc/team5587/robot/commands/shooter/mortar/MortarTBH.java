@@ -59,10 +59,6 @@ public class MortarTBH extends Command {
     // Called just before this Command runs the first time
     protected void initialize()
     {
-    	SmartDashboard.putNumber( "GAIN: ", GAIN ); //Change this value on the SmartDashboard to tune the loop based on current error
-    	SmartDashboard.putNumber( "D_Gain", D_GAIN ); //Change this value on the SmartDashboard to tune the loop based on derivative of error
-    	SmartDashboard.putNumber( "D2_GAIN", D2_GAIN ); //Change this value on the SmartDashboard to tune the loop based on the second derivative of error
-    	SmartDashboard.putNumber( "Target Rate: ", targetRate ); //Change this value on the SmartDashboard to change what your target rate is.
     	
     	output = h0; //Set output equal to whatever we set our initial output equal to.
     	rate = joey.rps(); //Read the encoder value from Joey
@@ -75,7 +71,6 @@ public class MortarTBH extends Command {
     protected void execute()
     {    	
     	rate = joey.rps(); //Update the encoder rate
-    	targetRate = SmartDashboard.getNumber( "Target Rate: ", targetRate ); //Update the target rate, if necessary.
     	
     	error = targetRate - rate; //Update the current error value
     	
@@ -88,9 +83,6 @@ public class MortarTBH extends Command {
     	}
     	else //Else, change the current output.
     	{
-    		output += SmartDashboard.getNumber( "GAIN: ", 0.05 ) * error //Add to the output value the product of the gain and the current error
-    				+ SmartDashboard.getNumber( "D_Gain", 0.0 ) * ( error - error1 ) //Add to the output value the product of the derivative of error and the derivative gain
-    				+ SmartDashboard.getNumber( "D2_Gain", 0.0 ) * (error - 2 * error1 + error2 ); //Add to the output value the product of the second derivative of error and the second derivative gain
     	}
     	
     	//Limiting the output to what is allowed
@@ -99,11 +91,6 @@ public class MortarTBH extends Command {
     	else if( output < -OUTPUT_CAP )
     		output = -OUTPUT_CAP;
     	
-    	//Print values to SmartDashboard
-    	SmartDashboard.putNumber( "Error: ", error );
-    	SmartDashboard.putNumber( "Output: ", output );
-    	SmartDashboard.putNumber( "H0: ", h0 );
-    	SmartDashboard.putNumber( "Joey: ", rate );
     	
     	//Update sign0 to be the current value of sign
     	sign0 = sign;

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5587.robot;
 
-import org.usfirst.frc.team5587.classes.TableTenant;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
@@ -8,7 +7,6 @@ import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 import org.usfirst.frc.team5587.robot.subsystems.Mortar;
-import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -17,7 +15,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,10 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final TableTenant tables = new TableTenant();
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
-	public static final Suzy suzyQ = new Suzy();
 	public static final CANSuzy suzyCAN = new CANSuzy();
 	public static final Mortar mortar = new Mortar();
 	public static final CANMortar mortarCAN = new CANMortar();
@@ -104,7 +99,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		SmartDashboard.putNumber( "Gyro", loco.getYaw() );
 	}
 	
 	@Override

@@ -4,7 +4,6 @@ import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -20,7 +19,6 @@ public class CANMortarSpinAtRate extends Command {
     	requires( Robot.mortarCAN );
     	mortar = Robot.mortarCAN;
     	
-    	SmartDashboard.putNumber( "CAN Target Rate: ", 0.0 );
     }
 
     // Called just before this Command runs the first time
@@ -31,7 +29,6 @@ public class CANMortarSpinAtRate extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	targetRate = SmartDashboard.getNumber( "CAN Target Rate: ", 0.0 );
     	
     	mortar.spin( targetRate );
     }

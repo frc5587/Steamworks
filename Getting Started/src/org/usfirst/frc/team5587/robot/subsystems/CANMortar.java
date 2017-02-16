@@ -7,7 +7,6 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -45,11 +44,6 @@ public class CANMortar extends Subsystem {
 		flywheel.setI( kI );
 		flywheel.setD( kD );
 		
-		SmartDashboard.putNumber( "Flywheel P: ", kP );
-		SmartDashboard.putNumber( "Flywheel I: ", kI );
-		SmartDashboard.putNumber( "Flywheel D: ", kD );
-		SmartDashboard.putNumber( "Flywheel F: ", kF );
-		
 		flywheel.changeControlMode( TalonControlMode.Speed );
 	}
 	
@@ -80,10 +74,6 @@ public class CANMortar extends Subsystem {
 	
 	public void updatePID()
 	{
-		kP = SmartDashboard.getNumber( "Flywheel P: ", kP );
-		kI = SmartDashboard.getNumber( "Flywheel I: ", kI );
-		kD = SmartDashboard.getNumber( "Flywheel D: ", kD );
-		kF = SmartDashboard.getNumber( "Flywheel F: ", kF );
 		
 		flywheel.setP( kP );
 		flywheel.setI( kI );

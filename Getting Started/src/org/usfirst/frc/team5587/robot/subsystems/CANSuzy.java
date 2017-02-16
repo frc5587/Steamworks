@@ -7,7 +7,6 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -38,11 +37,6 @@ public class CANSuzy extends Subsystem {
 		talon.setI( kI );
 		talon.setD( kD );
 		talon.setF( kF );
-
-		SmartDashboard.putNumber( "Susan P: ", kP );
-		SmartDashboard.putNumber( "Susan I: ", kI );
-		SmartDashboard.putNumber( "Susan D: ", kD );
-		SmartDashboard.putNumber( "Susan F: ", kF );
 	}
 	
 	public void enable()
@@ -74,10 +68,6 @@ public class CANSuzy extends Subsystem {
 	
 	public void updatePID()
 	{
-		kP = SmartDashboard.getNumber( "Flywheel P: ", kP );
-		kI = SmartDashboard.getNumber( "Flywheel I: ", kI );
-		kD = SmartDashboard.getNumber( "Flywheel D: ", kD );
-		kF = SmartDashboard.getNumber( "Flywheel F: ", kF );
 		
 		talon.setP( kP );
 		talon.setI( kI );
