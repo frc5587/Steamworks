@@ -3,6 +3,7 @@ package org.usfirst.frc.team5587.robot;
 import org.usfirst.frc.team5587.classes.IterativeRobot;
 import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
+import org.usfirst.frc.team5587.robot.commands.shooter.mortar.CANMortarPID;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
 import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
@@ -49,7 +50,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
     	oi = new OI();
     	table = NetworkTable.getTable( "Is This Thing On?" );
-		teleOp = new TeleOp( oi.driver, oi.codriver );
+		teleOp = new CANMortarPID();
+    	//teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
 
 	/**

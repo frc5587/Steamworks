@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 import org.usfirst.frc.team5587.classes.DualPIDController;
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.RobotMap;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,14 +24,14 @@ import com.kauailabs.navx.frc.AHRS;
 public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
-    private static final double DISTANCE_PER_PULSE = Math.PI * 6 / 1440;
+    private static final double DISTANCE_PER_PULSE = Math.PI * 6.0 / 360.0;
     private static final double AUTO_OUTPUT_LIMIT = 0.5;
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
     private static final double Y_LIMIT = 1.0;
-    private static final double X_LIMIT = .5;
+    private static final double X_LIMIT = 1.0;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -41,6 +42,8 @@ public class Locomotive extends Subsystem {
     public AHRS gyro;
     
     private RobotDrive train;
+    
+    private NetworkTable table;
 
     //The PID controller for distance
     private DualPIDController tankPID;
@@ -117,6 +120,8 @@ public class Locomotive extends Subsystem {
 
         leftRate = 0.0;
         rightRate = 0.0;
+        
+        table = NetworkTable.getTable( "Drivetrain" );
     }
 	
     public void initDefaultCommand()
@@ -134,7 +139,7 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	train.arcadeDrive( stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
+    	train.arcadeDrive( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
     }
 
     /**
@@ -231,6 +236,14 @@ public class Locomotive extends Subsystem {
     public boolean tankOnTarget()
     {
     	return tankPID.onTarget();
+    }
+    
+    public void printEncoders()
+    {
+    	table.putNumber( "Left Distance", leftEncoder.getDistance() );
+    	table.putNumber( "Right Distance", rightEncoder.getDistance() );
+    	table.putNumber( "Left Speed", leftEncoder.getRate() );
+    	table.putNumber( "Right Speed", rightEncoder.getRate() );
     }
     
     public double getYaw()

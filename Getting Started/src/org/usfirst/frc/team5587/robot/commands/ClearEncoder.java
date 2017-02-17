@@ -1,41 +1,32 @@
-package org.usfirst.frc.team5587.robot.commands.locomotive.auto;
+package org.usfirst.frc.team5587.robot.commands;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveMarch extends Command {
+public class ClearEncoder extends Command {
 
-	private Locomotive loco;
-	private double distance;
-	
-    public DriveMarch( double dist ) {
+    public ClearEncoder() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.loco );
-    	loco = Robot.loco;
-    	distance = dist;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	loco.setDriveDistance( distance );
-    	loco.enableDriveDistance();
+    	Robot.loco.resetDistance();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	loco.proceedForwards( loco.driveRate );
-    	loco.printEncoders();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return loco.driveOnTarget();
+        return false;
     }
 
     // Called once after isFinished returns true

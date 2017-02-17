@@ -26,7 +26,7 @@ public class CANMortarPID extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	mortar.speedMode();
-    	mortar.updatePID();
+    	//mortar.updatePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,6 +35,7 @@ public class CANMortarPID extends Command {
     	
     	mortar.spin( targetRate );
     	SmartDashboard.putNumber( "Encoder RPS: ", mortar.rps() );
+    	SmartDashboard.putNumber( "Motor Output", mortar.output() );
     }
 
     // Make this return true when this Command no longer needs to run execute()

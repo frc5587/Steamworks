@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -20,11 +21,12 @@ public class CANMortar extends Subsystem {
 	private static final int GEAR_RATIO = 4;
 	private static final int FLYWHEEL_PULSE_PER_REVOLUTION = ENC_PULSE_PER_REVOLUTION * GEAR_RATIO;
 	
-	private static double kF = 0.1097,
-						  		kP = .22,
+	private static double kF = 12.0,
+						  		kP = 0.0,
 								kI = 0.0,
 								kD = 0.0;
 								
+	private NetworkTable table;
 	
 	private CANTalon flywheel;
 	
@@ -37,6 +39,13 @@ public class CANMortar extends Subsystem {
 		
 		flywheel.configNominalOutputVoltage( +0.0f, -0.0f );
 		flywheel.configPeakOutputVoltage( +12.0f, -12.0f );
+		
+		table = NetworkTable.getTable( "Flywheel PID" );
+		
+		table.putNumber( "kP", kP );
+		table.putNumber( "kI", kI );
+		table.putNumber( "kD", kD );
+		table.putNumber( "kF", kF );
 		
 		flywheel.setProfile( 0 );
 		flywheel.setF( kF );
@@ -62,6 +71,21 @@ public class CANMortar extends Subsystem {
 		return flywheel.getEncVelocity();
 	}
 	
+	public double rpm()
+	{
+		return flywheel.getSpeed();
+	}
+	
+	public double distance()
+	{
+		return flywheel.getEncPosition();
+	}
+	
+	public double output()
+	{
+		return flywheel.get();
+	}
+	
 	public void speedMode()
 	{
 		flywheel.changeControlMode( TalonControlMode.Speed );
@@ -74,6 +98,10 @@ public class CANMortar extends Subsystem {
 	
 	public void updatePID()
 	{
+		kP = table.getNumber( "Flywheel PID", kP );
+		kI = table.getNumber( "Flywheel PID", kI );
+		kD = table.getNumber( "Flywheel PID", kD );
+		kF = table.getNumber( "Flywheel PID", kF );
 		
 		flywheel.setP( kP );
 		flywheel.setI( kI );
