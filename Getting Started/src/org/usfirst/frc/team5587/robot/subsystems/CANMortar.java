@@ -34,8 +34,8 @@ public class CANMortar extends Subsystem {
 	{	
 		flywheel = new CANTalon( RobotMap.FLYWHEEL_MOTOR_CAN_ID );
 		
-		flywheel.setFeedbackDevice( FeedbackDevice.QuadEncoder );
-		flywheel.configEncoderCodesPerRev( FLYWHEEL_PULSE_PER_REVOLUTION );
+		flywheel.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Relative );
+		//flywheel.configEncoderCodesPerRev( FLYWHEEL_PULSE_PER_REVOLUTION );
 		
 		flywheel.configNominalOutputVoltage( +0.0f, -0.0f );
 		flywheel.configPeakOutputVoltage( +12.0f, -12.0f );
