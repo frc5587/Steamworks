@@ -20,7 +20,7 @@ public class CANMortarPID extends Command {
     	requires( Robot.mortarCAN );
     	mortar = Robot.mortarCAN;
     	
-    	SmartDashboard.putNumber( "CAN Target Rate: ", 0.0 );
+    	SmartDashboard.putNumber( "CAN Target Rate: ", -200.0 );
     }
 
     // Called just before this Command runs the first time
@@ -31,7 +31,7 @@ public class CANMortarPID extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	targetRate = SmartDashboard.getNumber( "CAN Target Rate: ", 0.0 );
+    	targetRate = SmartDashboard.getNumber( "CAN Target Rate: ", -200.0 );
     	
     	mortar.spin( targetRate );
     	SmartDashboard.putNumber( "Encoder RPS: ", mortar.rps() );

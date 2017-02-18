@@ -22,9 +22,9 @@ public class CANMortar extends Subsystem {
 	private static final int FLYWHEEL_PULSE_PER_REVOLUTION = ENC_PULSE_PER_REVOLUTION * GEAR_RATIO;
 	
 	private static double kF = 12.0,
-						  		kP = 0.0,
+						  		kP = 1.125,
 								kI = 0.0,
-								kD = 0.0;
+								kD = 250.0;
 								
 	private NetworkTable table;
 	
