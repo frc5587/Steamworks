@@ -21,10 +21,10 @@ public class CANMortar extends Subsystem {
 	private static final int GEAR_RATIO = 4;
 	private static final int FLYWHEEL_PULSE_PER_REVOLUTION = ENC_PULSE_PER_REVOLUTION * GEAR_RATIO;
 	
-	private static double kF = 12.0,
-						  		kP = 1.125,
+	private static double kF = .03653571429,
+						  		kP = 0.0,
 								kI = 0.0,
-								kD = 250.0;
+								kD = 0.0;
 								
 	private NetworkTable table;
 	
@@ -73,7 +73,7 @@ public class CANMortar extends Subsystem {
 	
 	public double rpm()
 	{
-		return flywheel.getSpeed();
+		return flywheel.get();
 	}
 	
 	public double distance()

@@ -34,7 +34,7 @@ public class CANMortarStick extends Command {
     protected void execute()
     {
     	mortar.spin( stick.getY() );
-    	SmartDashboard.putNumber( "Encoder RPS: ", mortar.rpm() );
+    	SmartDashboard.putNumber( "Encoder RPS: ", mortar.rps() );
     	System.out.println( mortar.rpm() );
     	SmartDashboard.putNumber( "Encoder Distance", mortar.distance() );
     	SmartDashboard.putNumber( "Motor Output", mortar.output() );
