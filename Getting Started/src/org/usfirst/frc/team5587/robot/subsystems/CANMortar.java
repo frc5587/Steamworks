@@ -17,7 +17,7 @@ public class CANMortar extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	private static final int ENC_PULSE_PER_REVOLUTION = 12; 
+	private static final int ENC_PULSE_PER_REVOLUTION = 1024; 
 	private static final int GEAR_RATIO = 4;
 	private static final int FLYWHEEL_PULSE_PER_REVOLUTION = ENC_PULSE_PER_REVOLUTION * GEAR_RATIO;
 	
@@ -35,7 +35,7 @@ public class CANMortar extends Subsystem {
 		flywheel = new CANTalon( RobotMap.FLYWHEEL_MOTOR_CAN_ID );
 		
 		flywheel.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Relative );
-		//flywheel.configEncoderCodesPerRev( FLYWHEEL_PULSE_PER_REVOLUTION );
+		flywheel.configEncoderCodesPerRev( FLYWHEEL_PULSE_PER_REVOLUTION );
 		
 		flywheel.configNominalOutputVoltage( +0.0f, -0.0f );
 		flywheel.configPeakOutputVoltage( +12.0f, -12.0f );
