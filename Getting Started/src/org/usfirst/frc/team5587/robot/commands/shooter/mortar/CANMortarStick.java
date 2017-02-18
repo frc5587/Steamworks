@@ -27,7 +27,7 @@ public class CANMortarStick extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	mortar.throttleMode();
-    	mortar.updatePID();
+    	//mortar.updatePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
