@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.commands.Respite;
 import org.usfirst.frc.team5587.robot.commands.locomotive.InvertDrive;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
@@ -20,7 +21,9 @@ public class DriveRightDrive extends CommandGroup {
     	requires( Robot.loco );
     	
     	addSequential( new DutifulProgression( 36 ) );
+    	addSequential( new Respite( 0.5 ) );
     	addSequential( new Gyrate( 60.0 ) );
+    	addSequential( new Respite( 0.5 ) );
     	addSequential( new DutifulProgression( 36 ) );
     	
 
