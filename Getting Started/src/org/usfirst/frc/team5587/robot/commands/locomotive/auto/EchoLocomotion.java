@@ -1,25 +1,19 @@
-package org.usfirst.frc.team5587.robot.commands.locomotive;
-
-import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
-import org.usfirst.frc.team5587.robot.Robot;
+package org.usfirst.frc.team5587.robot.commands.locomotive.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class InvertDrive extends Command {
+public class EchoLocomotion extends Command {
 
-	private Locomotive loco;
-    public InvertDrive() {
+    public EchoLocomotion() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	loco = Robot.loco;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	loco.invert();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -28,7 +22,7 @@ public class InvertDrive extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

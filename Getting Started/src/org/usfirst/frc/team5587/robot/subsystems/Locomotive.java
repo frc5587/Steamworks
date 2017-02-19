@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import org.usfirst.frc.team5587.classes.DualPIDController;
 import org.usfirst.frc.team5587.classes.NetworkTable;
@@ -102,7 +103,7 @@ public class Locomotive extends Subsystem {
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
-
+        
         LiveWindow.addSensor( "Locomotive", "Gyroscope", gyro );
         LiveWindow.addSensor( "Locomotive", "Left Encoder", leftEncoder );
         LiveWindow.addSensor( "Locomotive", "Right Encoder", rightEncoder );
@@ -153,7 +154,6 @@ public class Locomotive extends Subsystem {
     
     public void invert(){
     	Y_LIMIT *= -1;
-    	X_LIMIT *= -1;
     }
     
     public double isInvert()

@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Gyrate extends Command {
 
-	private static final double ERROR_MARGIN = 0.3;
-	private static final double GAIN = .0003;
-	private static final double D_GAIN = 0.003;
+	private static final double ERROR_MARGIN = 0.5;
+	private static final double GAIN = 0.0002;
+	private static final double D_GAIN = 0.01;
 	
 	private double rotateAngle; //The target angle for the robot to rotate.
 	private double yaw; //The current Gyroscope reading
@@ -66,7 +66,7 @@ public class Gyrate extends Command {
     	}
     	else
     	{
-    		output += GAIN * error + D_GAIN * ( error - error1 );
+    		output += GAIN * error + D_GAIN * ( error1 - error2 );
     	}
     	
     	if( output > 1.0 )
