@@ -30,8 +30,8 @@ public class Locomotive extends Subsystem {
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static final double Y_LIMIT = 1.0;
-    private static final double X_LIMIT = 1.0;
+    private static double Y_LIMIT = -1.0;
+    private static double X_LIMIT = -1.0;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -110,6 +110,7 @@ public class Locomotive extends Subsystem {
         drivePID = new PIDController( kP, kI, kD, driveSource, driveOutput );
         drivePID.setContinuous( false );
         drivePID.setOutputRange( -AUTO_OUTPUT_LIMIT, AUTO_OUTPUT_LIMIT );
+        drivePID.setAbsoluteTolerance( 1.0 );
         
         tankPID = new DualPIDController( leftDistConstants, rightDistConstants,
 				 leftDistSource, rightDistSource,
@@ -139,7 +140,7 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	train.arcadeDrive( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
+    	train.arcadeDrive( stick.getY() * Y_LIMIT, stick.getX() * X_LIMIT );
     }
 
     /**
@@ -148,6 +149,16 @@ public class Locomotive extends Subsystem {
     public void tankDrive( double left, double right )
     {
     	train.tankDrive( left, right );
+    }
+    
+    public void invert(){
+    	Y_LIMIT *= -1;
+    	X_LIMIT *= -1;
+    }
+    
+    public double isInvert()
+    {
+    	return Math.signum( Y_LIMIT );
     }
     
     /**

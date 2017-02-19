@@ -28,7 +28,7 @@ public class GasGuzzler extends Subsystem {
 	
 	public void stop()
 	{
-		guzzle.set( 0 );
+		guzzle.set( 0.0 );
 	}
 
     public void initDefaultCommand() {

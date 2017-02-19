@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -17,8 +19,9 @@ public class ReturnTrip extends CommandGroup {
     	
     	requires( Robot.loco );
     	
-    	addSequential( new TimedMarch( .5, 4 ) );
-    	addSequential( new TimedMarch( -.5, 4 ) );
+    	addSequential( new DutifulProgression( 66.0 ) );
+    	addSequential( new ClearEncoder() );
+    	addSequential( new DutifulProgression( -66.0 ) );
 
         // To run multiple commands at the same time,
         // use addParallel()
