@@ -4,13 +4,14 @@ import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class DutifulProgression extends Command {
 
-	private double targetDistance;
+	private double targetDistance, sign;
 	private Locomotive loco;
 	
 	/**
@@ -24,6 +25,7 @@ public class DutifulProgression extends Command {
     	requires( Robot.loco );
     	loco = Robot.loco;
     	targetDistance = distance;
+    	sign = Math.signum( targetDistance );
     }
 
     // Called just before this Command runs the first time
@@ -34,12 +36,17 @@ public class DutifulProgression extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-    	loco.proceedForwards( 0.5 );
+    	loco.proceedForwards( sign * 0.3 );
+    	loco.printEncoders();
+    	SmartDashboard.putNumber( "Passive Drift", loco.getYaw() );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return loco.getDistance() >= targetDistance;
+    	if( sign > 1 )
+    		return loco.getDistance() >= targetDistance;
+    	else
+    		return loco.getDistance() <= targetDistance;
     }
 
     // Called once after isFinished returns true

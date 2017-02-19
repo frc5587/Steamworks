@@ -14,28 +14,35 @@ public class Climb extends Command {
 	private NetworkTable table;
 	private Winchester winch;
 	
-	private static final double KILL_CURRENT = 0.0;
+	private static final double KILL_CURRENT = 39.0;
+	private double maxCurrent = 0.0; 
 	
     public Climb() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.winch );
+    	winch = Robot.winch;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	table = NetworkTable.getTable( "Winch" );
+    	maxCurrent = 0.0;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	winch.set( 1.0 );
-    	table.putNumber( "Winch Current Draw", winch.getCurrent() );
+    	double currentCurrent = winch.getCurrent();
+    	table.putNumber( "Winch Current Draw", currentCurrent );
+    	if( currentCurrent > maxCurrent )
+    		maxCurrent = currentCurrent;
+    	table.putNumber( "Max Current", maxCurrent );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if( winch.getCurrent() >= KILL_CURRENT){
+    	if( winch.getCurrent() >= KILL_CURRENT ){
     		return true;
     	}
     	else{

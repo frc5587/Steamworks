@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import org.usfirst.frc.team5587.classes.DualPIDController;
 import org.usfirst.frc.team5587.classes.NetworkTable;
@@ -30,8 +31,8 @@ public class Locomotive extends Subsystem {
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static final double Y_LIMIT = 1.0;
-    private static final double X_LIMIT = 1.0;
+    private static double Y_LIMIT = -1.0;
+    private static double X_LIMIT = -1.0;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -102,7 +103,7 @@ public class Locomotive extends Subsystem {
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
-
+        
         LiveWindow.addSensor( "Locomotive", "Gyroscope", gyro );
         LiveWindow.addSensor( "Locomotive", "Left Encoder", leftEncoder );
         LiveWindow.addSensor( "Locomotive", "Right Encoder", rightEncoder );
@@ -110,6 +111,7 @@ public class Locomotive extends Subsystem {
         drivePID = new PIDController( kP, kI, kD, driveSource, driveOutput );
         drivePID.setContinuous( false );
         drivePID.setOutputRange( -AUTO_OUTPUT_LIMIT, AUTO_OUTPUT_LIMIT );
+        drivePID.setAbsoluteTolerance( 1.0 );
         
         tankPID = new DualPIDController( leftDistConstants, rightDistConstants,
 				 leftDistSource, rightDistSource,
@@ -139,7 +141,7 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	train.arcadeDrive( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
+    	train.arcadeDrive( stick.getY() * Y_LIMIT, stick.getX() * X_LIMIT );
     }
 
     /**
@@ -148,6 +150,15 @@ public class Locomotive extends Subsystem {
     public void tankDrive( double left, double right )
     {
     	train.tankDrive( left, right );
+    }
+    
+    public void invert(){
+    	Y_LIMIT *= -1;
+    }
+    
+    public double isInvert()
+    {
+    	return Math.signum( Y_LIMIT );
     }
     
     /**

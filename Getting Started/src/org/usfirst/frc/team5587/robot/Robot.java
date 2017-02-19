@@ -2,8 +2,13 @@ package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.classes.IterativeRobot;
 import org.usfirst.frc.team5587.classes.NetworkTable;
+import org.usfirst.frc.team5587.robot.commandgroups.DriveRightDrive;
+import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DriveMarch;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
 import org.usfirst.frc.team5587.robot.commands.shooter.mortar.CANMortarPID;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
@@ -14,6 +19,7 @@ import org.usfirst.frc.team5587.robot.subsystems.Mortar;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -41,6 +47,7 @@ public class Robot extends IterativeRobot {
 	private OI oi;
 	private Command auto;
 	private Command teleOp;
+	private CameraServer visualSensor;
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
 	
 	/**
@@ -50,9 +57,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
     	oi = new OI();
-    	table = NetworkTable.getTable( "Is This Thing On?" );
-		teleOp = new CANMortarPID();
-    	//teleOp = new TeleOp( oi.driver, oi.codriver );
+		//teleOp = new CANMortarPID();
+    	visualSensor = CameraServer.getInstance();
+    	visualSensor.startAutomaticCapture( "Visual Sensor", "cam0");
+    	teleOp = new TeleOp( oi.driver, oi.codriver );
+    	auto = new DriveRightDrive();
 	}
 
 	/**
