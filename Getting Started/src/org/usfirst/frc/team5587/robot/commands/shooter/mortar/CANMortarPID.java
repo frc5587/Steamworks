@@ -39,7 +39,7 @@ public class CANMortarPID extends Command {
     protected void execute() {
     	targetRate = SmartDashboard.getNumber( "CAN Target Rate: ", -4000.0 );
     	
-    	SmartDashboard.putNumber("Ball Distance: ", ballDistance(75.0, SmartDashboard.getNumber("Velocity: ", 0.0)));
+    	SmartDashboard.putNumber("Ball Initial Velocity: ", initVelocity(1.3, 2.46, 97.0));
     	
     	mortar.spin( targetRate );
     	SmartDashboard.putNumber( "Encoder RPS: ", mortar.rps() );
@@ -61,27 +61,11 @@ public class CANMortarPID extends Command {
     protected void interrupted() {
     }
     
-    private double ballDistance(double angle, double velocity) {
-    	double distance = 0;
-    	//gravity acceleration
-    	double g = 9.80665;
-    	//Set angle to radians for sin calc
-    	angle = Math.toRadians(angle);
+    private double initVelocity(double targetXInMeters, double TargetYInMeters, double shootingAngleInDegrees) {
+    	double gravity = 9.8;
     	
-    	distance = (Math.pow(velocity, 2)/g)*Math.toDegrees(Math.sin(2*angle));
-    	
-    	return distance;
-    }
-    
-    private double velocityNeeded(double angle, double distance) {
-    	double initialVelocity = 0;
-    	//gravity acceleration
-    	double g = 9.80665;
-    	//Set angle to radians for sin calc
-    	angle = Math.toRadians(angle);
-    	
-    	//Based on equation d = ((v^2)/g)*sin(2*angle)
-    	initialVelocity = Math.sqrt((distance*g)/(Math.toDegrees(2*Math.sin(angle))));
+    	//Required initial velocity of the ball
+    	double initialVelocity = Math.sqrt((gravity*Math.pow(targetXInMeters, 2))/((-2*(Math.pow(Math.cos(shootingAngleInDegrees), 2)))*(TargetYInMeters - (targetXInMeters*Math.tan(shootingAngleInDegrees)))));
     	
     	return initialVelocity;
     }

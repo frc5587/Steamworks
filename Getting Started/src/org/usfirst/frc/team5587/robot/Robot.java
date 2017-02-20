@@ -52,8 +52,8 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
     	table = NetworkTable.getTable( "Is This Thing On?" );
 		teleOp = new CANMortarPID();
-    	teleOp = new TeleOp( oi.driver, oi.codriver );
-    	teleOp = new CANEtator();
+    	//teleOp = new TeleOp( oi.driver, oi.codriver );
+    	//teleOp = new CANEtator();
 	}
 
 	/**
