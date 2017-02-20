@@ -74,7 +74,7 @@ public class CANMortar extends Subsystem {
 		//OUT: rpm value of flywheel
 	
 		//Convert flywheel speed in Native Units to RPM
-		double rpm = toRPM(flywheel.getEncVelocity());
+		double rpm = toRPM(flywheel.getEncVelocity()/6.9736456808199121522693997071742);
 		
 		return rpm;
 	}
