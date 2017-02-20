@@ -38,8 +38,6 @@ public class CANRelativEtator extends Command {
     protected void initialize()
     {
 //    	table = NetworkTable.getTable( NETWORKTABLES_TABLE_NAME );
-    	
-    	suzyQ.updatePID();
     	suzyQ.setRelativePosition( table2.getNumber( "Relative PID Angle: ", 0.0 ) );
     	suzyQ.enable();
     }

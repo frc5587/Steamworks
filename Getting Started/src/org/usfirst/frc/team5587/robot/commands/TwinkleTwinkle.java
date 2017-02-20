@@ -49,7 +49,7 @@ public class TwinkleTwinkle extends Command {
         	blue = SmartDashboard.getNumber( "Blue: ", 0 );
     	}
     	
-    	orion.setRGB( red, green, blue );
+    	orion.setRGB( (int)red, (int)green, (int)blue );
     }
 
     // Make this return true when this Command no longer needs to run execute()

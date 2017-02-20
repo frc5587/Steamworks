@@ -6,6 +6,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -19,19 +20,24 @@ public class CANSuzy extends Subsystem {
 	
 	private CANTalon talon;
 	
-	private static double kP,
-							kI,
-							kD,
-							kF;
+	private static double kP = 0.001,
+							kI = 0,
+							kD = 0,
+							kF = 0;
 	
 	public CANSuzy()
 	{
 		talon = new CANTalon( RobotMap.TURNTABLE_MOTOR_CAN_ID );
 		talon.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
+		talon.setInverted( false );
+		talon.setVoltageRampRate( 0 );
 		talon.changeControlMode( TalonControlMode.Position );
+		talon.setPIDSourceType( PIDSourceType.kDisplacement );
 		
 		talon.configNominalOutputVoltage( +0.0f, -0.0f );
 		talon.configPeakOutputVoltage( +12.0f, -12.0f );
+		
+		talon.setAllowableClosedLoopErr( 1 );
 		
 		talon.setP( kP );
 		talon.setI( kI );
@@ -49,10 +55,15 @@ public class CANSuzy extends Subsystem {
 		talon.disableControl();
 	}
 	
+	public void setRaw( int target )
+	{
+		talon.set( target );
+	}
+	
 	public void setPosition( double degrees )
 	{
 		double target = ( degrees / 360.0 ) * ENCODER_PULSES_PER_REV;
-		talon.set( target );
+		talon.setPosition( target );
 	}
 	
 	public void setRelativePosition( double degrees )
@@ -64,15 +75,6 @@ public class CANSuzy extends Subsystem {
 	public double getPosition()
 	{
 		return talon.getEncPosition();
-	}
-	
-	public void updatePID()
-	{
-		
-		talon.setP( kP );
-		talon.setI( kI );
-		talon.setD( kD );
-		talon.setF( kF );
 	}
 	
     public void initDefaultCommand() {

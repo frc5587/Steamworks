@@ -16,16 +16,16 @@ public class RobotMap {
 	public static int LEFT_REAR_MOTOR = 1;
 	public static int RIGHT_FRONT_MOTOR = 3;
 	public static int RIGHT_REAR_MOTOR = 5;
-	public static int SUZY_MOTOR = 6;
+	public static int SUZY_MOTOR = 16;
 	public static int WINCH_MOTOR = 0;
 	public static int INTAKE_MOTOR = 7;
 	public static int SCREW_MOTOR = 2;
-	public static int FEEDER_SERVO = 8;
-	public static int FLYWHEEL_PLACEHOLDER_PWM = 9;
+	public static int FEEDER_SERVO = 18;
+	public static int FLYWHEEL_PLACEHOLDER_PWM = 19;
 	
-	public static int STAR_R_PWM = 10;
-	public static int STAR_G_PWM = 11;
-	public static int STAR_B_PWM = 12;
+	public static int STAR_R_PWM = 6;
+	public static int STAR_G_PWM = 8;
+	public static int STAR_B_PWM = 9;
 	
 	//DIO
 	public static int LEFT_DRIVETRAIN_ENCODER_A = 0;
