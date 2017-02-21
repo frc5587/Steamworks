@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
+import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -12,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Winchester extends Subsystem{
 	
 	private final VictorSP winchMotor = new VictorSP(RobotMap.WINCH_MOTOR);
-	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
 	
 	public Winchester(){	
     }
@@ -24,7 +24,7 @@ public class Winchester extends Subsystem{
     
     public double getCurrent()
     {
-    	return pdp.getCurrent( RobotMap.WINCH_PDP_PORT );
+    	return Robot.pdp.getCurrent( RobotMap.WINCH_PDP_PORT );
     }
     
 	protected void initDefaultCommand() {

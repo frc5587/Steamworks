@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
 import org.usfirst.frc.team5587.robot.commands.locomotive.InvertDrive;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
@@ -10,18 +11,20 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class DriveRightDrive extends CommandGroup {
+public class RightGearDelivery extends CommandGroup {
 
-    public DriveRightDrive() {
+    public RightGearDelivery() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
     	requires( Robot.loco );
     	
-    	addSequential( new DutifulProgression( 36 ) );
-    	addSequential( new Gyrate( 60.0 ) );
-    	addSequential( new DutifulProgression( 36 ) );
+    	addSequential( new DutifulProgression( -62 ) );
+    	addSequential( new ClearEncoder() );
+    	addSequential( new Gyrate( -58.0 ) );
+    	addSequential( new ClearEncoder() );
+    	addSequential( new DutifulProgression( -81.25 ) );
     	
 
         // To run multiple commands at the same time,

@@ -1,35 +1,42 @@
-package org.usfirst.frc.team5587.robot.commands.winchester;
+package org.usfirst.frc.team5587.robot.commands.locomotive;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.Winchester;
+import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class StopClimb extends Command {
+public class TankStick extends Command {
 
-	private Winchester winch;
-    public StopClimb() {
+	Locomotive loco;
+	Joystick stick;
+	
+    public TankStick( Joystick s ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.winch );
-    	winch = Robot.winch;
+    	requires( Robot.loco );
+    	loco = Robot.loco;
+    	stick = s;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	winch.set( 0.0 );
+    	loco.resetDistance();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	loco.tankDrive( stick );
+    	loco.printEncoders();
+    	loco.printCurrents();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

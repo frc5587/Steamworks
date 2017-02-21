@@ -52,8 +52,7 @@ public class RobotMap {
 	//Buttons
 	public static int GUZZLE_BUTTON = 3;
 	public static int CLIMB_BUTTON = 6;
-	public static int STOP_CLIMB_BUTTON = 5;
-	public static int UNWIND_BUTTON = 4;
+	public static int UNWIND_BUTTON = 5;
 	public static int INVERT_BUTTON = 7;
 	
 	//NetworkTable

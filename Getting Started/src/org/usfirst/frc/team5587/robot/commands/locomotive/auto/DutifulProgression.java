@@ -31,6 +31,7 @@ public class DutifulProgression extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	loco.resetDistance();
+    	loco.zeroYaw();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,7 +39,6 @@ public class DutifulProgression extends Command {
     {
     	loco.proceedForwards( sign * 0.3 );
     	loco.printEncoders();
-    	SmartDashboard.putNumber( "Passive Drift", loco.getYaw() );
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -51,6 +51,7 @@ public class DutifulProgression extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	SmartDashboard.putNumber( "Passive Drift", loco.getYaw() );
     	loco.halt();
     }
 

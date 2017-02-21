@@ -1,37 +1,37 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.locomotive.ForcedMarch;
-import org.usfirst.frc.team5587.robot.commands.locomotive.TableMarch;
-import org.usfirst.frc.team5587.robot.commands.locomotive.TankStick;
-import org.usfirst.frc.team5587.robot.commands.shooter.mortar.CANMortarStick;
-import org.usfirst.frc.team5587.robot.commands.shooter.mortar.MortarTBH;
+import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
+import org.usfirst.frc.team5587.robot.commands.locomotive.InvertDrive;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class TeleOp extends CommandGroup {
+public class LeftGearDelivery extends CommandGroup {
 
-    public TeleOp( Joystick driver, Joystick codriver ) {
+    public LeftGearDelivery() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
+    	requires( Robot.loco );
+    	
+    	addSequential( new DutifulProgression( -53 ) );
+    	addSequential( new ClearEncoder() );
+    	addSequential( new Gyrate( 70.0 ) );
+    	addSequential( new ClearEncoder() );
+    	addSequential( new DutifulProgression( -81.25 ) );
+    	
 
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-    	requires( Robot.mortar );
-    	requires( Robot.loco );
-    	
-    	//addParallel( new TableMarch() );
-    	addParallel( new TankStick( driver ) );
-    	addParallel( new CANMortarStick( codriver ) );
 
         // A command group will require all of the subsystems that each member
         // would require.

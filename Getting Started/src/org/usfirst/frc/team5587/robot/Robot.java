@@ -2,13 +2,11 @@ package org.usfirst.frc.team5587.robot;
 
 import org.usfirst.frc.team5587.classes.IterativeRobot;
 import org.usfirst.frc.team5587.classes.NetworkTable;
-import org.usfirst.frc.team5587.robot.commandgroups.DriveRightDrive;
+import org.usfirst.frc.team5587.robot.commandgroups.LeftGearDelivery;
 import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
+import org.usfirst.frc.team5587.robot.commandgroups.RightGearDelivery;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
-import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
-import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DriveMarch;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
-import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
 import org.usfirst.frc.team5587.robot.commands.shooter.mortar.CANMortarPID;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
@@ -19,11 +17,14 @@ import org.usfirst.frc.team5587.robot.subsystems.Mortar;
 import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,6 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
 	public static final GasGuzzler guzzler = new GasGuzzler();
 	public static final Locomotive loco = new Locomotive();
 	public static final CANSuzy suzyCAN = new CANSuzy();
@@ -47,7 +49,8 @@ public class Robot extends IterativeRobot {
 	private OI oi;
 	private Command auto;
 	private Command teleOp;
-	private CameraServer visualSensor;
+	private UsbCamera cam0, cam1;
+	private MjpegServer cam1Server, cam2Server;
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
 	
 	/**
@@ -59,16 +62,32 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
     	table = NetworkTable.getTable( "Is This Thing On?" );
 		//teleOp = new CANMortarPID();
-    	visualSensor = CameraServer.getInstance();
-    	visualSensor.startAutomaticCapture( "Visual Sensor", "cam0");
+    	
+    	cam0 = new UsbCamera("cam0",0);
+    	cam0.setResolution(320, 280);
+    	cam1 = new UsbCamera( "cam1", 1 );
+    	cam1.setResolution(320,280);
+    	
+    	cam1Server = new MjpegServer("cam0 feed",1181);
+    	cam1Server.setSource(cam0);
+    	
+    	cam2Server = new MjpegServer("cam1 feed",1182);
+    	cam2Server.setSource(cam1);
+    	
+    	autoChooser.addDefault("Do Nothing", null);
+    	autoChooser.addObject("Left Gear Place", new LeftGearDelivery());
+    	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
+    	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -80.0 ) );
+    	SmartDashboard.putData("Auto Chooser", autoChooser);
+    	
     	teleOp = new TeleOp( oi.driver, oi.codriver );
-    	auto = new DriveRightDrive();
 	}
 
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		auto = autoChooser.getSelected();
 		if( auto != null )
 			auto.start();
 	}

@@ -31,6 +31,7 @@ public class ForcedMarch extends Command {
     protected void execute() {
     	loco.keepPace( stick );
     	loco.printEncoders();
+    	loco.printCurrents();
     }
 
     // Make this return true when this Command no longer needs to run execute()
