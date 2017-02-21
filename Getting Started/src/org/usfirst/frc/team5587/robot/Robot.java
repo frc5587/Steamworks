@@ -60,7 +60,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
     	oi = new OI();
-    	table = NetworkTable.getTable( "Is This Thing On?" );
 		//teleOp = new CANMortarPID();
     	
     	cam0 = new UsbCamera("cam0",0);
