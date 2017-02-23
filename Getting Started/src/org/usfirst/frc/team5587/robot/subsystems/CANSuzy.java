@@ -17,18 +17,19 @@ public class CANSuzy extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	private static final int ENCODER_PULSES_PER_REV = 4096;
+	public static final int ALLOWABLE_ERROR = 11;
 	
 	private CANTalon talon;
 	
-	private static double kP = 0.001,
+	private static double kP = 1.2,
 							kI = 0,
-							kD = 0,
+							kD = 200,
 							kF = 0;
 	
 	public CANSuzy()
 	{
 		talon = new CANTalon( RobotMap.TURNTABLE_MOTOR_CAN_ID );
-		talon.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
+		talon.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Relative );
 		talon.setInverted( false );
 		talon.setVoltageRampRate( 0 );
 		talon.changeControlMode( TalonControlMode.Position );
@@ -37,7 +38,7 @@ public class CANSuzy extends Subsystem {
 		talon.configNominalOutputVoltage( +0.0f, -0.0f );
 		talon.configPeakOutputVoltage( +12.0f, -12.0f );
 		
-		talon.setAllowableClosedLoopErr( 1 );
+		talon.setAllowableClosedLoopErr( ALLOWABLE_ERROR );
 		
 		talon.setP( kP );
 		talon.setI( kI );
@@ -55,26 +56,36 @@ public class CANSuzy extends Subsystem {
 		talon.disableControl();
 	}
 	
-	public void setRaw( int target )
+	public void setRaw( double target )
 	{
-		talon.set( target );
+		talon.setSetpoint( target );
 	}
 	
-	public void setPosition( double degrees )
+	public void setDegrees( double degrees )
 	{
-		double target = ( degrees / 360.0 ) * ENCODER_PULSES_PER_REV;
-		talon.setPosition( target );
+		double target = ( degrees / 360.0 );
+		talon.setSetpoint( target );
 	}
 	
 	public void setRelativePosition( double degrees )
 	{
 		double target = ( degrees / 360.0 ) * ENCODER_PULSES_PER_REV + getPosition();
-		setPosition( target );
+		talon.setSetpoint( target );
+	}
+	
+	public void zeroPos()
+	{
+		talon.setPosition( 0 );
 	}
 	
 	public double getPosition()
 	{
 		return talon.getEncPosition();
+	}
+	
+	public double getError()
+	{
+		return talon.getError();
 	}
 	
     public void initDefaultCommand() {

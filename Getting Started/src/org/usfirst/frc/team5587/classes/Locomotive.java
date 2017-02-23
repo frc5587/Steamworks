@@ -1,18 +1,13 @@
 package org.usfirst.frc.team5587.classes;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import org.usfirst.frc.team5587.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-import org.usfirst.frc.team5587.classes.DualPIDController;
-import org.usfirst.frc.team5587.robot.RobotMap;
-
-import com.kauailabs.navx.frc.AHRS;
 
 /**
  * Drivetrain subsystem.

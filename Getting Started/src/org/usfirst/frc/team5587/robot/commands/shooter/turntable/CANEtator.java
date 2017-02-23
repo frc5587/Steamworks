@@ -17,6 +17,10 @@ public class CANEtator extends Command {
 
 	private NetworkTable table2;
 	
+	private double error0,
+				   error1,
+				   error2;
+	
 	private double [] angles;
 	private double angle; //The current encoder angle reading
 	private CANSuzy suzyQ;
@@ -35,13 +39,14 @@ public class CANEtator extends Command {
     // Called just before this Command runs the first time
     protected void initialize()
     {
+    	suzyQ.zeroPos();
     	suzyQ.enable();
+    	suzyQ.setDegrees( table2.getNumber( "PID Angle", 0.0 ) );
     }
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-    	suzyQ.setRaw( (int)table2.getNumber( "PID Angle", 0.0 ) );
     	
     	table2.putNumber( "Encoder Position: ", suzyQ.getPosition() );//suzyQ.getEncAngle());
     }
@@ -49,6 +54,8 @@ public class CANEtator extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished()
     {
+    	if( withinMargin() )
+    		suzyQ.setDegrees( table2.getNumber( "PID Angle", 0.0 ) );
     	return false;
     }
 
@@ -62,5 +69,12 @@ public class CANEtator extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	suzyQ.disable();
+    }
+    
+    private boolean withinMargin()
+    {
+    	return Math.abs( error0 ) <= CANSuzy.ALLOWABLE_ERROR
+    			&& Math.abs( error1 ) <= CANSuzy.ALLOWABLE_ERROR
+    			&& Math.abs( error2 ) <= CANSuzy.ALLOWABLE_ERROR;
     }
 }
