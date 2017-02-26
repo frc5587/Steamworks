@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
 	private UsbCamera cam0, cam1;
 	private MjpegServer cam1Server, cam2Server;
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
+	private boolean resBool;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -63,9 +64,9 @@ public class Robot extends IterativeRobot {
 		//teleOp = new CANMortarPID();
     	
     	cam0 = new UsbCamera("cam0",0);
-    	cam0.setResolution(320, 280);
+    	resBool = cam0.setResolution(32, 28);
     	cam1 = new UsbCamera( "cam1", 1 );
-    	cam1.setResolution(320,280);
+    	resBool = cam1.setResolution(32,28);
     	
     	cam1Server = new MjpegServer("cam0 feed",1181);
     	cam1Server.setSource(cam0);
