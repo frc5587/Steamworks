@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 import org.usfirst.frc.team5587.classes.DualPIDController;
 import org.usfirst.frc.team5587.classes.NetworkTable;
-import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.RobotMap;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,12 +30,11 @@ public class Locomotive extends Subsystem {
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static double Y_LIMIT = -1.0;
-    private static double X_LIMIT = -1.0;
+    private static final double Y_LIMIT = 1.0;
+    private static final double X_LIMIT = 1.0;
     
-    private static double LEFT_LIMIT = -1.0;
-    private static double RIGHT_LIMIT = -1.0;
-    private static boolean inverted;
+    private static final double LEFT_LIMIT = 1.0;
+    private static final double RIGHT_LIMIT = 1.0;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -107,7 +105,7 @@ public class Locomotive extends Subsystem {
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
-        
+
         LiveWindow.addSensor( "Locomotive", "Gyroscope", gyro );
         LiveWindow.addSensor( "Locomotive", "Left Encoder", leftEncoder );
         LiveWindow.addSensor( "Locomotive", "Right Encoder", rightEncoder );
@@ -115,7 +113,6 @@ public class Locomotive extends Subsystem {
         drivePID = new PIDController( kP, kI, kD, driveSource, driveOutput );
         drivePID.setContinuous( false );
         drivePID.setOutputRange( -AUTO_OUTPUT_LIMIT, AUTO_OUTPUT_LIMIT );
-        drivePID.setAbsoluteTolerance( 1.0 );
         
         tankPID = new DualPIDController( leftDistConstants, rightDistConstants,
 				 leftDistSource, rightDistSource,
@@ -126,8 +123,6 @@ public class Locomotive extends Subsystem {
 
         leftRate = 0.0;
         rightRate = 0.0;
-        
-        inverted = false;
         
         table = NetworkTable.getTable( "Drivetrain" );
     }
@@ -147,7 +142,12 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	train.arcadeDrive( stick.getY() * Y_LIMIT, stick.getX() * X_LIMIT, true );
+    	keepPace( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
+    }
+    
+    public void keepPace( double y, double x )
+    {
+    	train.arcadeDrive( y, x, false );
     }
 
     /**
@@ -155,29 +155,7 @@ public class Locomotive extends Subsystem {
      */
     public void tankDrive( double left, double right )
     {
-    	train.tankDrive( left, right );
-    }
-    
-    public void tankDrive( Joystick stick )
-    {
-    	double leftStick = stick.getRawAxis( 1 );
-    	double rightStick = stick.getRawAxis( 5 );
-    	if( !inverted )
-    		train.tankDrive( LEFT_LIMIT * leftStick, RIGHT_LIMIT * rightStick );
-    	else
-    		train.tankDrive( LEFT_LIMIT * rightStick, RIGHT_LIMIT * leftStick );
-    }
-    
-    public void invert(){
-    	Y_LIMIT *= -1;
-    	LEFT_LIMIT *= -1;
-    	RIGHT_LIMIT *= -1;
-    	inverted = !inverted;
-    }
-    
-    public double isInvert()
-    {
-    	return Math.signum( Y_LIMIT );
+    	train.tankDrive( left * LEFT_LIMIT, right * RIGHT_LIMIT );
     }
     
     /**
@@ -226,11 +204,10 @@ public class Locomotive extends Subsystem {
      */
     public double getDistance()
     {
-//        double leftDistance = leftEncoder.getDistance();
-//        double rightDistance = rightEncoder.getDistance();
-//        double averageDistance = leftDistance / 2 + rightDistance / 2;
-//        return averageDistance;
-    	return rightEncoder.getDistance();
+        double leftDistance = leftEncoder.getDistance();
+        double rightDistance = rightEncoder.getDistance();
+        double averageDistance = leftDistance / 2 + rightDistance / 2;
+        return averageDistance;
     }
     
     /**
@@ -275,14 +252,6 @@ public class Locomotive extends Subsystem {
     	table.putNumber( "Right Distance", rightEncoder.getDistance() );
     	table.putNumber( "Left Speed", leftEncoder.getRate() );
     	table.putNumber( "Right Speed", rightEncoder.getRate() );
-    }
-    
-    public void printCurrents()
-    {
-    	table.putNumber( "Victor 1", Robot.pdp.getCurrent( 1 ) );
-    	table.putNumber( "Victor 5", Robot.pdp.getCurrent( 13 ) );
-    	table.putNumber( "Victor 4", Robot.pdp.getCurrent( 14 ) );
-    	table.putNumber( "Victor 3", Robot.pdp.getCurrent( 15 ) );
     }
     
     public double getYaw()

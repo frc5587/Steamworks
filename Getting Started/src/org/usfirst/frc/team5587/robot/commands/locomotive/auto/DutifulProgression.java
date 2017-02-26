@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DutifulProgression extends Command {
 
-	private double targetDistance, sign;
+	private static double kCorrection = 0.0;
+	private double targetDistance, driftAngle, originalHeading;
 	private Locomotive loco;
 	
 	/**
@@ -25,33 +26,29 @@ public class DutifulProgression extends Command {
     	requires( Robot.loco );
     	loco = Robot.loco;
     	targetDistance = distance;
-    	sign = Math.signum( targetDistance );
+    	SmartDashboard.putNumber( "Correction Coefficient", kCorrection );
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	loco.resetDistance();
-    	loco.zeroYaw();
+    	originalHeading = loco.getYaw();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute()
     {
-    	loco.proceedForwards( sign * 0.3 );
-    	loco.printEncoders();
+    	driftAngle = loco.getYaw() - originalHeading;
+    	loco.keepPace( 0.5, driftAngle * SmartDashboard.getNumber( "Correction Coefficient", kCorrection ) );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if( sign > 1 )
-    		return loco.getDistance() >= targetDistance;
-    	else
-    		return loco.getDistance() <= targetDistance;
+        return loco.getDistance() >= targetDistance;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	SmartDashboard.putNumber( "Passive Drift", loco.getYaw() );
     	loco.halt();
     }
 
