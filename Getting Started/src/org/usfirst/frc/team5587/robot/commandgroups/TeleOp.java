@@ -30,7 +30,7 @@ public class TeleOp extends CommandGroup {
     	requires( Robot.loco );
     	
     	//addParallel( new TableMarch() );
-    	addParallel( new TankStick( driver ) );
+    	addParallel( new ForcedMarch( driver ) );
     	addParallel( new CANMortarStick( codriver ) );
 
         // A command group will require all of the subsystems that each member
