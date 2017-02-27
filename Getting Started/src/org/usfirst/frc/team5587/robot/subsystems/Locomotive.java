@@ -24,17 +24,17 @@ import com.kauailabs.navx.frc.AHRS;
 public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
-    private static final double DISTANCE_PER_PULSE = Math.PI * 6.0 / 360.0;
+    private static final double DISTANCE_PER_PULSE = 1;//0.05500836275785170042742984575358;
     private static final double AUTO_OUTPUT_LIMIT = 0.5;
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static final double Y_LIMIT = 1.0;
+    private static double Y_LIMIT = 1.0;
     private static final double X_LIMIT = 1.0;
     
-    private static final double LEFT_LIMIT = 1.0;
-    private static final double RIGHT_LIMIT = 1.0;
+    private static double LEFT_LIMIT = 1.0;
+    private static double RIGHT_LIMIT = 1.0;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -145,6 +145,11 @@ public class Locomotive extends Subsystem {
     	keepPace( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
     }
     
+    public void invert()
+    {
+    	Y_LIMIT *= -1.0;
+    }
+    
     public void keepPace( double y, double x )
     {
     	train.arcadeDrive( y, x, false );
@@ -204,10 +209,7 @@ public class Locomotive extends Subsystem {
      */
     public double getDistance()
     {
-        double leftDistance = leftEncoder.getDistance();
-        double rightDistance = rightEncoder.getDistance();
-        double averageDistance = leftDistance / 2 + rightDistance / 2;
-        return averageDistance;
+        return rightEncoder.getDistance();
     }
     
     /**
@@ -261,7 +263,7 @@ public class Locomotive extends Subsystem {
     
     public void zeroYaw()
     {
-    	gyro.zeroYaw();
+    	gyro.reset();
     }
     
     public boolean isCalibrating()

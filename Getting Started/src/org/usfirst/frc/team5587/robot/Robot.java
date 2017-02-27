@@ -77,8 +77,10 @@ public class Robot extends IterativeRobot {
     	autoChooser.addDefault("Do Nothing", null);
     	autoChooser.addObject("Left Gear Place", new LeftGearDelivery());
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
-    	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -80.0 ) );
-    	SmartDashboard.putData("Auto Chooser", autoChooser);
+    	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -1500.0 ) );
+    	SmartDashboard.putData( "Auto Chooser", autoChooser );
+    	
+    	
     	
     	teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
@@ -98,6 +100,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+    	SmartDashboard.putNumber( "Distance", loco.getDistance() );
+    	SmartDashboard.putNumber("Gyro", loco.getYaw());
 	}
 
 	/**
@@ -119,8 +123,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		table.putNumber( "Yes", counter );
-		counter++;
+		SmartDashboard.putNumber("Gyro", loco.getYaw());
 	}
 
 	/**
@@ -140,6 +143,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic()
 	{
-		
+		SmartDashboard.putNumber("Gyro", loco.getYaw());
 	}
 }

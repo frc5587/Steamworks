@@ -11,14 +11,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DutifulProgression extends Command {
 
-	private static double kCorrection = 0.0;
-	private double targetDistance, driftAngle, originalHeading;
+	private static double kCorrection = 0.12;
+	private double targetDistance, driftAngle, originalHeading, direction;
+	
 	private Locomotive loco;
+	private double power = 0.3;
 	
 	/**
 	 * DutifulProgression takes the robot along a straight line a given distance.
 	 * 
-	 * @param distance The distance, in feet, we want the robot to travel.
+	 * @param distance The distance, in inches, we want the robot to travel.
 	 */
     public DutifulProgression( double distance ) {
         // Use requires() here to declare subsystem dependencies
@@ -26,12 +28,15 @@ public class DutifulProgression extends Command {
     	requires( Robot.loco );
     	loco = Robot.loco;
     	targetDistance = distance;
+    	direction = Math.signum( targetDistance );
+    	power *= direction;
     	SmartDashboard.putNumber( "Correction Coefficient", kCorrection );
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	loco.resetDistance();
+    	loco.zeroYaw();
     	originalHeading = loco.getYaw();
     }
 
@@ -39,12 +44,18 @@ public class DutifulProgression extends Command {
     protected void execute()
     {
     	driftAngle = loco.getYaw() - originalHeading;
-    	loco.keepPace( 0.5, driftAngle * SmartDashboard.getNumber( "Correction Coefficient", kCorrection ) );
+    	SmartDashboard.putNumber( "Passive Drift", driftAngle );
+    	loco.keepPace( power, driftAngle * SmartDashboard.getNumber( "Correction Coefficient", kCorrection ) );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return loco.getDistance() >= targetDistance;
+    	if( direction > 0 )
+    		return loco.getDistance() >= targetDistance;
+    	else if( direction < 0 )
+    		return loco.getDistance() <= targetDistance;
+    	else
+    		return true;
     }
 
     // Called once after isFinished returns true
@@ -56,4 +67,14 @@ public class DutifulProgression extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+    
+    /**
+     * 1074, 57.5"
+     * 1075, 59"
+     * 1082, 60"
+     * 1081, 58.5"
+     * 1069, 61"
+     * 
+     * 1076.2, 59.2
+     */
 }
