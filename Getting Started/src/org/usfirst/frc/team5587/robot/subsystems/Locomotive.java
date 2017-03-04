@@ -61,6 +61,7 @@ public class Locomotive extends Subsystem {
     
     public double leftRate, rightRate, driveRate;
     
+    private double zeroYaw;
     /**
      * Drivetrain constructor.
      */
@@ -105,6 +106,7 @@ public class Locomotive extends Subsystem {
         } catch (RuntimeException ex ) {
             DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
         }
+        zeroYaw = gyro.getYaw();
 
         LiveWindow.addSensor( "Locomotive", "Gyroscope", gyro );
         LiveWindow.addSensor( "Locomotive", "Left Encoder", leftEncoder );
@@ -258,12 +260,12 @@ public class Locomotive extends Subsystem {
     
     public double getYaw()
     {
-    	return gyro.getYaw();
+    	return gyro.getYaw() - zeroYaw;
     }
     
     public void zeroYaw()
     {
-    	gyro.reset();
+    	zeroYaw = gyro.getYaw();
     }
     
     public boolean isCalibrating()
