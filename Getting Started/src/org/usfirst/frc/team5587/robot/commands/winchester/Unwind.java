@@ -5,6 +5,7 @@ import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -37,6 +38,7 @@ public class Unwind extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	winch.set( 0.0 );
+    	SmartDashboard.putNumber( "winch_state" , 1 );
     }
 
     // Called when another command which requires one or more of the same
