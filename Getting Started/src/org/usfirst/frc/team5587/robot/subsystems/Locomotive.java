@@ -30,11 +30,11 @@ public class Locomotive extends Subsystem {
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static double Y_LIMIT = 1.0;
+    private static double Y_LIMIT = -1.0;
     private static final double X_LIMIT = 1.0;
     
-    private static double LEFT_LIMIT = 1.0;
-    private static double RIGHT_LIMIT = 1.0;
+    private static double LEFT_LIMIT = -1.0;
+    private static double RIGHT_LIMIT = -1.0;
     
     //The Drive Train motors
     public VictorSP leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor;
@@ -212,6 +212,16 @@ public class Locomotive extends Subsystem {
     public double getDistance()
     {
         return ( rightEncoder.getDistance() + leftEncoder.getDistance() ) / 2.0;
+    }
+    
+    public double getRightEncoder()
+    {
+    	return rightEncoder.getDistance();
+    }
+    
+    public double getLeftEncoder()
+    {
+    	return leftEncoder.getDistance();
     }
     
     /**

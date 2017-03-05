@@ -54,6 +54,8 @@ public class RobotMap {
 	public static int CLIMB_BUTTON = 6;
 	public static int UNWIND_BUTTON = 5;
 	public static int INVERT_BUTTON = 7;
+	public static int BACK_OFF_BUTTON = 1;
+	public static int TELE_OPERATED_BUTTON = 2;
 	
 	//NetworkTable
 	

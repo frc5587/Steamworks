@@ -81,6 +81,7 @@ public class Robot extends IterativeRobot {
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
     	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -1500.0 ) );
     	SmartDashboard.putData( "Auto Chooser", autoChooser );
+    	
     	SmartDashboard.putBoolean( "time_running" , false);
     	
     	teleOp = new TeleOp( oi.driver, oi.codriver );
@@ -140,7 +141,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit()
 	{
-		
+    	SmartDashboard.putNumber( "winch_state", 1 );
 	}
 	
 	@Override
