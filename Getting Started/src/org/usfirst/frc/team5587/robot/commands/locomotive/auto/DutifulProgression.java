@@ -27,7 +27,7 @@ public class DutifulProgression extends Command {
         // eg. requires(chassis);
     	requires( Robot.loco );
     	loco = Robot.loco;
-    	targetDistance = distance;
+    	targetDistance = distance; 
     	direction = Math.signum( targetDistance );
     	power *= direction;
     	SmartDashboard.putNumber( "Correction Coefficient", kCorrection );

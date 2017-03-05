@@ -50,7 +50,7 @@ public class RobotMap {
 	public static int CODRIVER = 1;
 	
 	//Buttons
-	public static int GUZZLE_BUTTON = 3;
+	public static int UNGUZZLE_BUTTON = 3;
 	public static int CLIMB_BUTTON = 6;
 	public static int UNWIND_BUTTON = 5;
 	public static int INVERT_BUTTON = 7;

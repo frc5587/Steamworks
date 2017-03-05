@@ -1,23 +1,22 @@
-package org.usfirst.frc.team5587.robot.commands.winchester;
+package org.usfirst.frc.team5587.robot.commands;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.Winchester;
+import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  *
  */
-public class Unwind extends Command {
+public class UnGuzzle extends Command {
 
-	private Winchester winch;
+	private GasGuzzler guzzler;
 	
-    public Unwind() {
+    public UnGuzzle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.winch );
-    	winch = Robot.winch;
+    	requires( Robot.guzzler );
+    	guzzler = Robot.guzzler;
     }
 
     // Called just before this Command runs the first time
@@ -26,17 +25,17 @@ public class Unwind extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	winch.set( .5 );
+    	guzzler.move();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    		return false;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	winch.set( 0.0 );
+    	guzzler.stop();
     }
 
     // Called when another command which requires one or more of the same

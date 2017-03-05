@@ -20,11 +20,11 @@ public class LeftGearDelivery extends CommandGroup {
         // these will run in order.
     	requires( Robot.loco );
 
-    	addSequential( new DutifulProgression( -53 ) );
+    	addSequential( new DutifulProgression( -1015 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new Gyrate( 70.0 ) );
+    	addSequential( new Gyrate( 60.0 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -81.25 ) );    	
+    	addSequential( new DutifulProgression( -1200 ) );    	
 
         // To run multiple commands at the same time,
         // use addParallel()

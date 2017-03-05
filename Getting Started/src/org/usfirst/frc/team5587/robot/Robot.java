@@ -19,6 +19,7 @@ import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -50,6 +51,7 @@ public class Robot extends IterativeRobot {
 	private Command auto;
 	private Command teleOp;
 	private UsbCamera cam0, cam1;
+	private CameraServer cam;
 	private MjpegServer cam1Server, cam2Server;
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
 	private boolean resBool;
@@ -79,8 +81,7 @@ public class Robot extends IterativeRobot {
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
     	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -1500.0 ) );
     	SmartDashboard.putData( "Auto Chooser", autoChooser );
-    	
-    	
+    	SmartDashboard.putBoolean( "time_running" , false);
     	
     	teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
@@ -89,6 +90,7 @@ public class Robot extends IterativeRobot {
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		loco.zeroYaw();
 		auto = autoChooser.getSelected();
 		if( auto != null )
 			auto.start();
@@ -115,6 +117,7 @@ public class Robot extends IterativeRobot {
 		counter = 0;
 		if( teleOp != null )
 			teleOp.start();
+    	SmartDashboard.putBoolean( "time_running" , true);
 	}
 
 	/**
@@ -144,5 +147,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic()
 	{
 		SmartDashboard.putNumber("Gyro", loco.getYaw());
+    	SmartDashboard.putBoolean( "time_running" , false);
 	}
 }

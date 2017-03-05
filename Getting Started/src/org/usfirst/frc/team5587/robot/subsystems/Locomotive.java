@@ -211,7 +211,7 @@ public class Locomotive extends Subsystem {
      */
     public double getDistance()
     {
-        return rightEncoder.getDistance();
+        return ( rightEncoder.getDistance() + leftEncoder.getDistance() ) / 2.0;
     }
     
     /**

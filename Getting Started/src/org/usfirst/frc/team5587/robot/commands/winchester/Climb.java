@@ -14,7 +14,7 @@ public class Climb extends Command {
 	private NetworkTable table;
 	private Winchester winch;
 	
-	private static final double KILL_CURRENT = 39.0;
+	private static final double KILL_CURRENT = 42.0;
 	private double maxCurrent = 0.0; 
 	
     public Climb() {
@@ -32,7 +32,7 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	winch.set( 1.0 );
+    	winch.set( -1.0 );
     	double currentCurrent = winch.getCurrent();
     	table.putNumber( "Winch Current Draw", currentCurrent );
     	if( currentCurrent > maxCurrent )

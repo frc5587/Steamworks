@@ -20,11 +20,11 @@ public class RightGearDelivery extends CommandGroup {
         // these will run in order.
     	requires( Robot.loco );
     	
-    	addSequential( new DutifulProgression( -62 ) );
+    	addSequential( new DutifulProgression( -1325 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new Gyrate( -58.0 ) );
+    	addSequential( new Gyrate( -60.0 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -81.25 ) );
+    	addSequential( new DutifulProgression( -1450 ) );
     	
 
         // To run multiple commands at the same time,

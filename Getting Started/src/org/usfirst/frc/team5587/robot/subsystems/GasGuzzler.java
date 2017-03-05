@@ -13,6 +13,7 @@ public class GasGuzzler extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	private static final double INTAKE_POWER = -.7;
+	private static final double REVERSE_POWER = .4;
 	private VictorSP guzzle;
 	
 	public GasGuzzler()
@@ -24,6 +25,11 @@ public class GasGuzzler extends Subsystem {
 	public void move()
 	{
 		guzzle.set( INTAKE_POWER );
+	}
+	
+	public void reverse()
+	{
+		guzzle.set( REVERSE_POWER );
 	}
 	
 	public void stop()
