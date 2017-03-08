@@ -44,6 +44,7 @@ public class DutifulProgression extends Command {
     protected void execute()
     {
     	driftAngle = loco.getYaw() - originalHeading;
+    	loco.printEncoders();
     	SmartDashboard.putNumber( "Passive Drift", driftAngle );
     	loco.keepPace( power, driftAngle * SmartDashboard.getNumber( "Correction Coefficient", kCorrection ) );
     }

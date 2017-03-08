@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
     	autoChooser.addDefault("Do Nothing", null);
     	autoChooser.addObject("Left Gear Place", new LeftGearDelivery());
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
-    	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -1500.0 ) );
+    	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -1000.0 ));//-1500.0 ) );
     	SmartDashboard.putData( "Auto Chooser", autoChooser );
     	
     	SmartDashboard.putBoolean( "time_running" , false);
