@@ -3,18 +3,14 @@ package org.usfirst.frc.team5587.robot;
 import org.usfirst.frc.team5587.classes.IterativeRobot;
 import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.commandgroups.LeftGearDelivery;
-import org.usfirst.frc.team5587.robot.commandgroups.ReturnTrip;
 import org.usfirst.frc.team5587.robot.commandgroups.RightGearDelivery;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
-import org.usfirst.frc.team5587.robot.commands.shooter.mortar.CANMortarPID;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
-import org.usfirst.frc.team5587.robot.subsystems.GasGuzzler;
+import org.usfirst.frc.team5587.robot.subsystems.GroundBox;
 import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
-import org.usfirst.frc.team5587.robot.subsystems.Mortar;
-import org.usfirst.frc.team5587.robot.subsystems.Suzy;
 import org.usfirst.frc.team5587.robot.subsystems.Winchester;
 
 import edu.wpi.cscore.MjpegServer;
@@ -35,19 +31,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
-	public static final GasGuzzler guzzler = new GasGuzzler();
-	public static final Locomotive loco = new Locomotive();
-	public static final CANSuzy suzyCAN = new CANSuzy();
-	public static final Suzy suzyQ = new Suzy();
-	public static final Mortar mortar = new Mortar();
+
+	public static final GroundBox groundbox = new GroundBox();
 	public static final CANMortar mortarCAN = new CANMortar();
-	public static final Winchester winch = new Winchester();
 	public static final LittleStar orion = new LittleStar();
+	public static final Locomotive loco = new Locomotive();
+	public static final PowerDistributionPanel pdp = new PowerDistributionPanel();
+	public static final CANSuzy suzyCAN = new CANSuzy();
+	public static final Winchester winch = new Winchester();
 
 	NetworkTable table;
 	int counter;
-	private OI oi;
+	public static OI oi;
 	private Command auto;
 	private Command teleOp;
 	private UsbCamera cam0, cam1;

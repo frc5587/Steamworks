@@ -18,7 +18,7 @@ public class RobotMap {
 	public static int RIGHT_REAR_MOTOR = 5;
 	public static int SUZY_MOTOR = 6;
 	public static int WINCH_MOTOR = 0;
-	public static int INTAKE_MOTOR = 7;
+	public static int ROLLER_MOTOR = 7;
 	public static int SCREW_MOTOR = 2;
 	public static int FEEDER_SERVO = 8;
 	public static int FLYWHEEL_PLACEHOLDER_PWM = 9;
@@ -32,7 +32,7 @@ public class RobotMap {
 	public static int LEFT_DRIVETRAIN_ENCODER_B = 1;
 	public static int RIGHT_DRIVETRAIN_ENCODER_A = 2;
 	public static int RIGHT_DRIVETRAIN_ENCODER_B = 3;
-	public static int ULTRASONIC_RANGEFINDER = 4;
+	public static int GEAR_SWITCH = 4;
 	public static int JOEY_A = 5;
 	public static int JOEY_B = 6;
 	public static int SUZY_ENC_A = 7;
@@ -41,6 +41,7 @@ public class RobotMap {
 	//CAN
 	public static int FLYWHEEL_MOTOR_CAN_ID = 1;
 	public static int TURNTABLE_MOTOR_CAN_ID = 2;
+	public static int ARTICULES_MOTOR_CAN_ID = 3;
 	
 	//MXP
 	public static Port NAVX_MXP = SPI.Port.kMXP;

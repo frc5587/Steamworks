@@ -23,12 +23,10 @@ public class TeleOp extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-    	requires( Robot.mortar );
     	requires( Robot.loco );
     	
     	//addParallel( new TableMarch() );
     	addParallel( new ForcedMarch( driver ) );
-    	addParallel( new CANMortarStick( codriver ) );
 
         // A command group will require all of the subsystems that each member
         // would require.
