@@ -9,6 +9,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -21,7 +22,7 @@ public class GroundBox extends Subsystem {
 	private VictorSP highRoller;
 	private DigitalInput gearSwitch;
 
-	private static double ROLL_POWER = 0.5;
+	private static double ROLL_POWER = 0.35;
 	
 	private static final double UP_POSITION = 0;
 	private static final double DELIVER_POSITION = 0;
@@ -48,6 +49,7 @@ public class GroundBox extends Subsystem {
 		articules.setI( kI );
 		articules.setD( kD );
 		articules.setF( kF );
+		
 	}
 	
 	public double getPosition()
@@ -80,9 +82,10 @@ public class GroundBox extends Subsystem {
 		articules.setPosition( DELIVER_POSITION );
 	}
 	
-	public void rollin()
+	public void rollIn()
 	{
 		highRoller.set( ROLL_POWER );
+		
 	}
 	
 	public void rollOut()

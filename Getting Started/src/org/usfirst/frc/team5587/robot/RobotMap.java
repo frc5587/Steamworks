@@ -40,8 +40,10 @@ public class RobotMap {
 	
 	//CAN
 	public static int FLYWHEEL_MOTOR_CAN_ID = 1;
-	public static int TURNTABLE_MOTOR_CAN_ID = 2;
+	public static int TURNTABLE_MOTOR_CAN_ID = 3;
 	public static int ARTICULES_MOTOR_CAN_ID = 3;
+	
+	public static int ROLLER_MOTOR_CAN_ID = 2;
 	
 	//MXP
 	public static Port NAVX_MXP = SPI.Port.kMXP;
@@ -57,6 +59,7 @@ public class RobotMap {
 	public static int INVERT_BUTTON = 7;
 	public static int BACK_OFF_BUTTON = 1;
 	public static int TELE_OPERATED_BUTTON = 2;
+	
 	
 	//NetworkTable
 	

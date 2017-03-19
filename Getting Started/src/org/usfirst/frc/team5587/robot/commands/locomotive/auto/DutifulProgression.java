@@ -15,7 +15,7 @@ public class DutifulProgression extends Command {
 	private double targetDistance, driftAngle, originalHeading, direction;
 	
 	private Locomotive loco;
-	private double power = 0.3;
+	private double power = 0.4;
 	
 	/**
 	 * DutifulProgression takes the robot along a straight line a given distance.

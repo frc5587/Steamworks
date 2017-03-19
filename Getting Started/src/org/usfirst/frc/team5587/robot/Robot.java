@@ -5,6 +5,8 @@ import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.commandgroups.LeftGearDelivery;
 import org.usfirst.frc.team5587.robot.commandgroups.RightGearDelivery;
 import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
+import org.usfirst.frc.team5587.robot.commands.groundbox.RollIn;
+import org.usfirst.frc.team5587.robot.commands.groundbox.RollOut;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
@@ -61,7 +63,9 @@ public class Robot extends IterativeRobot {
 		//teleOp = new CANMortarPID();
     	
     	cam0 = new UsbCamera("cam0",0);
-    	resBool = cam0.setResolution(32, 28);
+    	resBool = cam0.setResolution(320, 180);
+    	resBool = cam0.setFPS(30);
+    	cam0.setExposureManual(3);
     	cam1 = new UsbCamera( "cam1", 1 );
     	resBool = cam1.setResolution(32,28);
     	

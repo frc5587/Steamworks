@@ -1,5 +1,8 @@
 package org.usfirst.frc.team5587.robot.commands.groundbox;
 
+import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.GroundBox;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -7,9 +10,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RollOut extends Command {
 
+	private GroundBox groundbox;
+
     public RollOut() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	groundbox = Robot.groundbox;
     }
 
     // Called just before this Command runs the first time
@@ -18,6 +24,7 @@ public class RollOut extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	groundbox.rollOut();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -27,6 +34,7 @@ public class RollOut extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	groundbox.stopRolling();
     }
 
     // Called when another command which requires one or more of the same

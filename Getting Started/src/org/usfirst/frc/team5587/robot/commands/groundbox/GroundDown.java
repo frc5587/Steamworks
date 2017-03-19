@@ -15,7 +15,8 @@ public class GroundDown extends Command {
     public GroundDown() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.groundbox );
+    	groundbox = Robot.groundbox;
+    	requires( groundbox );
     }
 
     // Called just before this Command runs the first time
