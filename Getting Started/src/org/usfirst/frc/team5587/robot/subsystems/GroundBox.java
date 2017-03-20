@@ -24,9 +24,11 @@ public class GroundBox extends Subsystem {
 
 	private static double ROLL_POWER = 0.35;
 	
-	private static final double UP_POSITION = 0;
-	private static final double DELIVER_POSITION = 0;
-	private static final double DOWN_POSITION = 1024;
+	private static final double UP_POSITION = 70;
+	private static final double DELIVER_POSITION = 45;
+	private static final double DOWN_POSITION = 0;
+	private static final int ERROR_MARGIN = 5;
+	private static final int CURRENT_LIMIT = 40;
 	
 	private static double kP,
 							kI,
@@ -41,6 +43,8 @@ public class GroundBox extends Subsystem {
 		
 		articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
+		articules.enableZeroSensorPositionOnForwardLimit(true);
+		articules.reverseOutput(false);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
 		articules.configPeakOutputVoltage( +12.0f, -12.0f );
@@ -50,6 +54,9 @@ public class GroundBox extends Subsystem {
 		articules.setD( kD );
 		articules.setF( kF );
 		
+		articules.setAllowableClosedLoopErr(ERROR_MARGIN);
+		articules.setCurrentLimit(CURRENT_LIMIT);
+		articules.EnableCurrentLimit(true);
 	}
 	
 	public double getPosition()
@@ -69,20 +76,33 @@ public class GroundBox extends Subsystem {
 	
 	public void grindUp()
 	{
-		articules.setPosition( UP_POSITION );
+		grindManual( UP_POSITION );
 	}
 	
 	public void grindDown()
 	{
-		articules.setPosition( DOWN_POSITION );
+		grindManual( DOWN_POSITION );
 	}
 	
 	public void deliveryNotDigiorno()
 	{
-		articules.setPosition( DELIVER_POSITION );
+		articules.setSetpoint( DELIVER_POSITION );
 	}
 	
-	public void rollIn()
+	public void grindManual(double pos)
+	{
+		articules.setSetpoint( pos/360 );
+	}
+	
+	public void grindReset()
+	{
+		articules.setPosition(0);
+	}
+	public void stopGrind(){
+		articules.disable();
+	}
+	
+	public void succ()
 	{
 		highRoller.set( ROLL_POWER );
 		

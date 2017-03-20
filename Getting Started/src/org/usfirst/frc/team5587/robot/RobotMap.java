@@ -53,12 +53,17 @@ public class RobotMap {
 	public static int CODRIVER = 1;
 	
 	//Buttons
-	public static int UNGUZZLE_BUTTON = 3;
+	//public static int UNGUZZLE_BUTTON = 3;
 	public static int CLIMB_BUTTON = 6;
 	public static int UNWIND_BUTTON = 5;
 	public static int INVERT_BUTTON = 7;
 	public static int BACK_OFF_BUTTON = 1;
 	public static int TELE_OPERATED_BUTTON = 2;
+	public static int HUNGER_BUTTON = 3;
+	public static int DIGEST_BUTTON = 4;
+	public static int REGRET_BUTTON;
+	public static int VOMIT_BUTTON;
+	
 	
 	
 	//NetworkTable

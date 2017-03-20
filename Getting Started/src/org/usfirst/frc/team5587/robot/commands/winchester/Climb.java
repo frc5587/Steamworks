@@ -15,7 +15,7 @@ public class Climb extends Command {
 	private NetworkTable table;
 	private Winchester winch;
 	
-	private static final double KILL_CURRENT = 42.0;
+	private static final double KILL_CURRENT = 75;
 	private double maxCurrent = 0.0; 
 	
     public Climb() {
