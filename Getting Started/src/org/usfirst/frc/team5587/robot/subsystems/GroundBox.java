@@ -44,10 +44,10 @@ public class GroundBox extends Subsystem {
 		articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
 		articules.enableZeroSensorPositionOnForwardLimit(true);
-		articules.reverseOutput(false);
+		articules.reverseOutput( true );
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
-		articules.configPeakOutputVoltage( +12.0f, -12.0f );
+		articules.configPeakOutputVoltage( +0.0f, -12.0f );
 		
 		articules.setP( kP );
 		articules.setI( kI );
@@ -66,7 +66,7 @@ public class GroundBox extends Subsystem {
 	
 	public double getDegrees()
 	{
-		return getPosition() * 360.0 / 4096.0;
+		return getPosition() * 360.0;
 	}
 	
 	public boolean hasGear()
@@ -99,7 +99,7 @@ public class GroundBox extends Subsystem {
 		articules.setPosition(0);
 	}
 	public void stopGrind(){
-		articules.disable();
+		articules.disableControl();
 	}
 	
 	public void succ()
@@ -116,6 +116,19 @@ public class GroundBox extends Subsystem {
 	public void stopRolling()
 	{
 		highRoller.stopMotor();
+	}
+	
+	public void updateP( double kP ){
+		articules.setP(kP);
+	}
+	public void updateI( double kI){
+		articules.setI(kI);
+	}
+	public void updateD( double kD ){
+		articules.setD(kD);
+	}
+	public void updateF( double kF ){
+		articules.setF(kF);
 	}
 	
     public void initDefaultCommand() {
