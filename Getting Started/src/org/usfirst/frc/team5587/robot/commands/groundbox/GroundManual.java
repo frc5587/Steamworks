@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5587.robot.commands.groundbox;
 
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.GroundBox;
 
@@ -12,21 +13,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class GroundManual extends Command {
 
 	private GroundBox groundbox;
+	private NetworkTable armTable;
     public GroundManual() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.groundbox );
     	groundbox = Robot.groundbox;
+    	armTable = NetworkTable.getTable("arm");
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	SmartDashboard.putNumber("Box Angle", 0);
+    	groundbox.enableAngleCompensation();
+    	groundbox.updatePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	groundbox.grindManual((int) SmartDashboard.getNumber("Box Angle", 0));
+    	groundbox.pid(armTable.getNumber("setpoint", 0));
     }
 
     // Make this return true when this Command no longer needs to run execute()

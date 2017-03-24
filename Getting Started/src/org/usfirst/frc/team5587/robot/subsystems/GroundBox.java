@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5587.robot.subsystems;
 
+import org.usfirst.frc.team5587.classes.NetworkTable;
 import org.usfirst.frc.team5587.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -44,7 +45,7 @@ public class GroundBox extends Subsystem {
 		articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
 		articules.enableZeroSensorPositionOnForwardLimit(true);
-		articules.reverseOutput(false);
+		articules.reverseSensor(true);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
 		articules.configPeakOutputVoltage( +12.0f, -12.0f );
@@ -66,7 +67,7 @@ public class GroundBox extends Subsystem {
 	
 	public double getDegrees()
 	{
-		return getPosition() * 360.0 / 4096.0;
+		return getPosition() * 360.0;
 	}
 	
 	public boolean hasGear()
@@ -99,7 +100,7 @@ public class GroundBox extends Subsystem {
 		articules.setPosition(0);
 	}
 	public void stopGrind(){
-		articules.disable();
+		articules.disableControl();
 	}
 	
 	public void succ()
@@ -116,6 +117,56 @@ public class GroundBox extends Subsystem {
 	public void stopRolling()
 	{
 		highRoller.stopMotor();
+	}
+
+	//Custom PID Section
+	private NetworkTable armTable = NetworkTable.getTable("arm");
+	
+	private double error = 0;
+	private double sumError = 0;
+	private double deltaError = 0;
+	private static double deadband = 1;
+	private double pidOutput = 0;
+	private double restAngle = 0; //this is the angle that the groundbox would naturally fall down to
+	
+	public void enableAngleCompensation(){
+		articules.changeControlMode( TalonControlMode.Voltage );
+	}
+	
+	public void updatePID(){
+		kF = armTable.getNumber( "kF", 0.0 );
+		kP = armTable.getNumber( "kP", 0.0 );
+		kI = armTable.getNumber( "kI", 0.0 );
+		kD = armTable.getNumber( "kD", 0.0 );
+		
+		error = 0;
+		sumError = 0;
+		deltaError = 0;
+	}
+	
+	public void pid( double setpoint ){
+		armTable.putNumber("angle", getDegrees());
+		double lastError = error;
+		double radians = getDegrees()/180.0 * Math.PI;
+		double restRadians = restAngle/180.0 * Math.PI;
+		
+		error = setpoint - getDegrees();
+		sumError += error;
+		
+		if(lastError == 0.0)	//I'm tired and unsure if this is necessary, 
+			deltaError = 0;		//but I want to make sure that there isn't any ridiculous damping out of the gate
+		else
+			deltaError = error-lastError;
+		
+			
+		if(sumError*kI > 1){
+			sumError = 1.0/kI;
+		}
+		
+		if(Math.abs(error) > deadband){
+			pidOutput = kP*error+ kI*sumError + kD*deltaError + kF*Math.sin(radians-restRadians);
+		}
+		articules.set(pidOutput*12); //multiplied by 12 for 12v output
 	}
 	
     public void initDefaultCommand() {
