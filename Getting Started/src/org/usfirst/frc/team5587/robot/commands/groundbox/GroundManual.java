@@ -14,6 +14,7 @@ public class GroundManual extends Command {
 
 	private GroundBox groundbox;
 	private NetworkTable armTable;
+
     public GroundManual() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -40,7 +41,7 @@ public class GroundManual extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	groundbox.stopGrind();
+    	//groundbox.stopGrind();
     }
 
     // Called when another command which requires one or more of the same

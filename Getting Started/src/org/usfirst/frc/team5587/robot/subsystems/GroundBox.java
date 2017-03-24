@@ -48,7 +48,7 @@ public class GroundBox extends Subsystem {
 		articules.reverseSensor(true);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
-		articules.configPeakOutputVoltage( +12.0f, -12.0f );
+		articules.configPeakOutputVoltage( +0.0f, -12.0f );
 		
 		articules.setP( kP );
 		articules.setI( kI );
@@ -167,6 +167,19 @@ public class GroundBox extends Subsystem {
 			pidOutput = kP*error+ kI*sumError + kD*deltaError + kF*Math.sin(radians-restRadians);
 		}
 		articules.set(pidOutput*12); //multiplied by 12 for 12v output
+	}
+	
+	public void updateP( double kP ){
+		articules.setP(kP);
+	}
+	public void updateI( double kI){
+		articules.setI(kI);
+	}
+	public void updateD( double kD ){
+		articules.setD(kD);
+	}
+	public void updateF( double kF ){
+		articules.setF(kF);
 	}
 	
     public void initDefaultCommand() {
