@@ -19,9 +19,9 @@ public class ReturnTrip extends CommandGroup {
     	
     	requires( Robot.loco );
     	
-    	addSequential( new DutifulProgression( 66.0 ) );
+    	addSequential( new DutifulProgression( 66.0, 6 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -66.0 ) );
+    	addSequential( new DutifulProgression( -66.0, 6 ) );
 
         // To run multiple commands at the same time,
         // use addParallel()

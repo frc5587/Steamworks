@@ -3,6 +3,7 @@ package org.usfirst.frc.team5587.robot.commands.locomotive.auto;
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,17 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DutifulProgression extends Command {
 
 	private static double kCorrection = 0.12;
-	private double targetDistance, driftAngle, originalHeading, direction;
+	private double targetDistance, driftAngle, originalHeading, direction, killTime;
+	private Timer timer;
 	
 	private Locomotive loco;
-	private double power = 0.6;
+	private double power = 0.4;
 	
 	/**
 	 * DutifulProgression takes the robot along a straight line a given distance.
 	 * 
 	 * @param distance The distance, in inches, we want the robot to travel.
 	 */
-    public DutifulProgression( double distance ) {
+    public DutifulProgression( double distance, double time ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	//requires( Robot.loco );
@@ -31,6 +33,8 @@ public class DutifulProgression extends Command {
     	direction = Math.signum( targetDistance );
     	power *= direction;
     	SmartDashboard.putNumber( "Correction Coefficient", kCorrection );
+    	killTime = time;
+    	timer = new Timer();
     }
 
     // Called just before this Command runs the first time
@@ -39,6 +43,7 @@ public class DutifulProgression extends Command {
     	loco.zeroYaw();
     	loco.disableDriverControl();
     	originalHeading = loco.getYaw();
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -52,10 +57,12 @@ public class DutifulProgression extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if( direction > 0 )
-    		return loco.getDistance() >= targetDistance;
+    	if( timer.get() > killTime )
+    		return true;
+    	else if( direction > 0 )
+    		return loco.getLeftEncoder() >= targetDistance;
     	else if( direction < 0 )
-    		return loco.getDistance() <= targetDistance;
+    		return loco.getLeftEncoder() <= targetDistance;
     	else
     		return true;
     }

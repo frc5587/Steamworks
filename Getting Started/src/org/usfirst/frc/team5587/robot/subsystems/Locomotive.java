@@ -24,7 +24,7 @@ import com.kauailabs.navx.frc.AHRS;
 public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
-    private static final double DISTANCE_PER_PULSE = .0001061032953;//0.05500836275785170042742984575358;
+    private static final double DISTANCE_PER_PULSE = 100.0/56.0*0.05500836275785170042742984575358/1.67857142;
     private static final double AUTO_OUTPUT_LIMIT = 0.5;
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
@@ -85,7 +85,7 @@ public class Locomotive extends Subsystem {
         //Setup encoders
         leftEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
         rightEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
-        leftEncoder.setReverseDirection( true );
+        rightEncoder.setReverseDirection( true );
         
         leftEncoder.setPIDSourceType( PIDSourceType.kDisplacement );
         rightEncoder.setPIDSourceType( PIDSourceType.kDisplacement );

@@ -59,10 +59,10 @@ public class RobotMap {
 	public static int INVERT_BUTTON = 7;
 	public static int BACK_OFF_BUTTON = 1;
 	public static int TELE_OPERATED_BUTTON = 2;
-	public static int HUNGER_BUTTON = 3;
-	public static int DIGEST_BUTTON = 4;
-	public static int REGRET_BUTTON;
-	public static int VOMIT_BUTTON;
+	public static int DUMMY_DOWN_BUTTON = 2;//HUNGER_BUTTON = 3;
+	public static int DUMMY_UP_BUTTON = 3;//DIGEST_BUTTON = 4;
+	public static int SUCC_BUTTON = 5;
+	public static int VOMIT_BUTTON = 4;
 	
 	
 	

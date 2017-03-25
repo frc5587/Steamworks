@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	private Command auto;
 	private Command teleOp;
-	private UsbCamera cam0, cam1;
+	private UsbCamera cam2, cam1;
 	private CameraServer cam;
 	private MjpegServer cam1Server, cam2Server;
 	SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -62,27 +62,40 @@ public class Robot extends IterativeRobot {
     	oi = new OI();
 		//teleOp = new CANMortarPID();
     	
-    	cam0 = new UsbCamera("cam0",0);
-    	resBool = cam0.setResolution(320, 180);
-    	resBool = cam0.setFPS(30);
-    	cam0.setExposureManual(3);
-    	cam1 = new UsbCamera( "cam1", 1 );
-    	resBool = cam1.setResolution(32,28);
+    	cam2 = new UsbCamera("cam2",0);
+    	resBool = cam2.setResolution(320, 180);
+    	resBool = cam2.setFPS(30);
+    	//cam2.setExposureManual(3);
     	
-    	cam1Server = new MjpegServer("cam0 feed",1181);
-    	cam1Server.setSource(cam0);
+    	cam1 = new UsbCamera("cam1",0);
+    	resBool = cam1.setResolution(320, 180);
+    	//resBool = cam1.setFPS(30);
+    	//cam2.setExposureManual(3);
     	
-    	cam2Server = new MjpegServer("cam1 feed",1182);
+    	cam1Server = new MjpegServer("cam2 feed",1181);
+    	cam1Server.setSource(cam2);
+    	
+    	cam2Server = new MjpegServer("cam1 feed",1181);
     	cam2Server.setSource(cam1);
     	
     	autoChooser.addDefault("Do Nothing", null);
     	autoChooser.addObject("Left Gear Place", new LeftGearDelivery());
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
-    	autoChooser.addObject( "Front Gear Place", new DutifulProgression( -1000.0 ));//-1500.0 ) );
+    	autoChooser.addObject( "10ft", new DutifulProgression( -120.0, 8 ));
+    	autoChooser.addObject( "6ft", new DutifulProgression( -72.0, 6 ));
+//    	autoChooser.addObject( "1in", new DutifulProgression( -1.0 ));//-1500.0 ) );
+//    	autoChooser.addObject( "2in", new DutifulProgression( -2.0 ));
+//    	autoChooser.addObject( "4in", new DutifulProgression( -4.0 ));
+//    	autoChooser.addObject( "8in", new DutifulProgression( -8.0 ));
     	SmartDashboard.putData( "Auto Chooser", autoChooser );
     	
     	SmartDashboard.putBoolean( "time_running" , false);
-    	
+    	SmartDashboard.putNumber( "setpoint", 0.0);
+    	SmartDashboard.putNumber( "kF", 0.0);
+		SmartDashboard.putNumber( "kP", 0.0);
+		SmartDashboard.putNumber( "kI", 0.0);
+		SmartDashboard.putNumber( "kD", 0.0);
+		
     	teleOp = new TeleOp( oi.driver, oi.codriver );
 	}
 
@@ -127,7 +140,9 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Gyro", loco.getYaw());
-		
+		loco.printEncoders();
+		System.out.println(SmartDashboard.getNumber( "setpoint", 0.0 ));
+    	SmartDashboard.putBoolean( "Has Gear?", groundbox.hasGear() );
 	}
 
 	/**

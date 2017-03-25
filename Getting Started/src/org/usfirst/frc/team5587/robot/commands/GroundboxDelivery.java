@@ -31,6 +31,6 @@ public class GroundboxDelivery extends CommandGroup {
     	
     	addSequential(new Regret());
     	addParallel(new Vomit());
-    	addParallel(new DutifulProgression(-10));
+    	addParallel(new DutifulProgression(-10, 8 ));
     }
 }
