@@ -15,7 +15,7 @@ public class DutifulProgression extends Command {
 	private double targetDistance, driftAngle, originalHeading, direction;
 	
 	private Locomotive loco;
-	private double power = 0.4;
+	private double power = 0.6;
 	
 	/**
 	 * DutifulProgression takes the robot along a straight line a given distance.
@@ -37,6 +37,7 @@ public class DutifulProgression extends Command {
     protected void initialize() {
     	loco.resetDistance();
     	loco.zeroYaw();
+    	loco.disableDriverControl();
     	originalHeading = loco.getYaw();
     }
 
@@ -62,11 +63,13 @@ public class DutifulProgression extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	loco.halt();
+    	loco.enableDriverControl();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
     
     /**

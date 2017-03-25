@@ -1,46 +1,50 @@
-package org.usfirst.frc.team5587.robot.commands.groundbox;
+package org.usfirst.frc.team5587.robot.commands.locomotive;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.subsystems.GroundBox;
+import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Vomit extends TimedCommand {
+public class DriverInput extends Command {
 
-	private GroundBox groundbox;
-
-    public Vomit() {
+	private Locomotive loco;
+	private boolean enabled;
+	
+    public DriverInput(boolean e) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	super(0.25);
-    	groundbox = Robot.groundbox;
+    	loco = Robot.loco;
+    	enabled = e;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if(enabled){
+    		loco.enableDriverControl();
+    	}
+    	else if(!enabled){
+    		loco.disableDriverControl();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	groundbox.rollOut();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	groundbox.stopRolling();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

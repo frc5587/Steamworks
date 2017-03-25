@@ -24,7 +24,7 @@ import com.kauailabs.navx.frc.AHRS;
 public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
-    private static final double DISTANCE_PER_PULSE = 1;//0.05500836275785170042742984575358;
+    private static final double DISTANCE_PER_PULSE = .0001061032953;//0.05500836275785170042742984575358;
     private static final double AUTO_OUTPUT_LIMIT = 0.5;
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
@@ -32,6 +32,7 @@ public class Locomotive extends Subsystem {
     
     private static double Y_LIMIT = -1.0;
     private static final double X_LIMIT = 1.0;
+    private static double DRIVER_CONTROL = 1.0;
     
     private static double LEFT_LIMIT = -1.0;
     private static double RIGHT_LIMIT = -1.0;
@@ -144,13 +145,21 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	keepPace( -stick.getY() * Y_LIMIT, -stick.getX() * X_LIMIT );
+    	keepPace( -stick.getY() * Y_LIMIT * DRIVER_CONTROL, -stick.getX() * X_LIMIT * DRIVER_CONTROL );
     }
     
     public void invert()
     {
     	Y_LIMIT *= -1.0;
     }
+    
+    public void disableDriverControl(){
+    	DRIVER_CONTROL = 0;
+    }
+    public void enableDriverControl(){
+    	DRIVER_CONTROL = 1;
+    }
+    
     
     public void keepPace( double y, double x )
     {

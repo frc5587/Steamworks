@@ -31,7 +31,7 @@ public class GroundBox extends Subsystem {
 	private static final int ERROR_MARGIN = 5;
 	private static final int CURRENT_LIMIT = 40;
 	
-	private static double kP,
+	private double kP,
 							kI,
 							kD,
 							kF;
@@ -45,7 +45,7 @@ public class GroundBox extends Subsystem {
 		articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
 		articules.enableZeroSensorPositionOnForwardLimit(true);
-		articules.reverseSensor(true);
+		articules.reverseOutput(true);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
 		articules.configPeakOutputVoltage( +0.0f, -12.0f );
