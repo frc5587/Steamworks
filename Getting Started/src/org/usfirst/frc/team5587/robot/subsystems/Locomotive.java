@@ -32,7 +32,7 @@ public class Locomotive extends Subsystem {
     
     private static double Y_LIMIT = -1.0;
     private static final double X_LIMIT = 1.0;
-    private static double DRIVER_CONTROL = 1.0;
+    private static boolean driverControl = true;
     
     private static double LEFT_LIMIT = -1.0;
     private static double RIGHT_LIMIT = -1.0;
@@ -145,7 +145,9 @@ public class Locomotive extends Subsystem {
      */
     public void keepPace( Joystick stick )
     {
-    	keepPace( -stick.getY() * Y_LIMIT * DRIVER_CONTROL, -stick.getX() * X_LIMIT * DRIVER_CONTROL );
+    	if(driverControl){
+    		keepPace( -stick.getY() * Y_LIMIT , -stick.getX() * X_LIMIT );
+    	}
     }
     
     public void invert()
@@ -153,13 +155,13 @@ public class Locomotive extends Subsystem {
     	Y_LIMIT *= -1.0;
     }
     
-    public void disableDriverControl(){
-    	DRIVER_CONTROL = 0;
-    }
     public void enableDriverControl(){
-    	DRIVER_CONTROL = 1;
+    	driverControl = true;
     }
     
+    public void disableDriverControl(){
+    	driverControl = false;
+    }
     
     public void keepPace( double y, double x )
     {
