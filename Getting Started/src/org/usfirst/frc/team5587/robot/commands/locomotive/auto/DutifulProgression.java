@@ -25,7 +25,7 @@ public class DutifulProgression extends Command {
     public DutifulProgression( double distance ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.loco );
+    	//requires( Robot.loco );
     	loco = Robot.loco;
     	targetDistance = distance; 
     	direction = Math.signum( targetDistance );

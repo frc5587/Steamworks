@@ -81,7 +81,7 @@ public class OI
         unwind = new JoystickButton( driver, RobotMap.UNWIND_BUTTON );
         invert = new JoystickButton( driver, RobotMap.INVERT_BUTTON );
         backOff = new JoystickButton( driver, RobotMap.BACK_OFF_BUTTON );
-        teleOp = new JoystickButton( driver, RobotMap.TELE_OPERATED_BUTTON );
+        //teleOp = new JoystickButton( driver, RobotMap.TELE_OPERATED_BUTTON );
         hunger = new JoystickButton( driver, RobotMap.HUNGER_BUTTON );
         digest = new JoystickButton( driver, RobotMap.DIGEST_BUTTON );
         regret = new JoystickButton( driver, RobotMap.REGRET_BUTTON );
@@ -90,8 +90,8 @@ public class OI
         climb.toggleWhenPressed( new Climb() );
         unwind.toggleWhenPressed( new Unwind() );
         invert.whenPressed( new InvertDrive() );
-        backOff.whenPressed( new DutifulProgression( 65 ) );
-        teleOp.whenPressed( new TeleOp( driver, codriver ) );
+        backOff.whenPressed( new DutifulProgression( 8 ) );
+        //teleOp.whenPressed( new TeleOp( driver, codriver ) );
         
         hunger.whenPressed( new Hunger());
         digest.whenPressed( new Digest());
