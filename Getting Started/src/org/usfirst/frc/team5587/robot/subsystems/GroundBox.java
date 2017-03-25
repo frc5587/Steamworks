@@ -134,10 +134,12 @@ public class GroundBox extends Subsystem {
 	}
 	
 	public void updatePID(){
-		kF = armTable.getNumber( "kF", 0.0 );
-		kP = armTable.getNumber( "kP", 0.0 );
-		kI = armTable.getNumber( "kI", 0.0 );
-		kD = armTable.getNumber( "kD", 0.0 );
+		kF = armTable.getNumber( "kF");
+		kP = armTable.getNumber( "kP");
+		armTable.putNumber("working", 1);
+		System.out.println(armTable.getNumber( "kP" ));
+		kI = armTable.getNumber( "kI");
+		kD = armTable.getNumber( "kD");
 		
 		error = 0;
 		sumError = 0;
@@ -167,6 +169,8 @@ public class GroundBox extends Subsystem {
 			pidOutput = kP*error+ kI*sumError + kD*deltaError + kF*Math.sin(radians-restRadians);
 		}
 		articules.set(pidOutput*12); //multiplied by 12 for 12v output
+		System.out.println("kP: " + kP);
+		System.out.println("Output: " + pidOutput);
 	}
 	
 	public void updateP( double kP ){
