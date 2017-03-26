@@ -24,7 +24,7 @@ public class BackOff extends CommandGroup {
         // Command1 and Command2 will run in parallel.
     	requires( Robot.loco );
     	
-    	addSequential( new DutifulProgression( 50, 3 ) );
+    	addSequential( new DutifulProgression( 5, 3 ) );
     	addSequential( new TeleOp( driver, codriver ) );
     	
         // A command group will require all of the subsystems that each member

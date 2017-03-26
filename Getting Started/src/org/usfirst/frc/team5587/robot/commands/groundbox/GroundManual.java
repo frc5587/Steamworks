@@ -14,6 +14,7 @@ public class GroundManual extends Command {
 
 	private GroundBox groundbox;
 	private NetworkTable armTable;
+	private double setpoint;
 
     public GroundManual() {
         // Use requires() here to declare subsystem dependencies
@@ -21,6 +22,15 @@ public class GroundManual extends Command {
     	requires( Robot.groundbox );
     	groundbox = Robot.groundbox;
     	armTable = NetworkTable.getTable("arm");
+    }
+    
+    public GroundManual( double s) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires( Robot.groundbox );
+    	groundbox = Robot.groundbox;
+    	armTable = NetworkTable.getTable("arm");
+    	setpoint = s;
     }
 
     // Called just before this Command runs the first time
@@ -31,7 +41,7 @@ public class GroundManual extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	groundbox.pid(SmartDashboard.getNumber("setpoint", 0));
+    	groundbox.pid(SmartDashboard.getNumber("setpoint", setpoint));
     }
 
     // Make this return true when this Command no longer needs to run execute()

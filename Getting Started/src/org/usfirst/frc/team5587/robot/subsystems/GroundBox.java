@@ -25,10 +25,9 @@ public class GroundBox extends Subsystem {
 
 	private static double ROLL_POWER = -0.35;
 	
-	private static final double UP_POSITION = 70;
-	private static final double DELIVER_POSITION = 45;
+	private static final double UP_POSITION = 130;
+	private static final double DELIVER_POSITION = 90;
 	private static final double DOWN_POSITION = 0;
-	private static final int ERROR_MARGIN = 5;
 	private static final int CURRENT_LIMIT = 40;
 	
 	private double kP,
@@ -45,17 +44,11 @@ public class GroundBox extends Subsystem {
 		//articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
 		articules.enableZeroSensorPositionOnForwardLimit(true);
-		articules.reverseSensor(false);
+		articules.reverseSensor(true);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
 		articules.configPeakOutputVoltage( +0.0f, -12.0f );
 		
-		articules.setP( kP );
-		articules.setI( kI );
-		articules.setD( kD );
-		articules.setF( kF );
-		
-		articules.setAllowableClosedLoopErr(ERROR_MARGIN);
 		articules.setCurrentLimit(CURRENT_LIMIT);
 		articules.EnableCurrentLimit(true);
 	}
@@ -87,7 +80,7 @@ public class GroundBox extends Subsystem {
 	
 	public void deliveryNotDigiorno()
 	{
-		articules.setSetpoint( DELIVER_POSITION );
+		grindManual( DELIVER_POSITION );
 	}
 	
 	public void grindManual(double pos)
@@ -126,7 +119,7 @@ public class GroundBox extends Subsystem {
 	private double error = 0;
 	private double sumError = 0;
 	private double deltaError = 0;
-	private static double deadband = 1;
+	private static double deadband = 2;
 	private double pidOutput = 0;
 	private double restAngle = 0; //this is the angle that the groundbox would naturally fall down to
 	
@@ -135,17 +128,10 @@ public class GroundBox extends Subsystem {
 	}
 	
 	public void updatePID(){
-//		kF = armTable.getDouble( "kF");
-//		kP = armTable.getDouble( "kP", .01);
-//		armTable.putNumber("working", 1);
-//		System.out.println(armTable.getNumber( "kP" ));
-//		kI = armTable.getNumber( "kI");
-//		kD = armTable.getNumber( "kD");
-		
-		kF = SmartDashboard.getNumber( "kF", 0.0);
-		kP = SmartDashboard.getNumber( "kP", 0.0);
-		kI = SmartDashboard.getNumber( "kI", 0.0);
-		kD = SmartDashboard.getNumber( "kD", 0.0);
+		kF = 0.0;
+		kP = 0.01;
+		kI = 0.0;
+		kD = 1.0;
 		
 		error = 0;
 		sumError = 0;
@@ -160,19 +146,16 @@ public class GroundBox extends Subsystem {
 		
 		error = setpoint - getDegrees();
 		sumError += error;
-		
-//		if(lastError == 0.0)	//I'm tired and unsure if this is necessary, 
-//			deltaError = 0;		//but I want to make sure that there isn't any ridiculous damping out of the gate
-//		else
-//			deltaError = error-lastError;
-		
 			
 		if(sumError*kI > 1){
 			sumError = 1.0/kI;
 		}
 		
 		if(Math.abs(error) > deadband){
-			pidOutput = -1*(kP*error+ kI*sumError + kD*deltaError + kF*Math.sin(radians-restRadians));
+			pidOutput = (kP*error+ kI*sumError + kD*deltaError + kF*Math.sin(radians-restRadians));
+		}
+		else{
+			pidOutput = 0;
 		}
 		articules.set(pidOutput*12); //multiplied by 12 for 12v output
 		System.out.println("Error: " + error);

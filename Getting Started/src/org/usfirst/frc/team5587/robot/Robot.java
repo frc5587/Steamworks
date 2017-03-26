@@ -91,10 +91,6 @@ public class Robot extends IterativeRobot {
     	
     	SmartDashboard.putBoolean( "time_running" , false);
     	SmartDashboard.putNumber( "setpoint", 0.0);
-    	SmartDashboard.putNumber( "kF", 0.0);
-		SmartDashboard.putNumber( "kP", 0.0);
-		SmartDashboard.putNumber( "kI", 0.0);
-		SmartDashboard.putNumber( "kD", 0.0);
 		
     	teleOp = new TeleOp( oi.driver, oi.codriver );
 	}

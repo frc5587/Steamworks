@@ -29,7 +29,7 @@ public class Succ extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return !groundbox.hasGear();
     }
 
     // Called once after isFinished returns true
