@@ -31,7 +31,7 @@ public class Locomotive extends Subsystem {
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
     private static double Y_LIMIT = -1.0;
-    private static final double X_LIMIT = 1.0;
+    private static final double X_LIMIT = 0.7;
     private static boolean driverControl = true;
     
     private static double LEFT_LIMIT = -1.0;
@@ -222,7 +222,7 @@ public class Locomotive extends Subsystem {
      */
     public double getDistance()
     {
-        return ( rightEncoder.getDistance() + leftEncoder.getDistance() ) / 2.0;
+        return rightEncoder.getDistance();
     }
     
     public double getRightEncoder()

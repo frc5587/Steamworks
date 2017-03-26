@@ -81,8 +81,8 @@ public class Robot extends IterativeRobot {
     	autoChooser.addDefault("Do Nothing", null);
     	autoChooser.addObject("Left Gear Place", new LeftGearDelivery());
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
-    	autoChooser.addObject( "10ft", new DutifulProgression( -120.0, 8 ));
-    	autoChooser.addObject( "6ft", new DutifulProgression( -72.0, 6 ));
+    	autoChooser.addObject( "10ft", new DutifulProgression( -240.0, 8 ));
+    	autoChooser.addObject( "6ft", new DutifulProgression( -120.0, 8 ));
 //    	autoChooser.addObject( "1in", new DutifulProgression( -1.0 ));//-1500.0 ) );
 //    	autoChooser.addObject( "2in", new DutifulProgression( -2.0 ));
 //    	autoChooser.addObject( "4in", new DutifulProgression( -4.0 ));

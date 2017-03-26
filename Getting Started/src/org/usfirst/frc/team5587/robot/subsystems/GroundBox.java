@@ -42,9 +42,10 @@ public class GroundBox extends Subsystem {
 		highRoller = new VictorSP( RobotMap.ROLLER_MOTOR );
 		gearSwitch = new DigitalInput( RobotMap.GEAR_SWITCH );
 		
-		articules.changeControlMode( TalonControlMode.Position );
+		//articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
 		articules.enableZeroSensorPositionOnForwardLimit(true);
+		articules.reverseSensor(false);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
 		articules.configPeakOutputVoltage( +0.0f, -12.0f );
