@@ -1,7 +1,5 @@
-package org.usfirst.frc.team5587.robot.commands;
+package org.usfirst.frc.team5587.robot.commands.groundbox;
 
-import org.usfirst.frc.team5587.robot.commands.groundbox.Regret;
-import org.usfirst.frc.team5587.robot.commands.groundbox.Vomit;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -29,8 +27,8 @@ public class GroundboxDelivery extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new Regret());
+    	addParallel(new Regret());
     	addParallel(new Vomit());
-    	addParallel(new DutifulProgression(-10, 8 ));
+    	addParallel(new DutifulProgression(-10, .8 ));
     }
 }

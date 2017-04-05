@@ -138,7 +138,7 @@ public class GroundBox extends Subsystem {
 		deltaError = 0;
 	}
 	
-	public void pid( double setpoint ){
+	public void pid( double setpoint){
 		armTable.putNumber("angle", getDegrees());
 		double lastError = error;
 		double radians = getDegrees()/180.0 * Math.PI;
