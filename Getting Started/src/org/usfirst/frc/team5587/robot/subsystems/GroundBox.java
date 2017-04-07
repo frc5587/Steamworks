@@ -45,7 +45,7 @@ public class GroundBox extends Subsystem {
 		articules.reverseSensor(true);
 		
 		articules.configNominalOutputVoltage( +0.0f, -0.0f );
-		articules.configPeakOutputVoltage( +0.0f, -12.0f );
+		articules.configPeakOutputVoltage( +12.0f, -12.0f );
 		
 		articules.setCurrentLimit(CURRENT_LIMIT);
 		articules.EnableCurrentLimit(true);
