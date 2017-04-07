@@ -8,8 +8,10 @@ import org.usfirst.frc.team5587.robot.commandgroups.TeleOp;
 import org.usfirst.frc.team5587.robot.commands.groundbox.Succ;
 import org.usfirst.frc.team5587.robot.commands.groundbox.Vomit;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulTiming;
 import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 import org.usfirst.frc.team5587.robot.subsystems.CANSuzy;
+import org.usfirst.frc.team5587.robot.subsystems.DropBox;
 import org.usfirst.frc.team5587.robot.subsystems.GroundBox;
 import org.usfirst.frc.team5587.robot.subsystems.LittleStar;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
+	public static final DropBox dropBox = new DropBox();
 	public static final GroundBox groundbox = new GroundBox();
 	public static final CANMortar mortarCAN = new CANMortar();
 	public static final LittleStar orion = new LittleStar();
@@ -63,26 +66,18 @@ public class Robot extends IterativeRobot {
 		//teleOp = new CANMortarPID();
     	
     	cam2 = new UsbCamera("cam2",0);
-    	resBool = cam2.setResolution(320, 180);
-    	resBool = cam2.setFPS(30);
+    	cam2.setResolution(320, 240);
     	//cam2.setExposureManual(3);
     	
-    	cam1 = new UsbCamera("cam1",0);
-    	resBool = cam1.setResolution(320, 180);
-    	//resBool = cam1.setFPS(30);
-    	//cam2.setExposureManual(3);
-    	
-    	cam1Server = new MjpegServer("cam2 feed",1181);
-    	cam1Server.setSource(cam2);
-    	
-    	cam2Server = new MjpegServer("cam1 feed",1181);
-    	cam2Server.setSource(cam1);
+    	cam2Server = new MjpegServer("cam2 feed",1181);
+    	cam2Server.setSource(cam2);
     	
     	autoChooser.addDefault("Do Nothing", null);
     	autoChooser.addObject("Left Gear Place", new LeftGearDelivery());
     	autoChooser.addObject("Right Gear Place", new RightGearDelivery());
     	autoChooser.addObject( "10ft", new DutifulProgression( -240.0, 8 ));
     	autoChooser.addObject( "6ft", new DutifulProgression( -120.0, 8 ));
+    	autoChooser.addObject( "5 seconds", new DutifulTiming(5));
 //    	autoChooser.addObject( "1in", new DutifulProgression( -1.0 ));//-1500.0 ) );
 //    	autoChooser.addObject( "2in", new DutifulProgression( -2.0 ));
 //    	autoChooser.addObject( "4in", new DutifulProgression( -4.0 ));
@@ -127,6 +122,7 @@ public class Robot extends IterativeRobot {
 		if( teleOp != null )
 			teleOp.start();
     	SmartDashboard.putBoolean( "time_running" , true);
+    	loco.resetDistance();
 	}
 
 	/**

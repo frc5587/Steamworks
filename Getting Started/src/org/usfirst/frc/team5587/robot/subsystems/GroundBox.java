@@ -22,12 +22,9 @@ public class GroundBox extends Subsystem {
 	private CANTalon articules;
 	private VictorSP highRoller;
 	private DigitalInput gearSwitch;
+	private DigitalInput bottomTrigger;
 
 	private static double ROLL_POWER = -0.35;
-	
-	private static final double UP_POSITION = 130;
-	private static final double DELIVER_POSITION = 90;
-	private static final double DOWN_POSITION = 0;
 	private static final int CURRENT_LIMIT = 40;
 	
 	private double kP,
@@ -40,6 +37,7 @@ public class GroundBox extends Subsystem {
 		articules = new CANTalon( RobotMap.ARTICULES_MOTOR_CAN_ID );
 		highRoller = new VictorSP( RobotMap.ROLLER_MOTOR );
 		gearSwitch = new DigitalInput( RobotMap.GEAR_SWITCH );
+		bottomTrigger = new DigitalInput( RobotMap.BOTTOM_TRIGGER );
 		
 		//articules.changeControlMode( TalonControlMode.Position );
 		articules.setFeedbackDevice( FeedbackDevice.CtreMagEncoder_Absolute );
@@ -66,26 +64,6 @@ public class GroundBox extends Subsystem {
 	public boolean hasGear()
 	{
 		return gearSwitch.get(); 
-	}
-	
-	public void grindUp()
-	{
-		grindManual( UP_POSITION );
-	}
-	
-	public void grindDown()
-	{
-		grindManual( DOWN_POSITION );
-	}
-	
-	public void deliveryNotDigiorno()
-	{
-		grindManual( DELIVER_POSITION );
-	}
-	
-	public void grindManual(double pos)
-	{
-		articules.setSetpoint( pos/360 );
 	}
 	
 	public void grindReset()
@@ -143,6 +121,11 @@ public class GroundBox extends Subsystem {
 		double lastError = error;
 		double radians = getDegrees()/180.0 * Math.PI;
 		double restRadians = restAngle/180.0 * Math.PI;
+		
+		
+//		if(bottomTrigger.get()){
+//			grindReset();
+//		}
 		
 		error = setpoint - getDegrees();
 		sumError += error;

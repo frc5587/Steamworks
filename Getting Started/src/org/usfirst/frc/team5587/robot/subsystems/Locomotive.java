@@ -24,7 +24,8 @@ import com.kauailabs.navx.frc.AHRS;
 public class Locomotive extends Subsystem {
 	
 	//The distance covered by the wheels per one pulse registered on the encoder. ( Pi * diameter * pulses per revolution )
-    private static final double DISTANCE_PER_PULSE = 100.0/56.0*0.05500836275785170042742984575358/1.67857142;
+    private static final double DISTANCE_PER_PULSE = 1;
+    private static final double DIST_CONSTANT = 10.5;
     private static final double AUTO_OUTPUT_LIMIT = 0.5;
     
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
@@ -220,19 +221,19 @@ public class Locomotive extends Subsystem {
      *
      * @return Distance in meters.
      */
-    public double getDistance()
+    public double getLeftEncoder()
     {
-        return rightEncoder.getDistance();
+        return rightEncoder.getDistance()*DIST_CONSTANT;
     }
     
     public double getRightEncoder()
     {
-    	return rightEncoder.getDistance();
+    	return rightEncoder.getDistance()*DIST_CONSTANT;
     }
     
-    public double getLeftEncoder()
+    public double getDistance()
     {
-    	return leftEncoder.getDistance();
+    	return getLeftEncoder();
     }
     
     /**
@@ -273,10 +274,10 @@ public class Locomotive extends Subsystem {
     
     public void printEncoders()
     {
-    	table.putNumber( "Left Distance", leftEncoder.getDistance() );
-    	table.putNumber( "Right Distance", rightEncoder.getDistance() );
-    	table.putNumber( "Left Speed", leftEncoder.getRate() );
-    	table.putNumber( "Right Speed", rightEncoder.getRate() );
+    	table.putNumber( "Left Distance", getLeftEncoder() );
+    	table.putNumber( "Right Distance", getRightEncoder() );
+    	table.putNumber( "Put Left Raw", leftEncoder.get() );
+    	table.putNumber( "Put Right Raw", rightEncoder.get() );
     }
     
     public double getYaw()
