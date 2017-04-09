@@ -4,6 +4,7 @@ import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -32,6 +33,8 @@ public class Gyrate extends Command {
 	private double sign0; //The sign of the last error.
 	
 	private Locomotive loco;
+	private Timer timer = new Timer();
+	private double time = 6;
 	
     public Gyrate( double target ) {
         // Use requires() here to declare subsystem dependencies
@@ -40,6 +43,16 @@ public class Gyrate extends Command {
     	loco = Robot.loco;
     	rotateAngle = target;
     	h0 = 0;
+    }
+    
+    public Gyrate( double target, double time ) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires( Robot.loco );
+    	loco = Robot.loco;
+    	rotateAngle = target;
+    	h0 = 0;
+    	this.time = time;
     }
 
     // Called just before this Command runs the first time
@@ -50,6 +63,7 @@ public class Gyrate extends Command {
     	yaw = loco.getYaw();
     	error = rotateAngle - yaw;
     	sign0 = Math.signum( error );
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -89,7 +103,11 @@ public class Gyrate extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return withinMargin();
+        if( timer.get() > time )
+    		return true;
+    	else{
+    		return withinMargin();
+    	}
     }
 
     // Called once after isFinished returns true

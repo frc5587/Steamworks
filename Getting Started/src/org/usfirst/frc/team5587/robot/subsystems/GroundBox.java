@@ -166,12 +166,12 @@ public class GroundBox extends Subsystem {
     }
     
     public void dumbItDown(){
-    	articules.changeControlMode( TalonControlMode.PercentVbus );
-    	articules.set( -.3 );
+    	articules.changeControlMode( TalonControlMode.Voltage );
+    	articules.set( -.3*12 );
     }
     
     public void dumbItUp(){
-    	articules.changeControlMode( TalonControlMode.PercentVbus );
-    	articules.set( .3 );
+    	articules.changeControlMode( TalonControlMode.Voltage );
+    	articules.set( .3*12 );
     }
 }

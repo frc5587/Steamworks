@@ -31,7 +31,7 @@ public class Locomotive extends Subsystem {
     private static final double WHEEL_BASE = 14; //TODO: Double check with Build Team on this value.
     public static final double AUTO_SPEED_LIMIT = .5; //TODO: Determine maximum autonomous power.
     
-    private static double Y_LIMIT = -1.0;
+    private static double Y_LIMIT = 1.0;
     private static final double X_LIMIT = 0.7;
     private static boolean driverControl = true;
     
@@ -86,7 +86,7 @@ public class Locomotive extends Subsystem {
         //Setup encoders
         leftEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
         rightEncoder.setDistancePerPulse( DISTANCE_PER_PULSE );
-        rightEncoder.setReverseDirection( true );
+        leftEncoder.setReverseDirection( true );
         
         leftEncoder.setPIDSourceType( PIDSourceType.kDisplacement );
         rightEncoder.setPIDSourceType( PIDSourceType.kDisplacement );
@@ -223,17 +223,17 @@ public class Locomotive extends Subsystem {
      */
     public double getLeftEncoder()
     {
-        return rightEncoder.getDistance()*DIST_CONSTANT;
+        return rightEncoder.getDistance()/DIST_CONSTANT;
     }
     
     public double getRightEncoder()
     {
-    	return rightEncoder.getDistance()*DIST_CONSTANT;
+    	return rightEncoder.getDistance()/DIST_CONSTANT;
     }
     
     public double getDistance()
     {
-    	return getLeftEncoder();
+    	return (getLeftEncoder() + getRightEncoder()) / 2.0;
     }
     
     /**
@@ -288,6 +288,10 @@ public class Locomotive extends Subsystem {
     public void zeroYaw()
     {
     	zeroYaw = gyro.getYaw();
+    }
+    
+    public void setYaw(double offset){
+    	zeroYaw = offset + gyro.getYaw();
     }
     
     public boolean isCalibrating()

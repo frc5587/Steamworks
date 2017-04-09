@@ -23,11 +23,12 @@ public class Regret extends TimedCommand {
     // Called just before this Command runs the first time
     protected void initialize() {
     	groundbox.enableAngleCompensation();
+    	groundbox.updatePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	groundbox.pid(80);
+    	groundbox.pid(95);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -22,17 +22,19 @@ public class Hunger extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	groundbox.enableAngleCompensation();
+    	groundbox.updatePID();
+    	groundbox.succ();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(groundbox.hasGear()){
-    		groundbox.stopRolling();
+    		//groundbox.stopRolling();
     	}
     	else{
     		groundbox.succ();
     	}
-    	groundbox.pid(0);
+    	groundbox.pid(-5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
