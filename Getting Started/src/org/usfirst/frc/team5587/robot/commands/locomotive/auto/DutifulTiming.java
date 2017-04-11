@@ -33,6 +33,17 @@ public class DutifulTiming extends Command {
     	killTime = time;
     	timer = new Timer();
     }
+    
+    public DutifulTiming( double time, int dir ) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	//requires( Robot.loco );
+    	loco = Robot.loco;
+    	SmartDashboard.putNumber( "Correction Coefficient", kCorrection );
+    	killTime = time;
+    	timer = new Timer();
+    	power *= dir;
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {

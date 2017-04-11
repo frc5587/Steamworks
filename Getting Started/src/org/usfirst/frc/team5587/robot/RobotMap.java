@@ -20,8 +20,8 @@ public class RobotMap {
 	public static int WINCH_MOTOR = 0;
 	public static int ROLLER_MOTOR = 7;
 	public static int SCREW_MOTOR = 2;
-	public static int DROP_BOX_SERVO = 8;
-	public static int FLYWHEEL_PLACEHOLDER_PWM = 9;
+	public static int DROP_BOX_FOLDER = 8;
+	public static int DROP_BOX_GATEKEEPER = 9;
 	
 	public static int STAR_R_PWM = 10;
 	public static int STAR_G_PWM = 11;
@@ -67,8 +67,9 @@ public class RobotMap {
 	public static int DIGEST_BUTTON = 8;
 	public static int DELIVER_BUTTON = 7;
 	public static int REGRET_BUTTON = 11;
-	public static int DUMB_DOWN_BUTTON = 9;
-	public static int DUMB_UP_BUTTON = 12;
+	public static int RESET_BUTTON = 9;
+	public static int DUMB_DOWN_BUTTON = 12;
+	public static int DUMB_UP_BUTTON = 1;
 	
 	
 	

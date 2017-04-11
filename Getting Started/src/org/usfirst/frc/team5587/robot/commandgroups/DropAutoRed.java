@@ -1,31 +1,24 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
-import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
-import org.usfirst.frc.team5587.robot.commands.locomotive.InvertDrive;
-import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
+import org.usfirst.frc.team5587.robot.commands.DropBalls;
+import org.usfirst.frc.team5587.robot.commands.FoldIn;
+import org.usfirst.frc.team5587.robot.commands.Wait;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulTiming;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.ResetGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class RightGearDelivery extends CommandGroup {
+public class DropAutoRed extends CommandGroup {
 
-    public RightGearDelivery() {
+    public DropAutoRed() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	requires( Robot.loco );
-    	
-    	addSequential( new DutifulProgression( -72, 6 ) );
-    	addSequential( new ClearEncoder() );
-    	addSequential( new Gyrate( -60.0 ) );
-    	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -72, 6 ) );
-    	
 
         // To run multiple commands at the same time,
         // use addParallel()
@@ -38,5 +31,12 @@ public class RightGearDelivery extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	
+    	addSequential(new DropBalls());
+    	addSequential(new Wait(4));
+    	addSequential(new DutifulTiming(.5,-1));
+    	addSequential(new FoldIn());
+    	addSequential(new Gyrate(45,3));
+    	addSequential(new DutifulTiming(3,-1));
     }
 }

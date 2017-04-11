@@ -17,7 +17,7 @@ public class FoldIn extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.dropBox.box();
+    	Robot.dropBox.fold();
     }
 
     // Called repeatedly when this Command is scheduled to run

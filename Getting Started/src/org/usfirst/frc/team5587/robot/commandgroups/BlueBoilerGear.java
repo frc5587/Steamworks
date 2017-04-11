@@ -11,20 +11,20 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class LeftGearDelivery extends CommandGroup {
+public class BlueBoilerGear extends CommandGroup {
 
-    public LeftGearDelivery() {
+    public BlueBoilerGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
     	requires( Robot.loco );
 
-    	addSequential( new DutifulProgression( -72.0, 6 ) );
+    	addSequential( new DutifulProgression( -60.5, 6 ) );
     	addSequential( new ClearEncoder() );
     	addSequential( new Gyrate( 60.0 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -72, 6 ) );    	
+    	addSequential( new DutifulProgression( -105, 6 ) );    	
 
         // To run multiple commands at the same time,
         // use addParallel()
