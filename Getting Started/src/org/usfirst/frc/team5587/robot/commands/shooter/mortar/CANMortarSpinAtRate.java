@@ -1,46 +1,45 @@
-package org.usfirst.frc.team5587.robot.commandgroups;
+package org.usfirst.frc.team5587.robot.commands.shooter.mortar;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.CANMortar;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TimedMarch extends Command {
+public class CANMortarSpinAtRate extends Command {
 
-	double timeTarget, power;
-	Timer timer;
+	private CANMortar mortar;
+	private double targetRate;
 	
-    public TimedMarch( double p, double t ) {
+    public CANMortarSpinAtRate() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.loco );
+    	requires( Robot.mortarCAN );
+    	mortar = Robot.mortarCAN;
     	
-    	power = p;
-    	timeTarget = t;
-    	timer = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.start();
+    	mortar.speedMode();
+    	mortar.updatePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.loco.tankDrive( power, power );
+    	
+    	mortar.spin( targetRate );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.get() >= timeTarget;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.loco.halt();
     }
 
     // Called when another command which requires one or more of the same

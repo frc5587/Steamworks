@@ -1,7 +1,6 @@
-package org.usfirst.frc.team5587.robot.commandgroups;
+package org.usfirst.frc.team5587.robot.commands.groundbox;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -9,19 +8,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class ReturnTrip extends CommandGroup {
+public class GroundboxDelivery extends CommandGroup {
 
-    public ReturnTrip() {
+    public GroundboxDelivery() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	
-    	requires( Robot.loco );
-    	
-    	addSequential( new DutifulProgression( 66.0, 6 ) );
-    	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -66.0, 6 ) );
 
         // To run multiple commands at the same time,
         // use addParallel()
@@ -34,5 +27,8 @@ public class ReturnTrip extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addParallel(new DropIt());
+    	addSequential(new Vomit());
+    	//addParallel(new DutifulProgression(-10, .8 ));
     }
 }

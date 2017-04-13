@@ -2,26 +2,29 @@ package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
 import org.usfirst.frc.team5587.robot.commands.ClearEncoder;
+import org.usfirst.frc.team5587.robot.commands.locomotive.InvertDrive;
 import org.usfirst.frc.team5587.robot.commands.locomotive.auto.DutifulProgression;
+import org.usfirst.frc.team5587.robot.commands.locomotive.auto.Gyrate;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ReturnTrip extends CommandGroup {
+public class BlueBoilerGear extends CommandGroup {
 
-    public ReturnTrip() {
+    public BlueBoilerGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	
     	requires( Robot.loco );
-    	
-    	addSequential( new DutifulProgression( 66.0, 6 ) );
+
+    	addSequential( new DutifulProgression( -60.5, 6 ) );
     	addSequential( new ClearEncoder() );
-    	addSequential( new DutifulProgression( -66.0, 6 ) );
+    	addSequential( new Gyrate( 60.0 ) );
+    	addSequential( new ClearEncoder() );
+    	addSequential( new DutifulProgression( -105, 6 ) );    	
 
         // To run multiple commands at the same time,
         // use addParallel()

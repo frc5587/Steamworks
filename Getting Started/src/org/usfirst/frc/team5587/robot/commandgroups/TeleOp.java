@@ -1,7 +1,10 @@
 package org.usfirst.frc.team5587.robot.commandgroups;
 
 import org.usfirst.frc.team5587.robot.Robot;
-import org.usfirst.frc.team5587.robot.commands.MortarSpin;
+import org.usfirst.frc.team5587.robot.commands.groundbox.GroundManual;
+import org.usfirst.frc.team5587.robot.commands.groundbox.Succ;
+import org.usfirst.frc.team5587.robot.commands.locomotive.ForcedMarch;
+import org.usfirst.frc.team5587.robot.commands.shooter.mortar.CANMortarStick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -22,10 +25,10 @@ public class TeleOp extends CommandGroup {
         // e.g. addParallel(new Command1());
         //      addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
-    	requires( Robot.mortar );
     	requires( Robot.loco );
     	
-    	addSequential( new MortarSpin( codriver ) );
+    	//addParallel( new TableMarch() );
+    	addParallel( new ForcedMarch( driver ) );
 
         // A command group will require all of the subsystems that each member
         // would require.

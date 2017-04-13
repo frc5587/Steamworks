@@ -1,46 +1,41 @@
-package org.usfirst.frc.team5587.robot.commandgroups;
+package org.usfirst.frc.team5587.robot.commands.groundbox;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.GroundBox;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TimedMarch extends Command {
+public class ResetEncArm extends Command {
 
-	double timeTarget, power;
-	Timer timer;
+	private GroundBox groundbox;
 	
-    public TimedMarch( double p, double t ) {
+    public ResetEncArm() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires( Robot.loco );
+    	groundbox = Robot.groundbox;
+    	requires(groundbox);
     	
-    	power = p;
-    	timeTarget = t;
-    	timer = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.start();
+    	groundbox.grindReset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.loco.tankDrive( power, power );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.get() >= timeTarget;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.loco.halt();
     }
 
     // Called when another command which requires one or more of the same

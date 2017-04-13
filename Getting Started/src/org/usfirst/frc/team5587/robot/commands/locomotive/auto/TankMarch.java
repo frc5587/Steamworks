@@ -1,46 +1,46 @@
-package org.usfirst.frc.team5587.robot.commandgroups;
+package org.usfirst.frc.team5587.robot.commands.locomotive.auto;
 
 import org.usfirst.frc.team5587.robot.Robot;
+import org.usfirst.frc.team5587.robot.subsystems.Locomotive;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TimedMarch extends Command {
+public class TankMarch extends Command {
 
-	double timeTarget, power;
-	Timer timer;
+	private Locomotive loco;
+	private double distance;
 	
-    public TimedMarch( double p, double t ) {
+    public TankMarch( double dist ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires( Robot.loco );
     	
-    	power = p;
-    	timeTarget = t;
-    	timer = new Timer();
+    	loco = Robot.loco;
+    	distance = dist;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.start();
+    	loco.setTankDistance( distance );
+    	loco.enableTankDistance();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.loco.tankDrive( power, power );
+    	loco.tankDrive( loco.leftRate, loco.rightRate );
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.get() >= timeTarget;
+        return loco.tankOnTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.loco.halt();
+    	loco.disablePID();
     }
 
     // Called when another command which requires one or more of the same
