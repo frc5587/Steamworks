@@ -40,7 +40,7 @@ public class TimedMarch extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.loco.halt();
+    	Robot.locomotive.halt();
     }
 
     // Called when another command which requires one or more of the same
